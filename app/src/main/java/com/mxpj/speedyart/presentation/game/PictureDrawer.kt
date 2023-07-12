@@ -1,9 +1,6 @@
 package com.mxpj.speedyart.presentation.game
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
 import com.mxpj.speedyart.domain.Cell
 import com.mxpj.speedyart.domain.Picture
 
@@ -25,6 +22,7 @@ class PictureDrawer {
         for(row in grid){
             drawRow(canvas, row, fitSize)
         }
+        drawGrid(canvas, fitSize / grid[0].size, fitSize)
     }
 
     private fun drawRow(canvas: Canvas, rowCells: List<Cell>, fitSize: Int) {
@@ -35,11 +33,37 @@ class PictureDrawer {
 
     private fun drawRect(canvas: Canvas, cellSize: Int, cell: Cell) {
         val rect = getRect(cellSize, cell)
-        val paint = getPaint(cell)
+        val paint = getPaintForCell(cell)
         canvas.drawRect(rect, paint)
     }
 
-    private fun getPaint(cell: Cell): Paint {
+    private fun drawGrid(canvas: Canvas, cellSize: Int, fitSize: Int) {
+        val gridLinesAmount = fitSize / cellSize
+        for(i in 0..gridLinesAmount){
+            canvas.drawLine(
+                0f,
+                i * cellSize.toFloat(),
+                fitSize.toFloat(),
+                i * cellSize.toFloat(),
+                getPaint(Color.BLACK)
+            )
+            canvas.drawLine(
+                i * cellSize.toFloat(),
+                0f,
+                i * cellSize.toFloat(),
+                fitSize.toFloat(),
+                getPaint(Color.BLACK)
+            )
+        }
+    }
+
+    private fun getPaint(paintColor: Int): Paint {
+        return Paint().apply {
+            color = paintColor
+        }
+    }
+
+    private fun getPaintForCell(cell: Cell): Paint {
         val paint = Paint()
         paint.color = cell.rightColor
         return paint
