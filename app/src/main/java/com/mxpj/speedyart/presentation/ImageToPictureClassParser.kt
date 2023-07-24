@@ -41,17 +41,16 @@ class ImageToPictureClassParser {
         for(x in 0 until bitmap.width){
             val bitmapCellColor = bitmap[x, y]
             val bitmapCellColorTransparent = getTransparentColor(bitmapCellColor)
-            rowCells.add(
-                Cell(
-                    x,
-                    y,
-                    bitmapCellColorTransparent,
-                    bitmapCellColor,
-                    bitmapCellColor == 0
-                )
+            val cell = Cell(
+                x,
+                y,
+                bitmapCellColorTransparent,
+                bitmapCellColor,
+                bitmapCellColor == 0
             )
+            rowCells.add(cell)
             if(bitmapCellColor != 0){
-                //println("bitmap color: $bitmapCellColor")
+                unfilledCells[Pair(x,y)] = cell
                 colorPalette[bitmapCellColor] = bitmapCellColor
             }
         }

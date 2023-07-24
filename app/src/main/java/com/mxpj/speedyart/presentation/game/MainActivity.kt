@@ -25,9 +25,12 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.domain.GameResult
 import com.mxpj.speedyart.domain.Picture
 import com.mxpj.speedyart.presentation.ImageToPictureClassParser
 import com.mxpj.speedyart.presentation.ViewModelFactory
@@ -56,26 +59,73 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(
-
-                    ) {
+                    Column {
                         ZoomImage(bitmap = bitmap)
-                        Greeting("Android")
+                        //Greeting("Android")
+                        MistakesAmount()
                         ColorPalette(colors = picture.availablePalette, onColorClickListener = {})
+                        Timer()
                     }
+                    GameEndMessage()
                 }
             }
         }
     }
 
-    fun observeImage() {
-
+    @Composable
+    fun MistakesAmount() {
+        var mistakes by remember { mutableStateOf("Количество ошибок: 0") }
+        LaunchedEffect(Unit){
+            viewModel.mistakesAmount.observe(this@MainActivity){
+                mistakes = "Количество ошибок: $it"
+            }
+        }
+        Text(text = mistakes)
     }
 
     @Composable
     fun Greeting(name: String) {
         val c by coords
         Text(modifier = Modifier.height(50.dp), text = c)
+    }
+
+    @Composable
+    fun Timer() {
+        var timer by remember { mutableStateOf("") }
+        LaunchedEffect(Unit) {
+            viewModel.timer.observe(this@MainActivity) {
+                timer = "Время до завершения: $it"
+            }
+        }
+        Text(text = timer)
+    }
+
+    @Composable
+    fun GameEndMessage() {
+        var gameEndMessage by remember { mutableStateOf("") }
+        var isVisible by remember { mutableStateOf(false) }
+        LaunchedEffect(Unit){
+            viewModel.gameResult.observe(this@MainActivity){
+                if(it == GameResult.GAME_WON){
+                    gameEndMessage = "Поздравляем, вы победили!"
+                    isVisible = true
+                }
+                else if(it == GameResult.GAME_LOST){
+                    gameEndMessage = "Вы проиграли"
+                    isVisible = true
+                }
+            }
+        }
+        if(isVisible){
+            Text(
+                text = gameEndMessage,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                fontSize = 40.sp,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 
     @Composable
@@ -105,17 +155,24 @@ class MainActivity : ComponentActivity() {
                     forEachGesture {
                         awaitPointerEventScope {
                             awaitFirstDown()
-                            var isMoved = false
+                            //var isMoved = false
                             var position = Offset.Zero
+                            var firstDownTime = System.currentTimeMillis()
                             do {
                                 val event = awaitPointerEvent()
                                 event.changes.forEach { it.consumePositionChange() }
+                                /*
                                 if (event.calculatePan() != Offset.Zero && event.calculateZoom() != 0f) {
                                     isMoved = true
                                 }
+
+                                 */
                                 position = event.changes[0].position
                             } while (event.changes.any { it.pressed })
-                            if (!isMoved) {
+                            val clickTime = System.currentTimeMillis() - firstDownTime
+                            val isClickTimePassed = clickTime > 150
+                            println("time passed: $clickTime")
+                            if (!isClickTimePassed) {
                                 coords.value = position.toString()
                                 val clickPosition = getClickedPixelPosition(
                                     Pair(offsetX, offsetY),
