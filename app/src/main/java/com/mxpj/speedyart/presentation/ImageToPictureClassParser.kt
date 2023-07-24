@@ -8,7 +8,7 @@ import com.mxpj.speedyart.domain.Picture
 
 class ImageToPictureClassParser {
 
-    private val colorPalette = HashMap<String, String>()
+    private val colorPalette = HashMap<Int, Int>()
 
     private val gridCells = ArrayList<List<Cell>>()
 
@@ -39,15 +39,31 @@ class ImageToPictureClassParser {
     private fun parseRow(bitmap: Bitmap, y: Int): List<Cell> {
         val rowCells = ArrayList<Cell>()
         for(x in 0 until bitmap.width){
-            val bitmapCell = bitmap[x, y]
+            val bitmapCellColor = bitmap[x, y]
+            val bitmapCellColorTransparent = getTransparentColor(bitmapCellColor)
             rowCells.add(
-                Cell(x,y, bitmapCell, bitmapCell, bitmapCell == 0)
+                Cell(
+                    x,
+                    y,
+                    bitmapCellColorTransparent,
+                    bitmapCellColor,
+                    bitmapCellColor == 0
+                )
             )
+            if(bitmapCellColor != 0){
+                //println("bitmap color: $bitmapCellColor")
+                colorPalette[bitmapCellColor] = bitmapCellColor
+            }
         }
         return rowCells
     }
 
-    private fun getColorPaletteList(): List<String> {
+    private fun getColorPaletteList(): List<Int> {
         return colorPalette.map { it.value }
+    }
+
+    private fun getTransparentColor(color: Int): Int {
+        if(color == 0) return 0
+        return (color and 0x00FFFFFF) or 0x70000000
     }
 }

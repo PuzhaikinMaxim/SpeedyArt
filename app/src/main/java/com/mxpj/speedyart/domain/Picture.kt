@@ -2,7 +2,7 @@ package com.mxpj.speedyart.domain
 
 data class Picture(
     val gridCells: List<List<Cell>>,
-    val availablePalette: List<String>,
+    val availablePalette: List<Int>,
     val unfilledCells: HashMap<Pair<Int, Int>, Cell>
 ) {
 

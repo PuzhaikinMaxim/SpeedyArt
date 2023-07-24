@@ -26,24 +26,29 @@ import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.Picture
 import com.mxpj.speedyart.presentation.ImageToPictureClassParser
+import com.mxpj.speedyart.presentation.ViewModelFactory
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 class MainActivity : ComponentActivity() {
 
     private val coords = mutableStateOf("text")
     private lateinit var picture: Picture
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val parser = ImageToPictureClassParser()
+        viewModel = ViewModelProvider(this,ViewModelFactory())[GameViewModel::class.java]
         picture = parser.parseToPicture(BitmapFactory.decodeResource(
             resources,
             R.drawable.heart_test,
             parser.getBitmapFactoryOptions()
         ))
+        viewModel.setPicture(picture)
         val bitmap = PictureDrawer().getPictureBitmap(picture, 600)
         setContent {
             SpeedyArtTheme {
@@ -56,10 +61,15 @@ class MainActivity : ComponentActivity() {
                     ) {
                         ZoomImage(bitmap = bitmap)
                         Greeting("Android")
+                        ColorPalette(colors = picture.availablePalette, onColorClickListener = {})
                     }
                 }
             }
         }
+    }
+
+    fun observeImage() {
+
     }
 
     @Composable
@@ -74,6 +84,16 @@ class MainActivity : ComponentActivity() {
         var offsetX by remember { mutableStateOf(0f) }
         var offsetY by remember { mutableStateOf(0f) }
         var widthInPx by remember { mutableStateOf(0f) }
+        var image by remember { mutableStateOf(bitmap.asImageBitmap()) }
+        LaunchedEffect(key1 = Unit, block = {
+            viewModel.picture.observe(this@MainActivity){
+                picture = it
+                val timeStart = System.currentTimeMillis()
+                image = PictureDrawer().getPictureBitmap(picture, 600).asImageBitmap()
+                val timeEnd = System.currentTimeMillis()
+                println(timeEnd - timeStart)
+            }
+        })
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,6 +124,7 @@ class MainActivity : ComponentActivity() {
                                     scale,
                                     picture.gridCells.size
                                 )
+                                viewModel.onClick(viewModel.getColor(), clickPosition)
                                 println(clickPosition)
                                 println(position)
                             }
@@ -120,10 +141,8 @@ class MainActivity : ComponentActivity() {
                                 val offset = event.calculatePan()
                                 event.calculateCentroid()
                                 offsetX += offset.x
-                                println(offsetX)
                                 offsetX = fitOffset(offsetX, widthInPx.toInt(), scale)
                                 offsetY += offset.y
-                                println(offsetY)
                                 offsetY = fitOffset(offsetY, widthInPx.toInt(), scale)
                             } while (event.changes.any { it.pressed })
                         }
@@ -136,7 +155,7 @@ class MainActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                bitmap.asImageBitmap(),
+                image,
                 "test",
                 alignment = Alignment.TopCenter,
                 contentScale = ContentScale.Fit,

@@ -65,7 +65,7 @@ class PictureDrawer {
 
     private fun getPaintForCell(cell: Cell): Paint {
         val paint = Paint()
-        paint.color = cell.rightColor
+        paint.color = cell.currentColor
         return paint
     }
 
