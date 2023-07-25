@@ -25,6 +25,10 @@ class GameViewModel: ViewModel() {
     val gameResult: LiveData<GameResult>
         get() = _gameResult
 
+    private val _selectedColor = MutableLiveData<Int>()
+    val selectedColor: LiveData<Int>
+        get() = _selectedColor
+
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     private var coroutine: Job = coroutineScope.launch {
@@ -43,23 +47,35 @@ class GameViewModel: ViewModel() {
         return picture.value!!.availablePalette[0]
     }
 
-    fun onClick(color: Int, cellPosition: Pair<Int, Int>) {
+    fun selectColor(colorCode: Int) {
+        _selectedColor.value = colorCode
+    }
+
+    fun onClick(color: Int?, cellPosition: Pair<Int, Int>) {
+        if(gameResult.value == GameResult.GAME_WON || gameResult.value == GameResult.GAME_LOST) {
+            return
+        }
+
         val cell = picture.value!!.getCell(cellPosition.first, cellPosition.second)
-        if(color == cell.rightColor){
+        if(color != null && color == cell.rightColor){
             cell.currentColor = color
             picture.value!!.unfilledCells.remove(cellPosition)
             _picture.value = _picture.value
-            if(picture.value!!.unfilledCells.size == 0){
-                _gameResult.value = GameResult.GAME_WON
-            }
+            setGameWonIfNoUnfilledCells()
             resetTimer()
         }
         else{
             _mistakesAmount.value = _mistakesAmount.value!!.plus(1)
             if(_mistakesAmount.value!! > MAX_MISTAKES_COUNT){
-                _gameResult.value = GameResult.GAME_LOST
+                setGameLost()
             }
         }
+    }
+
+    private fun setGameWonIfNoUnfilledCells() {
+        if(picture.value!!.unfilledCells.size > 0) return
+        _gameResult.value = GameResult.GAME_WON
+        coroutine.cancel()
     }
 
     private fun resetTimer() {
@@ -69,13 +85,12 @@ class GameViewModel: ViewModel() {
 
     private fun resetCoroutineScope() {
         coroutine.cancel()
-        coroutine = coroutineScope.launch {
-            while (_timer.value!! > 0){
-                delay(1000)
-                _timer.postValue(_timer.value!!.minus(1))
-            }
-            _gameResult.postValue(GameResult.GAME_LOST)
-        }
+        coroutine.start()
+    }
+
+    private fun setGameLost() {
+        _gameResult.postValue(GameResult.GAME_LOST)
+        coroutine.cancel()
     }
 
     private companion object {

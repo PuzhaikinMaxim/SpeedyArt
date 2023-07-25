@@ -1,20 +1,24 @@
 package com.mxpj.speedyart.presentation.game
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import android.app.Activity
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
 
 @Composable
 fun ColorPalette(
     colors: List<Int>,
-    onColorClickListener: (Int) -> Unit
+    gameViewModel: GameViewModel,
+    observer: LifecycleOwner
 ) {
+    var selectedColor by remember { mutableStateOf(-1) }
+    gameViewModel.selectedColor.observe(observer){
+        selectedColor = it
+    }
     Row(
         horizontalArrangement = Arrangement.Start,
         modifier = Modifier
@@ -23,7 +27,7 @@ fun ColorPalette(
             .background(color = Color.Gray)
     ) {
         colors.forEach {
-            PaletteColor(color = it, onColorClickListener = onColorClickListener)
+            PaletteColor(color = it, gameViewModel, selectedColor)
             Spacer(
                 modifier = Modifier
                     .height(80.dp)
@@ -36,14 +40,22 @@ fun ColorPalette(
 @Composable
 private fun PaletteColor(
     color: Int,
-    onColorClickListener: (Int) -> Unit
+    gameViewModel: GameViewModel,
+    selectedColor: Int
 ) {
     Box(
         modifier = Modifier
             .height(80.dp)
             .aspectRatio(1f)
             .background(color = Color(color))
-            .clickable { onColorClickListener.invoke(color) }
+            .clickable { gameViewModel.selectColor(color) }
+            .run {
+                if(selectedColor == color) {
+                    border(4.dp, Color.White)
+                }else{
+                    this
+                }
+            }
     ) {
 
     }

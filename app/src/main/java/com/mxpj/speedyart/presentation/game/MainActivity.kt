@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                         ZoomImage(bitmap = bitmap)
                         //Greeting("Android")
                         MistakesAmount()
-                        ColorPalette(colors = picture.availablePalette, onColorClickListener = {})
+                        ColorPalette(colors = picture.availablePalette, gameViewModel = viewModel, this@MainActivity)
                         Timer()
                     }
                     GameEndMessage()
@@ -181,7 +181,7 @@ class MainActivity : ComponentActivity() {
                                     scale,
                                     picture.gridCells.size
                                 )
-                                viewModel.onClick(viewModel.getColor(), clickPosition)
+                                viewModel.onClick(viewModel.selectedColor.value, clickPosition)
                                 println(clickPosition)
                                 println(position)
                             }
