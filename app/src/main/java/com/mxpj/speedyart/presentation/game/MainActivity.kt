@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
         viewModel = ViewModelProvider(this,ViewModelFactory())[GameViewModel::class.java]
         picture = parser.parseToPicture(BitmapFactory.decodeResource(
             resources,
-            R.drawable.heart_test,
+            R.drawable.heart,
             parser.getBitmapFactoryOptions()
         ))
         viewModel.setPicture(picture)
@@ -62,9 +62,10 @@ class MainActivity : ComponentActivity() {
                     Column {
                         ZoomImage(bitmap = bitmap)
                         //Greeting("Android")
-                        MistakesAmount()
+                        //MistakesAmount()
                         ColorPalette(colors = picture.availablePalette, gameViewModel = viewModel, this@MainActivity)
                         Timer()
+                        PlayerHealth(gameViewModel = viewModel, observer = this@MainActivity)
                     }
                     GameEndMessage()
                 }
@@ -75,11 +76,14 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MistakesAmount() {
         var mistakes by remember { mutableStateOf("Количество ошибок: 0") }
+        /*
         LaunchedEffect(Unit){
             viewModel.mistakesAmount.observe(this@MainActivity){
                 mistakes = "Количество ошибок: $it"
             }
         }
+
+         */
         Text(text = mistakes)
     }
 
@@ -179,7 +183,7 @@ class MainActivity : ComponentActivity() {
                                     Pair(position.x, position.y),
                                     calculateCellSize(widthInPx * 2, picture.gridCells.size),
                                     scale,
-                                    picture.gridCells.size
+                                    Pair(picture.gridCells[0].size, picture.gridCells.size)
                                 )
                                 viewModel.onClick(viewModel.selectedColor.value, clickPosition)
                                 println(clickPosition)
@@ -259,15 +263,16 @@ class MainActivity : ComponentActivity() {
         clickPosition: Pair<Float, Float>,
         cellSize: Int,
         scale: Float,
-        cellsAmount: Int
+        cellsAmount: Pair<Int, Int>
     ): Pair<Int, Int> {
-        val size = cellsAmount * cellSize
+        val sizeX = cellsAmount.first * cellSize
+        val sizeY = cellsAmount.second * cellSize
 
         val offsetX = -offset.first / scale
         val offsetY = -offset.second / scale
 
-        val initialOffsetX = (size - size * (1/scale))/2
-        val initialOffsetY = initialOffsetX
+        val initialOffsetX = (sizeX - sizeX * (1/scale))/2
+        val initialOffsetY = (sizeY - sizeY * (1/scale))/2
 
         val appliedOffsetX = initialOffsetX + offsetX
         val appliedOffsetY = initialOffsetY + offsetY

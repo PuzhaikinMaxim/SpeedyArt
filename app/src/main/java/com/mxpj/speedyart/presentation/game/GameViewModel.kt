@@ -13,9 +13,9 @@ class GameViewModel: ViewModel() {
     val picture: LiveData<Picture>
         get() = _picture
 
-    private val _mistakesAmount = MutableLiveData<Int>(0)
-    val mistakesAmount: LiveData<Int>
-        get() = _mistakesAmount
+    private val _healthAmount = MutableLiveData<Int>(4)
+    val healthAmount: LiveData<Int>
+        get() = _healthAmount
 
     private val _timer = MutableLiveData(5)
     val timer: LiveData<Int>
@@ -31,20 +31,10 @@ class GameViewModel: ViewModel() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
-    private var coroutine: Job = coroutineScope.launch {
-        while (_timer.value!! > 0){
-            delay(1000)
-            _timer.postValue(_timer.value!!.minus(1))
-        }
-        _gameResult.postValue(GameResult.GAME_LOST)
-    }
+    private var coroutine: Job = getTimerCoroutine()
 
     fun setPicture(newPicture: Picture){
         _picture.value = newPicture
-    }
-
-    fun getColor(): Int {
-        return picture.value!!.availablePalette[0]
     }
 
     fun selectColor(colorCode: Int) {
@@ -65,8 +55,8 @@ class GameViewModel: ViewModel() {
             resetTimer()
         }
         else{
-            _mistakesAmount.value = _mistakesAmount.value!!.plus(1)
-            if(_mistakesAmount.value!! > MAX_MISTAKES_COUNT){
+            _healthAmount.value = _healthAmount.value!!.minus(1)
+            if(_healthAmount.value!! == 0){
                 setGameLost()
             }
         }
@@ -85,7 +75,16 @@ class GameViewModel: ViewModel() {
 
     private fun resetCoroutineScope() {
         coroutine.cancel()
-        coroutine.start()
+        coroutine = getTimerCoroutine()
+    }
+
+    private fun getTimerCoroutine() = coroutineScope.launch {
+        while (_timer.value!! > 0){
+            yield()
+            delay(1000)
+            _timer.postValue(_timer.value!!.minus(1))
+        }
+        _gameResult.postValue(GameResult.GAME_LOST)
     }
 
     private fun setGameLost() {
@@ -94,6 +93,9 @@ class GameViewModel: ViewModel() {
     }
 
     private companion object {
-        const val MAX_MISTAKES_COUNT = 4
+
+        private const val MAX_MISTAKES_COUNT = 4
+
+        private const val DELAY_TIME = 10
     }
 }
