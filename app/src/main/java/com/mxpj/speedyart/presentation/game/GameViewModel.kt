@@ -17,9 +17,9 @@ class GameViewModel: ViewModel() {
     val healthAmount: LiveData<Int>
         get() = _healthAmount
 
-    private val _timer = MutableLiveData(5)
-    val timer: LiveData<Int>
-        get() = _timer
+    private val _timerProgress = MutableLiveData(0f)
+    val timerProgress: LiveData<Float>
+        get() = _timerProgress
 
     private val _gameResult = MutableLiveData(GameResult.GAME_CONTINUING)
     val gameResult: LiveData<GameResult>
@@ -29,7 +29,7 @@ class GameViewModel: ViewModel() {
     val selectedColor: LiveData<Int>
         get() = _selectedColor
 
-    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private var coroutine: Job = getTimerCoroutine()
 
@@ -51,8 +51,8 @@ class GameViewModel: ViewModel() {
             cell.currentColor = color
             picture.value!!.unfilledCells.remove(cellPosition)
             _picture.value = _picture.value
-            setGameWonIfNoUnfilledCells()
             resetTimer()
+            setGameWonIfNoUnfilledCells()
         }
         else{
             _healthAmount.value = _healthAmount.value!!.minus(1)
@@ -63,14 +63,16 @@ class GameViewModel: ViewModel() {
     }
 
     private fun setGameWonIfNoUnfilledCells() {
-        if(picture.value!!.unfilledCells.size > 0) return
-        _gameResult.value = GameResult.GAME_WON
+        if(picture.value!!.unfilledCells.size > 0){
+            return
+        }
         coroutine.cancel()
+        _gameResult.value = GameResult.GAME_WON
     }
 
     private fun resetTimer() {
         resetCoroutineScope()
-        _timer.value = 5
+        _timerProgress.value = 0f
     }
 
     private fun resetCoroutineScope() {
@@ -79,12 +81,19 @@ class GameViewModel: ViewModel() {
     }
 
     private fun getTimerCoroutine() = coroutineScope.launch {
-        while (_timer.value!! > 0){
+        var progress = 0
+        while (progress < EIGHT_SECONDS){
             yield()
-            delay(1000)
-            _timer.postValue(_timer.value!!.minus(1))
+            delay(DELAY_TIME)
+            progress++
+            //println("progress $progress")
+            _timerProgress.postValue(calculateProgress(progress))
         }
         _gameResult.postValue(GameResult.GAME_LOST)
+    }
+
+    private fun calculateProgress(progress: Int): Float {
+        return ((progress * 100 / EIGHT_SECONDS).toFloat() / 100)
     }
 
     private fun setGameLost() {
@@ -96,6 +105,10 @@ class GameViewModel: ViewModel() {
 
         private const val MAX_MISTAKES_COUNT = 4
 
-        private const val DELAY_TIME = 10
+        private const val DELAY_TIME = 100L
+
+        private const val ONE_SECOND = 1000L
+
+        private const val EIGHT_SECONDS = 8 * ONE_SECOND / DELAY_TIME
     }
 }

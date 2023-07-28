@@ -5,10 +5,15 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -48,7 +53,7 @@ class MainActivity : ComponentActivity() {
         viewModel = ViewModelProvider(this,ViewModelFactory())[GameViewModel::class.java]
         picture = parser.parseToPicture(BitmapFactory.decodeResource(
             resources,
-            R.drawable.heart,
+            R.drawable.heart_test,
             parser.getBitmapFactoryOptions()
         ))
         viewModel.setPicture(picture)
@@ -95,13 +100,20 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Timer() {
-        var timer by remember { mutableStateOf("") }
+        var timer by remember { mutableStateOf(0.5f) }
         LaunchedEffect(Unit) {
-            viewModel.timer.observe(this@MainActivity) {
-                timer = "Время до завершения: $it"
+            viewModel.timerProgress.observe(this@MainActivity) {
+                timer = it
             }
         }
-        Text(text = timer)
+        Spacer(modifier = Modifier.height(10.dp))
+        LinearProgressIndicator(
+            progress = timer,
+            modifier = Modifier
+                .height(20.dp)
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(10.dp))
     }
 
     @Composable
@@ -142,10 +154,7 @@ class MainActivity : ComponentActivity() {
         LaunchedEffect(key1 = Unit, block = {
             viewModel.picture.observe(this@MainActivity){
                 picture = it
-                val timeStart = System.currentTimeMillis()
                 image = PictureDrawer().getPictureBitmap(picture, 600).asImageBitmap()
-                val timeEnd = System.currentTimeMillis()
-                println(timeEnd - timeStart)
             }
         })
         Column(
@@ -175,7 +184,6 @@ class MainActivity : ComponentActivity() {
                             } while (event.changes.any { it.pressed })
                             val clickTime = System.currentTimeMillis() - firstDownTime
                             val isClickTimePassed = clickTime > 150
-                            println("time passed: $clickTime")
                             if (!isClickTimePassed) {
                                 coords.value = position.toString()
                                 val clickPosition = getClickedPixelPosition(
@@ -186,8 +194,6 @@ class MainActivity : ComponentActivity() {
                                     Pair(picture.gridCells[0].size, picture.gridCells.size)
                                 )
                                 viewModel.onClick(viewModel.selectedColor.value, clickPosition)
-                                println(clickPosition)
-                                println(position)
                             }
                         }
                     }
