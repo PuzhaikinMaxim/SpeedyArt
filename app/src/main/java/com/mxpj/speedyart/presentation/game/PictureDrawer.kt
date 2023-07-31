@@ -4,28 +4,32 @@ import android.graphics.*
 import com.mxpj.speedyart.domain.Cell
 import com.mxpj.speedyart.domain.Picture
 
-class PictureDrawer {
+class PictureDrawer(
+    private val picture: Picture,
+    private val selectedColor: Int? = null,
+    private val fitSize: Int
+) {
 
-    fun getPictureBitmap(picture: Picture, fitSize: Int): Bitmap {
+    fun getPictureBitmap(): Bitmap {
         val bitmap = Bitmap.createBitmap(
             fitSize,
             fitSize,
             Bitmap.Config.ARGB_8888
         )
-        draw(bitmap, picture, fitSize)
+        draw(bitmap)
         return bitmap
     }
 
-    private fun draw(bitmap: Bitmap, picture: Picture, fitSize: Int) {
+    private fun draw(bitmap: Bitmap) {
         val canvas = Canvas(bitmap)
         val grid = picture.gridCells
         for(row in grid){
-            drawRow(canvas, row, fitSize)
+            drawRow(canvas, row)
         }
-        drawGrid(canvas, fitSize / grid[0].size, fitSize)
+        drawGrid(canvas, fitSize / grid[0].size)
     }
 
-    private fun drawRow(canvas: Canvas, rowCells: List<Cell>, fitSize: Int) {
+    private fun drawRow(canvas: Canvas, rowCells: List<Cell>) {
         for(cell in rowCells){
             drawRect(canvas, fitSize / rowCells.size, cell)
         }
@@ -37,7 +41,7 @@ class PictureDrawer {
         canvas.drawRect(rect, paint)
     }
 
-    private fun drawGrid(canvas: Canvas, cellSize: Int, fitSize: Int) {
+    private fun drawGrid(canvas: Canvas, cellSize: Int) {
         val gridLinesAmount = fitSize / cellSize
         for(i in 0..gridLinesAmount){
             canvas.drawLine(
@@ -65,6 +69,13 @@ class PictureDrawer {
 
     private fun getPaintForCell(cell: Cell): Paint {
         val paint = Paint()
+        if(
+            selectedColor != null &&
+            cell.currentColor != cell.rightColor &&
+            selectedColor == cell.rightColor
+        ){
+            return getPaint(Color.GRAY)
+        }
         paint.color = cell.currentColor
         return paint
     }

@@ -63,6 +63,6 @@ class ImageToPictureClassParser {
 
     private fun getTransparentColor(color: Int): Int {
         if(color == 0) return 0
-        return (color and 0x00FFFFFF) or 0x70000000
+        return (color and 0x00FFFFFF) or 0x30000000
     }
 }

@@ -39,6 +39,7 @@ class GameViewModel: ViewModel() {
 
     fun selectColor(colorCode: Int) {
         _selectedColor.value = colorCode
+        _picture.value = picture.value
     }
 
     fun onClick(color: Int?, cellPosition: Pair<Int, Int>) {

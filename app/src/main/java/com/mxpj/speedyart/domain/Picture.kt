@@ -7,6 +7,22 @@ data class Picture(
 ) {
 
     fun getCell(xPosition: Int, yPosition: Int): Cell {
+        if(xPosition >= gridCells[0].size || yPosition >= gridCells.size) {
+            return getDefaultCell()
+        }
         return gridCells[yPosition][xPosition]
+    }
+
+    companion object {
+
+        private fun getDefaultCell(): Cell {
+            return Cell(
+                -1,
+                -1,
+                -1,
+                -1,
+                false
+            )
+        }
     }
 }

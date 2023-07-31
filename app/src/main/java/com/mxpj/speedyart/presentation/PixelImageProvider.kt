@@ -21,14 +21,12 @@ class PixelImageProvider {
 
         fun getPixelImageBitmap(resource: Int): ImageBitmap{
             if(context == null) throw RuntimeException("Application is null")
-            with(context){
-                val picture = BitmapFactory.decodeResource(
-                    context!!.resources,
-                    resource,
-                    getBitmapFactoryOptions()
-                )
-                return picture.asImageBitmap()
-            }
+            val picture = BitmapFactory.decodeResource(
+                context!!.resources,
+                resource,
+                getBitmapFactoryOptions()
+            )
+            return picture.asImageBitmap()
         }
 
         private fun getBitmapFactoryOptions(): BitmapFactory.Options {

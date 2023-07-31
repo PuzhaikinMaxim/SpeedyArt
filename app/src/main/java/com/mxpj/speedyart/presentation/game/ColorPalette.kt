@@ -16,8 +16,10 @@ fun ColorPalette(
     observer: LifecycleOwner
 ) {
     var selectedColor by remember { mutableStateOf(-1) }
-    gameViewModel.selectedColor.observe(observer){
-        selectedColor = it
+    LaunchedEffect(Unit) {
+        gameViewModel.selectedColor.observe(observer){
+            selectedColor = it
+        }
     }
     Row(
         horizontalArrangement = Arrangement.Start,

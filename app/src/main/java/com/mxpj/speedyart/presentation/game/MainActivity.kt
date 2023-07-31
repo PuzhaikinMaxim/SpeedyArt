@@ -53,11 +53,14 @@ class MainActivity : ComponentActivity() {
         viewModel = ViewModelProvider(this,ViewModelFactory())[GameViewModel::class.java]
         picture = parser.parseToPicture(BitmapFactory.decodeResource(
             resources,
-            R.drawable.heart_test,
+            R.drawable.heart,
             parser.getBitmapFactoryOptions()
         ))
         viewModel.setPicture(picture)
-        val bitmap = PictureDrawer().getPictureBitmap(picture, 600)
+        val bitmap = PictureDrawer(
+            picture = picture,
+            fitSize = 600
+        ).getPictureBitmap()
         setContent {
             SpeedyArtTheme {
                 Surface(
@@ -154,7 +157,11 @@ class MainActivity : ComponentActivity() {
         LaunchedEffect(key1 = Unit, block = {
             viewModel.picture.observe(this@MainActivity){
                 picture = it
-                image = PictureDrawer().getPictureBitmap(picture, 600).asImageBitmap()
+                image = PictureDrawer(
+                    picture,
+                    viewModel.selectedColor.value,
+                    600
+                ).getPictureBitmap().asImageBitmap()
             }
         })
         Column(
