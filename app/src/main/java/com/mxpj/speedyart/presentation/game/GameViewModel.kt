@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.mxpj.speedyart.domain.GameResult
 import com.mxpj.speedyart.domain.Picture
 import kotlinx.coroutines.*
+import kotlin.math.max
 
 class GameViewModel: ViewModel() {
 
@@ -51,7 +52,9 @@ class GameViewModel: ViewModel() {
         if(color != null && color == cell.rightColor){
             cell.currentColor = color
             picture.value!!.unfilledCells.remove(cellPosition)
-            _picture.value = _picture.value
+            val amountOfCellsWithColor = max(picture.value!!.colorsAmount[color]!! - 1,0)
+            picture.value!!.colorsAmount[color] = amountOfCellsWithColor
+            _picture.value = picture.value
             resetTimer()
             setGameWonIfNoUnfilledCells()
         }

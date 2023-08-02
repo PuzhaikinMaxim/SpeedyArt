@@ -3,7 +3,8 @@ package com.mxpj.speedyart.domain
 data class Picture(
     val gridCells: List<List<Cell>>,
     val availablePalette: List<Int>,
-    val unfilledCells: HashMap<Pair<Int, Int>, Cell>
+    val unfilledCells: HashMap<Pair<Int, Int>, Cell>,
+    val colorsAmount: HashMap<Int, Int>
 ) {
 
     fun getCell(xPosition: Int, yPosition: Int): Cell {

@@ -1,13 +1,16 @@
 package com.mxpj.speedyart.presentation.game
 
-import android.app.Activity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateMap
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
+import com.mxpj.speedyart.R
 
 @Composable
 fun ColorPalette(
@@ -16,9 +19,16 @@ fun ColorPalette(
     observer: LifecycleOwner
 ) {
     var selectedColor by remember { mutableStateOf(-1) }
+    var colorsAmount = remember { mutableStateMapOf<Int, Int>() }
+    //by remember { mutableStateListOf() }
     LaunchedEffect(Unit) {
         gameViewModel.selectedColor.observe(observer){
             selectedColor = it
+        }
+        gameViewModel.picture.observe(observer){
+            for((color, colorCellAmount) in it.colorsAmount) {
+                colorsAmount[color] = colorCellAmount
+            }
         }
     }
     Row(
@@ -29,7 +39,8 @@ fun ColorPalette(
             .background(color = Color.Gray)
     ) {
         colors.forEach {
-            PaletteColor(color = it, gameViewModel, selectedColor)
+            val hasColorCells = colorsAmount.getOrDefault(it,1) != 0
+            PaletteColor(color = it, gameViewModel, selectedColor, hasColorCells)
             Spacer(
                 modifier = Modifier
                     .height(80.dp)
@@ -43,7 +54,8 @@ fun ColorPalette(
 private fun PaletteColor(
     color: Int,
     gameViewModel: GameViewModel,
-    selectedColor: Int
+    selectedColor: Int,
+    hasColorCells: Boolean
 ) {
     Box(
         modifier = Modifier
@@ -59,6 +71,15 @@ private fun PaletteColor(
                 }
             }
     ) {
-
+        if(!hasColorCells){
+            Image(
+                painter = painterResource(R.drawable.ic_checkmark),
+                contentDescription = "Выполнено",
+                modifier = Modifier
+                    .height(25.dp)
+                    .width(25.dp)
+                    .align(Alignment.Center)
+            )
+        }
     }
 }

@@ -14,12 +14,15 @@ class ImageToPictureClassParser {
 
     private val unfilledCells = HashMap<Pair<Int, Int>, Cell>()
 
+    private val colorsAmount = HashMap<Int, Int>()
+
     fun parseToPicture(bitmap: Bitmap): Picture {
         setPictureParams(bitmap)
         return Picture(
             gridCells,
             getColorPaletteList(),
-            unfilledCells
+            unfilledCells,
+            colorsAmount
         )
     }
 
@@ -52,6 +55,8 @@ class ImageToPictureClassParser {
             if(bitmapCellColor != 0){
                 unfilledCells[Pair(x,y)] = cell
                 colorPalette[bitmapCellColor] = bitmapCellColor
+                colorsAmount[bitmapCellColor] = colorsAmount
+                    .getOrDefault(bitmapCellColor,0) + 1
             }
         }
         return rowCells
