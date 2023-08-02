@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.VectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
@@ -61,13 +62,20 @@ private fun PaletteColor(
         modifier = Modifier
             .height(80.dp)
             .aspectRatio(1f)
-            .background(color = Color(color))
             .clickable { gameViewModel.selectColor(color) }
             .run {
                 if(selectedColor == color) {
                     border(4.dp, Color.White)
-                }else{
+                } else {
                     this
+                }
+            }
+            .run {
+                background(color = Color(color).copy(alpha = 0.2f))
+                if(!hasColorCells){
+                    background(color = Color(color).copy(alpha = 0.2f))
+                } else {
+                    background(color = Color(color))
                 }
             }
     ) {

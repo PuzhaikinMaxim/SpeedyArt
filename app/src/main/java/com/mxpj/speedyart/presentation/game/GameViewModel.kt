@@ -49,7 +49,7 @@ class GameViewModel: ViewModel() {
         }
 
         val cell = picture.value!!.getCell(cellPosition.first, cellPosition.second)
-        if(color != null && color == cell.rightColor){
+        if(color != null && color == cell.rightColor && cell.rightColor != cell.currentColor){
             cell.currentColor = color
             picture.value!!.unfilledCells.remove(cellPosition)
             val amountOfCellsWithColor = max(picture.value!!.colorsAmount[color]!! - 1,0)
