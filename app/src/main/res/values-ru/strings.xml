@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SpeedyArt</string>
+    <string name="amount_pictures_completed">Выполнено: %d из %d</string>
+    <string name="amount_stars">Звезд получено: %d из %d</string>
+    <string name="amount_trophies">Трофеев получено: %d из %d</string>
+    <string name="percents">%d\\%%</string>
+</resources>

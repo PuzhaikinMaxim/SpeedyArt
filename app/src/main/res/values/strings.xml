@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SpeedyArt</string>
+    <string name="amount_pictures_completed">Completed: %d out of %d</string>
+    <string name="amount_stars">Stars got: %d out of %d</string>
+    <string name="amount_trophies">Trophies got: %d out of %d</string>
+    <string name="percents">%d\%%</string>
 </resources>
