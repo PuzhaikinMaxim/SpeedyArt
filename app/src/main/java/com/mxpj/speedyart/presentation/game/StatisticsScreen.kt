@@ -118,7 +118,7 @@ fun ConcreteProgress(
                 progress = progress,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(25.dp)
+                    .height(30.dp)
                     .clip(CircleShape),
                 color = ProgressYellow,
                 backgroundColor = LightGray
