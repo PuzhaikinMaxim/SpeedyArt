@@ -190,7 +190,7 @@ class MainActivity : ComponentActivity() {
                                 position = event.changes[0].position
                             } while (event.changes.any { it.pressed })
                             val clickTime = System.currentTimeMillis() - firstDownTime
-                            val isClickTimePassed = clickTime > 150
+                            val isClickTimePassed = clickTime > 250
                             if (!isClickTimePassed) {
                                 coords.value = position.toString()
                                 val clickPosition = getClickedPixelPosition(
