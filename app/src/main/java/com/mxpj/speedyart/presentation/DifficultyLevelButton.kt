@@ -1,9 +1,7 @@
 package com.mxpj.speedyart.presentation
 
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -12,10 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mxpj.speedyart.R
 
 @Composable
 fun DifficultyLevelButton(difficulty: Difficulty) {
@@ -25,36 +26,6 @@ fun DifficultyLevelButton(difficulty: Difficulty) {
         is Difficulty.DifficultyCompleted -> DifficultyCompletedButton(difficulty)
         is Difficulty.DifficultyPerfect -> DifficultyPerfectButton(difficulty)
     }
-    /*
-    BaseDifficultyButton(
-        backgroundColor = difficulty.difficultyLevel.color,
-        difficultyNameResourceId = difficulty.difficultyLevel.textResource
-    ) {
-        Spacer(modifier = Modifier.weight(1f))
-    }
-
-     */
-    /*
-    Button(
-        shape = RoundedCornerShape(5.dp),
-        onClick = { /*TODO*/ },
-        modifier = Modifier
-            .height(45.dp)
-            .fillMaxWidth(0.8f)
-            .clip(RoundedCornerShape(5.dp)),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = difficulty.difficultyLevel.color,
-        )
-    ) {
-        Text(
-            text = stringResource(difficulty.difficultyLevel.textResource),
-            fontFamily = FontFamily.getSilverFont(),
-            fontSize = 24.sp
-        )
-        Spacer(modifier = Modifier.weight(1f))
-    }
-
-     */
 }
 
 @Composable
@@ -86,10 +57,18 @@ fun BaseDifficultyButton(
 @Composable
 fun DifficultyLockedButton(difficulty: Difficulty) {
     BaseDifficultyButton(
-        backgroundColor = difficulty.difficultyLevel.color,
+        backgroundColor = Color.Gray,
         difficultyNameResourceId = difficulty.difficultyLevel.textResource
     ) {
         Spacer(modifier = Modifier.weight(1f))
+        Image(
+            bitmap = PixelImageProvider.getPixelImageBitmap(R.drawable.ic_lock),
+            contentDescription = "",
+            filterQuality = FilterQuality.None,
+            modifier = Modifier
+                .height(30.dp)
+                .aspectRatio(1f)
+        )
     }
 }
 
@@ -109,6 +88,12 @@ fun DifficultyCompletedButton(difficulty: Difficulty) {
         backgroundColor = difficulty.difficultyLevel.color,
         difficultyNameResourceId = difficulty.difficultyLevel.textResource
     ) {
+        Spacer(modifier = Modifier.width(10.dp))
+        Image(
+            painter = painterResource(R.drawable.ic_checkmark),
+            contentDescription = "",
+            modifier = Modifier.width(40.dp)
+        )
         Spacer(modifier = Modifier.weight(1f))
     }
 }
@@ -119,6 +104,17 @@ fun DifficultyPerfectButton(difficulty: Difficulty) {
         backgroundColor = difficulty.difficultyLevel.color,
         difficultyNameResourceId = difficulty.difficultyLevel.textResource
     ) {
+        Spacer(modifier = Modifier.width(10.dp))
+        Image(
+            painter = painterResource(R.drawable.ic_checkmark),
+            contentDescription = "",
+            modifier = Modifier.width(20.dp)
+        )
         Spacer(modifier = Modifier.weight(1f))
+        Image(
+            painter = painterResource(R.drawable.ic_trophy),
+            contentDescription = "",
+            modifier = Modifier.width(30.dp).aspectRatio(1f)
+        )
     }
 }
