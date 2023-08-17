@@ -3,5 +3,9 @@
     <string name="amount_pictures_completed">Completed: %d out of %d</string>
     <string name="amount_stars">Stars got: %d out of %d</string>
     <string name="amount_trophies">Trophies got: %d out of %d</string>
+    <string name="completion">Completion statistics</string>
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="diffoculty_hard">Hard</string>
     <string name="percents">%d\%%</string>
 </resources>

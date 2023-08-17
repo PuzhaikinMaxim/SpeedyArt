@@ -4,5 +4,9 @@
     <string name="amount_pictures_completed">Выполнено: %d из %d</string>
     <string name="amount_stars">Звезд получено: %d из %d</string>
     <string name="amount_trophies">Трофеев получено: %d из %d</string>
+    <string name="completion">Статистика по выполнению</string>
+    <string name="difficulty_easy">Легкий</string>
+    <string name="difficulty_medium">Средний</string>
+    <string name="diffoculty_hard">Сложный</string>
     <string name="percents">%d\\%%</string>
 </resources>

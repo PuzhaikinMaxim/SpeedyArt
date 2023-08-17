@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.presentation.game
+package com.mxpj.speedyart.presentation
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
@@ -15,11 +15,8 @@ import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,8 +31,15 @@ fun StatisticsScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = stringResource(R.string.completion),
+                fontFamily = FontFamily.getSilverFont(),
+                fontSize = 36.sp
+            )
+            Spacer(modifier = Modifier.height(10.dp))
             GeneralProgress()
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             ConcreteProgresses()
         }
     }
@@ -45,7 +49,6 @@ fun StatisticsScreen() {
 @Composable
 fun GeneralProgress() {
     val strokeWidth = 20.dp
-    Spacer(modifier = Modifier.height(30.dp))
     val stroke = with(LocalDensity.current) {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Butt)
     }
@@ -95,8 +98,8 @@ fun ConcreteProgresses() {
         Spacer(modifier = Modifier.height(10.dp))
         ConcreteProgress(
             text = stringResource(R.string.amount_trophies, 5, 10),
-            progress = 0.5f,
-            progressInPercents = 50
+            progress = 1.0f,
+            progressInPercents = 100
         )
     }
 }
@@ -135,8 +138,4 @@ fun ConcreteProgress(
     }
 }
 
-fun FontFamily.Companion.getSilverFont(): FontFamily {
-    return FontFamily(arrayListOf<Font>().apply {
-        add(Font(R.font.silver))
-    })
-}
+
