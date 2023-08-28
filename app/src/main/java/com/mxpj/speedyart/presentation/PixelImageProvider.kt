@@ -1,10 +1,10 @@
 package com.mxpj.speedyart.presentation
 
 import android.app.Application
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import com.mxpj.speedyart.R
 
 class PixelImageProvider {
 
@@ -19,7 +19,7 @@ class PixelImageProvider {
             this.context = context
         }
 
-        fun getPixelImageBitmap(resource: Int): ImageBitmap{
+        fun getPixelImageBitmap(resource: Int): ImageBitmap {
             if(context == null) throw RuntimeException("Application is null")
             val picture = BitmapFactory.decodeResource(
                 context!!.resources,
@@ -27,6 +27,15 @@ class PixelImageProvider {
                 getBitmapFactoryOptions()
             )
             return picture.asImageBitmap()
+        }
+
+        fun getPixelBitmap(resource: Int): Bitmap {
+            if (context == null) throw RuntimeException("Application is null")
+            return BitmapFactory.decodeResource(
+                context!!.resources,
+                resource,
+                getBitmapFactoryOptions()
+            )
         }
 
         private fun getBitmapFactoryOptions(): BitmapFactory.Options {
