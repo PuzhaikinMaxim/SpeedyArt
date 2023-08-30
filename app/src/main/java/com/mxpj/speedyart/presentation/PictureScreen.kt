@@ -58,11 +58,11 @@ fun PictureStats() {
 @Composable
 fun DifficultyLevels() {
     Column() {
-        DifficultyLevelButton(difficulty = Difficulty.DifficultyLocked(DifficultyLevel.HARD))
+        DifficultyLevelButton(LevelHard(DifficultyStatus.LOCKED))
         Spacer(modifier = Modifier.height(10.dp))
-        DifficultyLevelButton(difficulty = Difficulty.DifficultyUnlocked(DifficultyLevel.MEDIUM))
+        DifficultyLevelButton(LevelMedium(DifficultyStatus.UNLOCKED))
         Spacer(modifier = Modifier.height(10.dp))
-        DifficultyLevelButton(difficulty = Difficulty.DifficultyPerfect(DifficultyLevel.EASY))
+        DifficultyLevelButton(LevelEasy(DifficultyStatus.PERFECT))
     }
 }
 

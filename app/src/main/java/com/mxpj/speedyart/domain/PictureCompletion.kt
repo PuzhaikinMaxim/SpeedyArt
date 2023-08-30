@@ -1,19 +1,22 @@
 package com.mxpj.speedyart.domain
 
-import com.mxpj.speedyart.presentation.Difficulty
+import com.mxpj.speedyart.presentation.DifficultyLevel
+import com.mxpj.speedyart.presentation.DifficultyStatus
 import com.mxpj.speedyart.presentation.toIntInPercent
 
 data class PictureCompletion(
     val pictureResource: Int,
-    val difficulties: List<Difficulty>
+    val difficulties: List<DifficultyLevel>
 ) {
     val completionPercent: Int
         get() {
             val maxProgress = difficulties.size * DIFFICULTY_PROGRESS_MULTIPLIER
             val perfectProgress = difficulties.count {
-                it is Difficulty.DifficultyPerfect
+                it.status == DifficultyStatus.PERFECT
             } * PERFECT_WEIGHT
-            val completedProgress = difficulties.count { it is Difficulty.DifficultyCompleted }
+            val completedProgress = difficulties.count {
+                it.status == DifficultyStatus.COMPLETED
+            }
             val totalProgress = (perfectProgress.toFloat() + completedProgress)/maxProgress
             return totalProgress.toIntInPercent()
         }

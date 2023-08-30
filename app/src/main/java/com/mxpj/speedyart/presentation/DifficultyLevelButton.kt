@@ -19,12 +19,12 @@ import androidx.compose.ui.unit.sp
 import com.mxpj.speedyart.R
 
 @Composable
-fun DifficultyLevelButton(difficulty: Difficulty) {
-    when(difficulty){
-        is Difficulty.DifficultyLocked -> DifficultyLockedButton(difficulty)
-        is Difficulty.DifficultyUnlocked -> DifficultyUnlockedButton(difficulty)
-        is Difficulty.DifficultyCompleted -> DifficultyCompletedButton(difficulty)
-        is Difficulty.DifficultyPerfect -> DifficultyPerfectButton(difficulty)
+fun DifficultyLevelButton(difficultyLevel: DifficultyLevel) {
+    when(difficultyLevel.status){
+        DifficultyStatus.LOCKED -> DifficultyLockedButton(difficultyLevel)
+        DifficultyStatus.UNLOCKED -> DifficultyUnlockedButton(difficultyLevel)
+        DifficultyStatus.COMPLETED -> DifficultyCompletedButton(difficultyLevel)
+        DifficultyStatus.PERFECT -> DifficultyPerfectButton(difficultyLevel)
     }
 }
 
@@ -55,10 +55,10 @@ fun BaseDifficultyButton(
 }
 
 @Composable
-fun DifficultyLockedButton(difficulty: Difficulty) {
+fun DifficultyLockedButton(difficultyLevel: DifficultyLevel) {
     BaseDifficultyButton(
         backgroundColor = Color.Gray,
-        difficultyNameResourceId = difficulty.difficultyLevel.textResource
+        difficultyNameResourceId = difficultyLevel.textResource
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
@@ -73,20 +73,20 @@ fun DifficultyLockedButton(difficulty: Difficulty) {
 }
 
 @Composable
-fun DifficultyUnlockedButton(difficulty: Difficulty) {
+fun DifficultyUnlockedButton(difficultyLevel: DifficultyLevel) {
     BaseDifficultyButton(
-        backgroundColor = difficulty.difficultyLevel.color,
-        difficultyNameResourceId = difficulty.difficultyLevel.textResource
+        backgroundColor = difficultyLevel.color,
+        difficultyNameResourceId = difficultyLevel.textResource
     ) {
         Spacer(modifier = Modifier.weight(1f))
     }
 }
 
 @Composable
-fun DifficultyCompletedButton(difficulty: Difficulty) {
+fun DifficultyCompletedButton(difficultyLevel: DifficultyLevel) {
     BaseDifficultyButton(
-        backgroundColor = difficulty.difficultyLevel.color,
-        difficultyNameResourceId = difficulty.difficultyLevel.textResource
+        backgroundColor = difficultyLevel.color,
+        difficultyNameResourceId = difficultyLevel.textResource
     ) {
         Spacer(modifier = Modifier.width(10.dp))
         Image(
@@ -99,10 +99,10 @@ fun DifficultyCompletedButton(difficulty: Difficulty) {
 }
 
 @Composable
-fun DifficultyPerfectButton(difficulty: Difficulty) {
+fun DifficultyPerfectButton(difficultyLevel: DifficultyLevel) {
     BaseDifficultyButton(
-        backgroundColor = difficulty.difficultyLevel.color,
-        difficultyNameResourceId = difficulty.difficultyLevel.textResource
+        backgroundColor = difficultyLevel.color,
+        difficultyNameResourceId = difficultyLevel.textResource
     ) {
         Spacer(modifier = Modifier.width(10.dp))
         Image(

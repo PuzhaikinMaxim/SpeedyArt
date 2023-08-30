@@ -6,8 +6,20 @@ import com.mxpj.speedyart.ui.theme.DifficultyGreen
 import com.mxpj.speedyart.ui.theme.DifficultyRed
 import com.mxpj.speedyart.ui.theme.DifficultyYellow
 
-enum class DifficultyLevel(val color: Color, val textResource: Int) {
-    EASY(DifficultyGreen, R.string.difficulty_easy),
-    MEDIUM(DifficultyYellow, R.string.difficulty_medium),
-    HARD(DifficultyRed, R.string.diffoculty_hard)
-}
+sealed class DifficultyLevel(
+    val color: Color,
+    val textResource: Int,
+    val status: DifficultyStatus
+    )
+
+class LevelEasy(status: DifficultyStatus): DifficultyLevel(
+    DifficultyGreen, R.string.difficulty_easy,status
+)
+
+class LevelMedium(status: DifficultyStatus): DifficultyLevel(
+    DifficultyYellow, R.string.difficulty_medium,status
+)
+
+class LevelHard(status: DifficultyStatus): DifficultyLevel(
+    DifficultyRed, R.string.diffoculty_hard,status
+)

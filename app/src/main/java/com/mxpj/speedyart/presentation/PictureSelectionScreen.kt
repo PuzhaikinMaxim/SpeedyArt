@@ -32,9 +32,9 @@ import com.mxpj.speedyart.ui.theme.ProgressYellow
 fun PictureSelectionScreen() {
     val pictureCompletion = listOf(
         PictureCompletion(R.drawable.heart, listOf(
-            Difficulty.DifficultyPerfect(DifficultyLevel.EASY),
-            Difficulty.DifficultyCompleted(DifficultyLevel.MEDIUM),
-            Difficulty.DifficultyUnlocked(DifficultyLevel.HARD)
+            LevelEasy(DifficultyStatus.PERFECT),
+            LevelMedium(DifficultyStatus.COMPLETED),
+            LevelHard(DifficultyStatus.UNLOCKED)
         ))
     )
     Column() {
@@ -76,7 +76,7 @@ fun PictureCard(pictureCompletion: PictureCompletion) {
 }
 
 @Composable
-fun Difficulties(list: List<Difficulty>) {
+fun Difficulties(list: List<DifficultyLevel>) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
         for(difficulty in list) {
             Difficulty(difficulty)
@@ -87,16 +87,19 @@ fun Difficulties(list: List<Difficulty>) {
 
 @Preview
 @Composable
-fun Difficulty(difficulty: Difficulty = Difficulty.DifficultyCompleted(DifficultyLevel.MEDIUM)) {
-    if(difficulty is Difficulty.DifficultyLocked || difficulty is Difficulty.DifficultyUnlocked) return
+fun Difficulty(difficultyLevel: DifficultyLevel = LevelMedium(DifficultyStatus.UNLOCKED)) {
+    if(
+        difficultyLevel.status == DifficultyStatus.LOCKED ||
+        difficultyLevel.status == DifficultyStatus.UNLOCKED
+    ) return
     Box(
         Modifier
             .height(50.dp)
             .width(50.dp)
-            .background(color = difficulty.difficultyLevel.color)
+            .background(color = difficultyLevel.color)
     ) {
-        when(difficulty){
-            is Difficulty.DifficultyCompleted -> {
+        when(difficultyLevel.status){
+            DifficultyStatus.COMPLETED -> {
                 Image(
                     painter = painterResource(R.drawable.ic_checkmark),
                     contentDescription = "",
@@ -106,7 +109,7 @@ fun Difficulty(difficulty: Difficulty = Difficulty.DifficultyCompleted(Difficult
                         .height(25.dp)
                 )
             }
-            is Difficulty.DifficultyPerfect -> {
+            DifficultyStatus.PERFECT -> {
                 Image(
                     bitmap = PixelImageProvider.getPixelImageBitmap(R.drawable.ic_trophy),
                     contentDescription = "",
