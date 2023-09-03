@@ -144,7 +144,7 @@ fun PictureProgressBar(
         Image(
             painter = painterResource(R.drawable.ic_checkmark),
             contentDescription = "",
-            colorFilter = ColorFilter.tint(Color.Green),
+            colorFilter = ColorFilter.tint(Color.Black),
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .padding(start = 5.dp)
