@@ -12,16 +12,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.presentation.navigation.Screen
 
-@Preview
+//@Preview
 @Composable
-fun TopBar() {
+fun TopBar(navController: NavController) {
     TopAppBar(
         backgroundColor = Color.Gray,
         contentColor = Color.Black
     ) {
-        TopBarImage(R.drawable.ic_trophy) {}
+        TopBarImage(R.drawable.ic_trophy) {
+            navController.navigate(Screen.STATISTICS_SCREEN.route)
+        }
         Spacer(modifier = Modifier.weight(1f))
         TopBarImage(R.drawable.ic_settings_alt) {}
     }

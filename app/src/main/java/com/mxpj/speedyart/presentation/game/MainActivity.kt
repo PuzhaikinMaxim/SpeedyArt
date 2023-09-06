@@ -32,11 +32,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.GameResult
 import com.mxpj.speedyart.domain.Picture
-import com.mxpj.speedyart.presentation.ImageToPictureClassParser
-import com.mxpj.speedyart.presentation.ViewModelFactory
+import com.mxpj.speedyart.presentation.*
+import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 import kotlinx.coroutines.launch
 
@@ -49,13 +52,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val parser = ImageToPictureClassParser()
-        viewModel = ViewModelProvider(this,ViewModelFactory())[GameViewModel::class.java]
+        //viewModel = ViewModelProvider(this,ViewModelFactory())[GameViewModel::class.java]
         picture = parser.parseToPicture(BitmapFactory.decodeResource(
             resources,
             R.drawable.heart,
             parser.getBitmapFactoryOptions()
         ))
-        viewModel.setPicture(picture)
+        //viewModel.setPicture(picture)
         val bitmap = PictureDrawer(
             picture = picture,
             fitSize = 600
@@ -66,6 +69,22 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = Screen.PACK_SELECTION_SCREEN.route) {
+                        composable(Screen.PACK_SELECTION_SCREEN.route){
+                            PicturePackSelectionScreen(navController)
+                        }
+                        composable(Screen.STATISTICS_SCREEN.route){
+                            StatisticsScreen()
+                        }
+                        composable(Screen.PICTURE_SELECTION_SCREEN.route){
+                            PictureSelectionScreen(navController)
+                        }
+                        composable(Screen.PICTURE_SCREEN.route){
+                            PictureScreen()
+                        }
+                    }
+                    /*
                     Column {
                         ZoomImage(bitmap = bitmap)
                         //Greeting("Android")
@@ -75,6 +94,8 @@ class MainActivity : ComponentActivity() {
                         PlayerHealth(gameViewModel = viewModel, observer = this@MainActivity)
                     }
                     GameEndMessage()
+
+                     */
                 }
             }
         }

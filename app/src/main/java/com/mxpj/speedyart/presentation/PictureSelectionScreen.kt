@@ -2,6 +2,7 @@ package com.mxpj.speedyart.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,14 +24,16 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.PictureCompletion
+import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.ui.theme.ProgressBarBackground
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 
-@Preview
+//@Preview
 @Composable
-fun PictureSelectionScreen() {
+fun PictureSelectionScreen(navController: NavController) {
     val pictureCompletion = listOf(
         PictureCompletion(R.drawable.heart, listOf(
             LevelEasy(DifficultyStatus.PERFECT),
@@ -40,29 +43,33 @@ fun PictureSelectionScreen() {
     )
     Scaffold(
         topBar = {
-            TopBar()
+            TopBar(navController)
         }
     ) {
-        Spacer(modifier = Modifier.height(20.dp))
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
             items(pictureCompletion){
-                PictureCard(it)
+                Spacer(modifier = Modifier.height(20.dp))
+                PictureCard(it, navController)
             }
         }
     }
 }
 
 @Composable
-fun PictureCard(pictureCompletion: PictureCompletion) {
+fun PictureCard(
+    pictureCompletion: PictureCompletion,
+    navController: NavController
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(10.dp))
             .background(Color.LightGray)
             .padding(10.dp)
+            .clickable { navController.navigate(Screen.PICTURE_SCREEN.route) }
     ) {
         Column(modifier = Modifier.weight(1f)) {
             PictureProgressBar()
