@@ -4,9 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,18 +26,26 @@ import com.mxpj.speedyart.ui.theme.ProgressBarBackground
 @Preview
 @Composable
 fun PicturePackSelectionScreen() {
+    val lazyListState = rememberLazyListState()
     val list = mutableListOf<PicturePack>().apply {
         for(i in 0..100){
             add(PicturePack("Text",Pair(1,1),10,0.5f))
         }
     }
-    LazyColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
+    Scaffold(
+        topBar = {
+            TopBar()
+        }
     ) {
-        items(list) {
-            Spacer(modifier = Modifier.height(20.dp))
-            PicturePackCard(picturePack = it)
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            state = lazyListState,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(list) {
+                Spacer(modifier = Modifier.height(20.dp))
+                PicturePackCard(picturePack = it)
+            }
         }
     }
 }
@@ -68,7 +78,9 @@ fun PicturePackCard(picturePack: PicturePack) {
                 text = "${((picturePack.completionPercent*100)).toInt()}%",
                 fontFamily = FontFamily.getSilverFont(),
                 fontSize = 28.sp,
-                modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp)
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 10.dp)
             )
         }
         Row() {

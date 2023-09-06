@@ -5,10 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.*
@@ -34,12 +31,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.GameResult
 import com.mxpj.speedyart.domain.Picture
 import com.mxpj.speedyart.presentation.ImageToPictureClassParser
 import com.mxpj.speedyart.presentation.ViewModelFactory
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
@@ -103,20 +102,33 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Timer() {
-        var timer by remember { mutableStateOf(0.5f) }
+        var timer by remember { mutableStateOf(0.0f) }
+        var progress = remember { Animatable(0f) }
+        val scope = rememberCoroutineScope()
         LaunchedEffect(Unit) {
-            viewModel.timerProgress.observe(this@MainActivity) {
-                timer = it
+            viewModel.shouldResetTimer.observe(this@MainActivity) {
+                scope.launch {
+                    startProgressBarAnimation(progress)
+                }
             }
+            startProgressBarAnimation(progress)
         }
         Spacer(modifier = Modifier.height(10.dp))
         LinearProgressIndicator(
-            progress = timer,
+            progress = progress.value,
             modifier = Modifier
                 .height(20.dp)
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(10.dp))
+    }
+
+    private suspend fun startProgressBarAnimation(animatable: Animatable<Float, AnimationVector1D>) {
+        animatable.snapTo(0f)
+        animatable.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(GameViewModel.EIGHT_SECONDS.toInt(), easing = LinearEasing)
+        )
     }
 
     @Composable

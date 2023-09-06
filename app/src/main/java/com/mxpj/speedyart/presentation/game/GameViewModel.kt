@@ -18,9 +18,9 @@ class GameViewModel: ViewModel() {
     val healthAmount: LiveData<Int>
         get() = _healthAmount
 
-    private val _timerProgress = MutableLiveData(0f)
-    val timerProgress: LiveData<Float>
-        get() = _timerProgress
+    private val _shouldResetTimer = MutableLiveData(Unit)
+    val shouldResetTimer: LiveData<Unit>
+        get() = _shouldResetTimer
 
     private val _gameResult = MutableLiveData(GameResult.GAME_CONTINUING)
     val gameResult: LiveData<GameResult>
@@ -76,7 +76,7 @@ class GameViewModel: ViewModel() {
 
     private fun resetTimer() {
         resetCoroutineScope()
-        _timerProgress.value = 0f
+        _shouldResetTimer.value = Unit
     }
 
     private fun resetCoroutineScope() {
@@ -85,19 +85,8 @@ class GameViewModel: ViewModel() {
     }
 
     private fun getTimerCoroutine() = coroutineScope.launch {
-        var progress = 0
-        while (progress < EIGHT_SECONDS){
-            yield()
-            delay(DELAY_TIME)
-            progress++
-            //println("progress $progress")
-            _timerProgress.postValue(calculateProgress(progress))
-        }
+        delay(EIGHT_SECONDS)
         _gameResult.postValue(GameResult.GAME_LOST)
-    }
-
-    private fun calculateProgress(progress: Int): Float {
-        return ((progress * 100 / EIGHT_SECONDS).toFloat() / 100)
     }
 
     private fun setGameLost() {
@@ -105,14 +94,14 @@ class GameViewModel: ViewModel() {
         coroutine.cancel()
     }
 
-    private companion object {
+    companion object {
 
         private const val MAX_MISTAKES_COUNT = 4
 
-        private const val DELAY_TIME = 100L
+        //private const val DELAY_TIME = 100L
 
         private const val ONE_SECOND = 1000L
 
-        private const val EIGHT_SECONDS = 8 * ONE_SECOND / DELAY_TIME
+        const val EIGHT_SECONDS = 8 * ONE_SECOND
     }
 }

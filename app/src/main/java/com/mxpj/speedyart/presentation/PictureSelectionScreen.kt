@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,7 +38,11 @@ fun PictureSelectionScreen() {
             LevelHard(DifficultyStatus.UNLOCKED)
         ))
     )
-    Column() {
+    Scaffold(
+        topBar = {
+            TopBar()
+        }
+    ) {
         Spacer(modifier = Modifier.height(20.dp))
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
