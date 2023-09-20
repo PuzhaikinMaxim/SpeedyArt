@@ -8,4 +8,5 @@
     <string name="difficulty_medium">Medium</string>
     <string name="diffoculty_hard">Hard</string>
     <string name="percents">%d\%%</string>
+    <string name="dark_mode_setting">Dark mode</string>
 </resources>
