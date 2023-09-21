@@ -10,4 +10,6 @@
     <string name="diffoculty_hard">Сложный</string>
     <string name="percents">%d\\%%</string>
     <string name="dark_mode_setting">Темный режим</string>
+    <string name="change_font_setting">Изменить шрифт</string>
+    <string name="reset_progress_setting">Сбросить прогресс</string>
 </resources>
