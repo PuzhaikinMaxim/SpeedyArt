@@ -27,7 +27,9 @@ fun TopBar(navController: NavController) {
             navController.navigate(Screen.STATISTICS_SCREEN.route)
         }
         Spacer(modifier = Modifier.weight(1f))
-        TopBarImage(R.drawable.ic_settings_alt) {}
+        TopBarImage(R.drawable.ic_settings_alt) {
+            navController.navigate(Screen.SETTINGS_SCREEN.route)
+        }
     }
 }
 

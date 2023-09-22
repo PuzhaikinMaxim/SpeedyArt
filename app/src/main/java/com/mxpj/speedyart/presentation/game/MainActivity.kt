@@ -83,6 +83,9 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.PICTURE_SCREEN.route){
                             PictureScreen()
                         }
+                        composable(Screen.SETTINGS_SCREEN.route){
+                            SettingsScreen()
+                        }
                     }
                     /*
                     Column {

@@ -62,9 +62,9 @@ fun PicturePackCard(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(20.dp))
+            .clickable { navController.navigate(Screen.PICTURE_SELECTION_SCREEN.route) }
             .background(Color.LightGray)
-            .padding(10.dp)
-            .clickable { navController.navigate(Screen.PICTURE_SELECTION_SCREEN.route) },
+            .padding(10.dp),
     ) {
         Text(
             text = picturePack.name,

@@ -67,9 +67,9 @@ fun PictureCard(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(10.dp))
+            .clickable { navController.navigate(Screen.PICTURE_SCREEN.route) }
             .background(Color.LightGray)
             .padding(10.dp)
-            .clickable { navController.navigate(Screen.PICTURE_SCREEN.route) }
     ) {
         Column(modifier = Modifier.weight(1f)) {
             PictureProgressBar()
