@@ -11,7 +11,7 @@
     <string name="dark_mode_setting">Dark mode</string>
     <string name="change_font_setting">Change font</string>
     <string name="reset_progress_setting">Restart progress</string>
-    <string name="reset_progress_question">Do you want to reset progress?</string>
+    <string name="reset_progress_question">Do you want to restart progress?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 </resources>

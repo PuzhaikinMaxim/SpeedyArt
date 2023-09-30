@@ -72,7 +72,7 @@ fun PictureStatText(
 ) {
     Text(
         text = text,
-        fontFamily = FontFamily.getSilverFont(),
+        fontFamily = FontFamily.Silver,
         fontSize = 32.sp,
         textAlign = TextAlign.Start,
     )

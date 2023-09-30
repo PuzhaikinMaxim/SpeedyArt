@@ -1,10 +1,10 @@
 package com.mxpj.speedyart.presentation
 
+import android.content.res.Resources.Theme
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -20,14 +20,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.domain.AppTheme
 
 @Preview
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(appTheme: AppTheme = AppTheme.LIGHT) {
     var isOpened by remember { mutableStateOf(false) }
 
     val onResetClick = {
         isOpened = !isOpened
+    }
+
+    val onNoOptionListener = {
+        isOpened = false
     }
 
     Scaffold() {
@@ -46,15 +51,17 @@ fun SettingsScreen() {
                 ResetProgressSetting(onResetClick)
             }
             Box(modifier = Modifier.align(Alignment.BottomCenter)) {
-                BottomResetProgressModal(isOpened)
+                BottomResetProgressModal(isOpened, onNoOptionListener)
             }
         }
     }
 }
 
 @Composable
-fun BottomResetProgressModal(isOpened: Boolean) {
-    
+fun BottomResetProgressModal(
+    isOpened: Boolean,
+    onNoOptionClick: () -> Unit
+) {
     val progressSlideAnimation by animateDpAsState(
         targetValue = if(isOpened) 200.dp else 0.dp,
         animationSpec = tween(durationMillis = 700)
@@ -78,7 +85,9 @@ fun BottomResetProgressModal(isOpened: Boolean) {
         Row {
             QuestionButton(stringResource(R.string.yes)){}
             Spacer(modifier = Modifier.width(20.dp))
-            QuestionButton(stringResource(R.string.no)){}
+            QuestionButton(stringResource(R.string.no)){
+                onNoOptionClick()
+            }
         }
     }
 }

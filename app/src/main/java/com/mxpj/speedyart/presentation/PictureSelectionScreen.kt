@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.PictureCompletion
 import com.mxpj.speedyart.presentation.navigation.Screen
+import com.mxpj.speedyart.ui.theme.LightGray
 import com.mxpj.speedyart.ui.theme.ProgressBarBackground
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 
@@ -68,7 +69,7 @@ fun PictureCard(
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable { navController.navigate(Screen.PICTURE_SCREEN.route) }
-            .background(Color.LightGray)
+            .background(LightGray)
             .padding(10.dp)
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -168,7 +169,7 @@ fun PictureProgressBar(
                 .align(Alignment.CenterEnd)
                 .padding(end = 5.dp),
             fontFamily = FontFamily.getSilverFont(),
-            fontSize = 20.sp
+            fontSize = 32.sp
         )
     }
 }
