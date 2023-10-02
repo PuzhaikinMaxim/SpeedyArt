@@ -11,11 +11,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.LinearProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
@@ -37,6 +35,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.domain.AppTheme
 import com.mxpj.speedyart.domain.GameResult
 import com.mxpj.speedyart.domain.Picture
 import com.mxpj.speedyart.presentation.*
@@ -69,12 +68,14 @@ class MainActivity : ComponentActivity() {
             fitSize = 600
         ).getPictureBitmap()
         setContent {
-            SpeedyArtTheme {
+            val theme by mainActivityViewModel.theme.observeAsState(AppTheme.LIGHT)
+            SpeedyArtTheme(theme) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
                     val navController = rememberNavController()
+
                     NavHost(navController = navController, startDestination = Screen.PACK_SELECTION_SCREEN.route) {
                         composable(Screen.PACK_SELECTION_SCREEN.route){
                             PicturePackSelectionScreen(navController)
@@ -89,7 +90,9 @@ class MainActivity : ComponentActivity() {
                             PictureScreen()
                         }
                         composable(Screen.SETTINGS_SCREEN.route){
-                            SettingsScreen()
+                            SettingsScreen(theme) {
+                                mainActivityViewModel.changeTheme(it)
+                            }
                         }
                     }
                     /*

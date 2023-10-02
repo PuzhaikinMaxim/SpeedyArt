@@ -1,6 +1,5 @@
 package com.mxpj.speedyart.presentation
 
-import android.content.res.Resources.Theme
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -21,10 +20,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.AppTheme
+import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 @Preview
 @Composable
-fun SettingsScreen(appTheme: AppTheme = AppTheme.LIGHT) {
+fun SettingsScreen(
+    appTheme: AppTheme = AppTheme.LIGHT,
+    onChangeThemeClick: (Boolean) -> Unit = {}
+) {
     var isOpened by remember { mutableStateOf(false) }
 
     val onResetClick = {
@@ -40,13 +43,14 @@ fun SettingsScreen(appTheme: AppTheme = AppTheme.LIGHT) {
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
+                .background(SpeedyArtTheme.colors.background)
         ){
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Spacer(modifier = Modifier.height(20.dp))
-                DarkModeSetting()
+                DarkModeSetting(appTheme, onChangeThemeClick)
                 Spacer(modifier = Modifier.height(20.dp))
                 ResetProgressSetting(onResetClick)
             }
@@ -71,13 +75,13 @@ fun BottomResetProgressModal(
         .fillMaxWidth()
         .clip(shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
         .height(progressSlideAnimation)
-        .background(Color.LightGray),
+        .background(SpeedyArtTheme.colors.primary),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = stringResource(R.string.reset_progress_question),
-            color = Color.Black,
+            color = SpeedyArtTheme.colors.text,
             fontSize = 34.sp,
             fontFamily = FontFamily.Silver
         )
@@ -101,7 +105,7 @@ fun QuestionButton(text: String, onClick: () -> Unit) {
     ) {
         Text(
             text = text,
-            color = Color.Black,
+            color = SpeedyArtTheme.colors.text,
             fontSize = 26.sp,
             fontFamily = FontFamily.Silver
         )
@@ -109,21 +113,28 @@ fun QuestionButton(text: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun DarkModeSetting() {
+fun DarkModeSetting(
+    appTheme: AppTheme = AppTheme.LIGHT,
+    onChangeThemeClick: (Boolean) -> Unit = {}
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             stringResource(R.string.dark_mode_setting),
             fontFamily = FontFamily.Silver,
-            fontSize = 30.sp
+            fontSize = 30.sp,
+            color = SpeedyArtTheme.colors.text
         )
         Spacer(modifier = Modifier.height(10.dp))
-        DarkModeButton()
+        DarkModeButton(appTheme, onChangeThemeClick)
     }
 }
 
 @Composable
-fun DarkModeButton(initialMode: Boolean = false) {
-    var isDarkModeOn by remember { mutableStateOf(initialMode) }
+fun DarkModeButton(
+    appTheme: AppTheme = AppTheme.LIGHT,
+    onChangeThemeClick: (Boolean) -> Unit = {}
+) {
+    var isDarkModeOn by remember { mutableStateOf(appTheme == AppTheme.DARK) }
     CustomSwitch(
         checked = isDarkModeOn,
         thumbSize = 25.dp,
@@ -132,6 +143,7 @@ fun DarkModeButton(initialMode: Boolean = false) {
         strokeWidth = 0.dp
     ){
         isDarkModeOn = !isDarkModeOn
+        onChangeThemeClick(isDarkModeOn)
     }
 }
 
@@ -143,7 +155,8 @@ fun ResetProgressSetting(onResetProgressClick: () -> Unit) {
         Text(
             stringResource(R.string.reset_progress_setting),
             fontFamily = FontFamily.Silver,
-            fontSize = 30.sp
+            fontSize = 30.sp,
+            color = SpeedyArtTheme.colors.text
         )
         Spacer(modifier = Modifier.height(10.dp))
         ResetProgressButton(onResetProgressClick)
@@ -158,7 +171,7 @@ fun ResetProgressButton(onResetProgressClick: () -> Unit) {
             .width(80.dp)
             .height(40.dp),
         shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.LightGray)
+        colors = ButtonDefaults.buttonColors(backgroundColor = SpeedyArtTheme.colors.primary)
     ) {
         Image(
             painter = painterResource(R.drawable.ic_restart_progress),

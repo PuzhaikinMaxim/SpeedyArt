@@ -8,9 +8,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val appThemeRepository: AppThemeRepository
-): ViewModel() {
+): ThemeViewModel(appThemeRepository) {
 
-    fun changeTheme(isDark: Boolean) {
-
-    }
 }
