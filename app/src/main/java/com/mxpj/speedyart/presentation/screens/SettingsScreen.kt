@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.presentation
+package com.mxpj.speedyart.presentation.screens
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
@@ -20,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.AppTheme
+import com.mxpj.speedyart.presentation.CustomSwitch
+import com.mxpj.speedyart.presentation.Silver
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 @Preview
@@ -101,7 +104,7 @@ fun QuestionButton(text: String, onClick: () -> Unit) {
     Button(
         onClick = { onClick() },
         shape = RoundedCornerShape(10.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray)
+        colors = ButtonDefaults.buttonColors(backgroundColor = SpeedyArtTheme.colors.onPrimary)
     ) {
         Text(
             text = text,
@@ -175,7 +178,10 @@ fun ResetProgressButton(onResetProgressClick: () -> Unit) {
     ) {
         Image(
             painter = painterResource(R.drawable.ic_restart_progress),
-            contentDescription = ""
+            contentDescription = "",
+            colorFilter = run {
+                if(SpeedyArtTheme.theme == AppTheme.DARK) ColorFilter.tint(Color.White) else null
+            }
         )
     }
 }

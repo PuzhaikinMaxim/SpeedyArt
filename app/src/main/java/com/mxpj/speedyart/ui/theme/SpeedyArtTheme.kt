@@ -3,7 +3,11 @@ package com.mxpj.speedyart.ui.theme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.staticCompositionLocalOf
 import com.mxpj.speedyart.domain.AppTheme
+
+val LocalTheme = staticCompositionLocalOf { AppTheme.LIGHT }
 
 @Composable
 fun SpeedyArtTheme(
@@ -18,7 +22,10 @@ fun SpeedyArtTheme(
             SpeedyArtColorsDark
         }
     }
-    CompositionLocalProvider(LocalSpeedyArtColors provides colors) {
+    CompositionLocalProvider(
+        LocalSpeedyArtColors provides colors,
+        LocalTheme provides theme
+    ) {
         MaterialTheme(
             typography = Typography,
             shapes = Shapes,
@@ -31,4 +38,7 @@ object SpeedyArtTheme {
     val colors: SpeedyArtColors
         @Composable
         get() = LocalSpeedyArtColors.current
+    val theme: AppTheme
+        @Composable
+        get() = LocalTheme.current
 }

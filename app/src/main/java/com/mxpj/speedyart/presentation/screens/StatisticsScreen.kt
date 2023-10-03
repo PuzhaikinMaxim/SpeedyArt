@@ -1,6 +1,7 @@
-package com.mxpj.speedyart.presentation
+package com.mxpj.speedyart.presentation.screens
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.CircularProgressIndicator
@@ -8,6 +9,9 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,7 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.presentation.Silver
 import com.mxpj.speedyart.ui.theme.ProgressYellow
+import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 @Preview
 @Composable
@@ -29,13 +35,17 @@ fun StatisticsScreen() {
     Scaffold() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(color = SpeedyArtTheme.colors.background)
         ) {
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = stringResource(R.string.completion),
-                fontFamily = FontFamily.getSilverFont(),
-                fontSize = 36.sp
+                fontFamily = FontFamily.Silver,
+                fontSize = 36.sp,
+                color = SpeedyArtTheme.colors.text
             )
             Spacer(modifier = Modifier.height(10.dp))
             GeneralProgress()
@@ -53,21 +63,24 @@ fun GeneralProgress() {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Butt)
     }
 
+    val canvasColor = SpeedyArtTheme.colors.primary
+
     Box() {
         Canvas(modifier = Modifier
             .fillMaxWidth(0.6f)
             .aspectRatio(1f)) {
-            val diameterOffset = stroke.width / 2
-            drawCircle(
-                radius = size.minDimension / 2.0f - diameterOffset,
-                color = LightGray, style = stroke
-            )
+                val diameterOffset = stroke.width / 2
+                drawCircle(
+                    radius = size.minDimension / 2.0f - diameterOffset,
+                    color = canvasColor, style = stroke
+                )
         }
         Text(
             text = "70%",
             modifier = Modifier.align(Alignment.Center),
-            fontFamily = FontFamily.getSilverFont(),
-            fontSize = 42.sp
+            fontFamily = FontFamily.Silver,
+            fontSize = 42.sp,
+            color = SpeedyArtTheme.colors.text
         )
         CircularProgressIndicator(
             progress = 0.8f,
@@ -114,7 +127,8 @@ fun ConcreteProgress(
         Text(
             text = text,
             fontSize = 32.sp,
-            fontFamily = FontFamily.getSilverFont()
+            fontFamily = FontFamily.Silver,
+            color = SpeedyArtTheme.colors.text
         )
         Box() {
             LinearProgressIndicator(
@@ -124,15 +138,16 @@ fun ConcreteProgress(
                     .height(30.dp)
                     .clip(CircleShape),
                 color = ProgressYellow,
-                backgroundColor = LightGray
+                backgroundColor = SpeedyArtTheme.colors.primary
             )
             Text(
                 text = stringResource(R.string.percents, progressInPercents),
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(end = 5.dp),
-                fontFamily = FontFamily.getSilverFont(),
-                fontSize = 28.sp
+                fontFamily = FontFamily.Silver,
+                fontSize = 28.sp,
+                color = SpeedyArtTheme.colors.text
             )
         }
     }

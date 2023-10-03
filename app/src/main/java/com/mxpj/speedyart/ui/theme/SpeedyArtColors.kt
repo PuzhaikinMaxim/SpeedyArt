@@ -11,7 +11,8 @@ data class SpeedyArtColors(
     val text: Color,
     val topBar: Color,
     val primary: Color,
-    val onPrimary: Color
+    val onPrimary: Color,
+    val progressBarBackground: Color
 )
 
 val SpeedyArtColorsLight = SpeedyArtColors(
@@ -20,16 +21,18 @@ val SpeedyArtColorsLight = SpeedyArtColors(
     text = Black,
     topBar = Gray,
     primary = LightGray,
-    onPrimary = Gray
+    onPrimary = Gray,
+    progressBarBackground = ProgressBarBackground
 )
 
 val SpeedyArtColorsDark = SpeedyArtColors(
     background = DarkThemeBackground,
     progressBar = ProgressYellow,
     text = White,
-    topBar = Gray,
+    topBar = DarkThemePrimary,
     primary = DarkThemePrimary,
-    onPrimary = DarkThemeOnPrimary
+    onPrimary = DarkThemeOnPrimary,
+    progressBarBackground = DarkThemeProgressBarBackground
 )
 
 val LocalSpeedyArtColors = staticCompositionLocalOf { SpeedyArtColorsDark }

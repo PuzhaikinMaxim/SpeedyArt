@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.presentation
+package com.mxpj.speedyart.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,10 +27,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.PictureCompletion
+import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.ui.theme.LightGray
 import com.mxpj.speedyart.ui.theme.ProgressBarBackground
 import com.mxpj.speedyart.ui.theme.ProgressYellow
+import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 //@Preview
 @Composable
@@ -49,7 +51,10 @@ fun PictureSelectionScreen(navController: NavController) {
     ) {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(color = SpeedyArtTheme.colors.background)
         ) {
             items(pictureCompletion){
                 Spacer(modifier = Modifier.height(20.dp))
@@ -69,7 +74,7 @@ fun PictureCard(
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable { navController.navigate(Screen.PICTURE_SCREEN.route) }
-            .background(LightGray)
+            .background(SpeedyArtTheme.colors.primary)
             .padding(10.dp)
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -152,7 +157,7 @@ fun PictureProgressBar(
                 .clip(CircleShape)
                 .fillMaxWidth(0.9f),
             color = ProgressYellow,
-            backgroundColor = ProgressBarBackground
+            backgroundColor = SpeedyArtTheme.colors.progressBarBackground
         )
         Image(
             painter = painterResource(R.drawable.ic_checkmark),
@@ -168,8 +173,9 @@ fun PictureProgressBar(
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(end = 5.dp),
-            fontFamily = FontFamily.getSilverFont(),
-            fontSize = 32.sp
+            fontFamily = FontFamily.Silver,
+            fontSize = 32.sp,
+            color = SpeedyArtTheme.colors.text
         )
     }
 }

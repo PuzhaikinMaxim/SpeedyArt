@@ -1,6 +1,7 @@
-package com.mxpj.speedyart.presentation
+package com.mxpj.speedyart.presentation.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -14,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.presentation.*
+import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 @Composable
 @Preview
@@ -21,7 +24,10 @@ fun PictureScreen() {
     Scaffold() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .background(color = SpeedyArtTheme.colors.background)
         ) {
             Spacer(modifier = Modifier.height(20.dp))
             Picture()
@@ -75,5 +81,6 @@ fun PictureStatText(
         fontFamily = FontFamily.Silver,
         fontSize = 32.sp,
         textAlign = TextAlign.Start,
+        color = SpeedyArtTheme.colors.text
     )
 }

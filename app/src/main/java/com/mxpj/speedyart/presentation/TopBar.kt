@@ -15,12 +15,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.presentation.navigation.Screen
+import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 //@Preview
 @Composable
 fun TopBar(navController: NavController) {
     TopAppBar(
-        backgroundColor = Color.Gray,
+        backgroundColor = SpeedyArtTheme.colors.topBar,
         contentColor = Color.Black
     ) {
         TopBarImage(R.drawable.ic_trophy) {

@@ -29,8 +29,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -40,6 +38,8 @@ import com.mxpj.speedyart.domain.GameResult
 import com.mxpj.speedyart.domain.Picture
 import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.presentation.navigation.Screen
+import com.mxpj.speedyart.presentation.screens.*
+import com.mxpj.speedyart.presentation.viewmodels.MainViewModel
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

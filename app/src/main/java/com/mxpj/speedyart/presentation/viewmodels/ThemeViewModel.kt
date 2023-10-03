@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.presentation
+package com.mxpj.speedyart.presentation.viewmodels
 
 import android.content.res.Resources.Theme
 import androidx.lifecycle.LiveData
