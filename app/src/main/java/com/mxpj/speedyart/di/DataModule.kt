@@ -4,6 +4,7 @@ import com.mxpj.speedyart.data.AppThemeRepositoryImpl
 import com.mxpj.speedyart.domain.AppThemeRepository
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
@@ -13,4 +14,9 @@ abstract class DataModule {
 
     @Binds
     abstract fun bindAppThemeRepository(appThemeRepository: AppThemeRepositoryImpl): AppThemeRepository
+
+    companion object {
+
+
+    }
 }
