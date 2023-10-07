@@ -5,7 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "picture_difficulty",
+    tableName = "picture_completion",
     foreignKeys = [ForeignKey(
         entity = PictureDbModel::class,
         parentColumns = arrayOf("id"),
@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class PictureDifficultyDbModel(
+data class PictureCompletionDbModel(
     @PrimaryKey
     val id: Int,
     val picture: Int,

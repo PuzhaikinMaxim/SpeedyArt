@@ -4,18 +4,27 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.mxpj.speedyart.data.database.dao.PackDao
+import com.mxpj.speedyart.data.database.dao.PictureDao
+import com.mxpj.speedyart.data.database.dao.PictureCompletionDao
 import com.mxpj.speedyart.data.database.model.DifficultyDbModel
 import com.mxpj.speedyart.data.database.model.PackDbModel
 import com.mxpj.speedyart.data.database.model.PictureDbModel
-import com.mxpj.speedyart.data.database.model.PictureDifficultyDbModel
+import com.mxpj.speedyart.data.database.model.PictureCompletionDbModel
 
 @Database(entities = [
     DifficultyDbModel::class,
     PackDbModel::class,
     PictureDbModel::class,
-    PictureDifficultyDbModel::class
+    PictureCompletionDbModel::class
 ], version = 1, exportSchema = false)
 abstract class SpeedyArtDatabase: RoomDatabase() {
+
+    abstract fun packDao(): PackDao
+
+    abstract fun pictureDao(): PictureDao
+
+    abstract fun pictureCompletionDao(): PictureCompletionDao
 
     companion object {
 

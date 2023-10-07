@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.mxpj.speedyart.domain.PicturePack
+import com.mxpj.speedyart.domain.Pack
 import com.mxpj.speedyart.presentation.Silver
 import com.mxpj.speedyart.presentation.TopBar
 import com.mxpj.speedyart.presentation.navigation.Screen
@@ -30,9 +30,9 @@ import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 @Composable
 fun PicturePackSelectionScreen(navController: NavController) {
     val lazyListState = rememberLazyListState()
-    val list = mutableListOf<PicturePack>().apply {
+    val list = mutableListOf<Pack>().apply {
         for(i in 0..100){
-            add(PicturePack("Text",Pair(1,1),10,0.5f))
+            add(Pack("Text",Pair(1,1),10,0.5f))
         }
     }
     Scaffold(
@@ -49,7 +49,7 @@ fun PicturePackSelectionScreen(navController: NavController) {
         ) {
             items(list) {
                 Spacer(modifier = Modifier.height(20.dp))
-                PicturePackCard(picturePack = it, navController)
+                PicturePackCard(pack = it, navController)
             }
         }
     }
@@ -57,7 +57,7 @@ fun PicturePackSelectionScreen(navController: NavController) {
 
 @Composable
 fun PicturePackCard(
-    picturePack: PicturePack,
+    pack: Pack,
     navController: NavController
 ) {
     Column(
@@ -69,14 +69,14 @@ fun PicturePackCard(
             .padding(10.dp),
     ) {
         Text(
-            text = picturePack.name,
+            text = pack.name,
             fontFamily = FontFamily.Silver,
             fontSize = 34.sp,
             color = SpeedyArtTheme.colors.text
         )
         Box() {
             LinearProgressIndicator(
-                progress = picturePack.completionPercent,
+                progress = pack.completionPercent,
                 modifier = Modifier
                     .height(25.dp)
                     .clip(CircleShape)
@@ -85,7 +85,7 @@ fun PicturePackCard(
                 backgroundColor = SpeedyArtTheme.colors.progressBarBackground
             )
             Text(
-                text = "${((picturePack.completionPercent*100)).toInt()}%",
+                text = "${((pack.completionPercent*100)).toInt()}%",
                 fontFamily = FontFamily.Silver,
                 fontSize = 28.sp,
                 color = SpeedyArtTheme.colors.text,
@@ -96,14 +96,14 @@ fun PicturePackCard(
         }
         Row() {
             Text(
-                text = "Размер: ${picturePack.size.first} x ${picturePack.size.second}",
+                text = "Размер: ${pack.size.first} x ${pack.size.second}",
                 fontFamily = FontFamily.Silver,
                 fontSize = 28.sp,
                 color = SpeedyArtTheme.colors.text
             )
             Spacer(modifier = Modifier.width(20.dp))
             Text(
-                text = "${picturePack.amountOfImages} изображений",
+                text = "${pack.amountOfImages} изображений",
                 fontFamily = FontFamily.Silver,
                 fontSize = 28.sp,
                 color = SpeedyArtTheme.colors.text

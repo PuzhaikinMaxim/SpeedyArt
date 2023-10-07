@@ -1,6 +1,6 @@
 package com.mxpj.speedyart.domain
 
-data class PicturePack(
+data class Pack(
     val name: String,
     val size: Pair<Int,Int>,
     val amountOfImages: Int,
