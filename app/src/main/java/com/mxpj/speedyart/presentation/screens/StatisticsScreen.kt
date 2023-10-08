@@ -67,6 +67,8 @@ fun GeneralProgress() {
 
     Box() {
         Canvas(modifier = Modifier
+            .widthIn(max = 400.dp)
+            .heightIn(max = 400.dp)
             .fillMaxWidth(0.6f)
             .aspectRatio(1f)) {
                 val diameterOffset = stroke.width / 2
@@ -87,6 +89,8 @@ fun GeneralProgress() {
             strokeWidth = strokeWidth,
             color = ProgressYellow,
             modifier = Modifier
+                .widthIn(max = 400.dp)
+                .heightIn(max = 400.dp)
                 .fillMaxWidth(0.6f)
                 .aspectRatio(1f)
         )

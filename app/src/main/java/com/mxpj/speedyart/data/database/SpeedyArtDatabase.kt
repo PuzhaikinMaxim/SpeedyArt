@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.mxpj.speedyart.data.database.converter.PairConverter
 import com.mxpj.speedyart.data.database.dao.PackDao
 import com.mxpj.speedyart.data.database.dao.PictureDao
 import com.mxpj.speedyart.data.database.dao.PictureCompletionDao
@@ -18,6 +20,7 @@ import com.mxpj.speedyart.data.database.model.PictureCompletionDbModel
     PictureDbModel::class,
     PictureCompletionDbModel::class
 ], version = 1, exportSchema = false)
+@TypeConverters(PairConverter::class)
 abstract class SpeedyArtDatabase: RoomDatabase() {
 
     abstract fun packDao(): PackDao

@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.data
+package com.mxpj.speedyart.data.repositories
 
 import android.content.SharedPreferences
 import com.mxpj.speedyart.domain.AppTheme
