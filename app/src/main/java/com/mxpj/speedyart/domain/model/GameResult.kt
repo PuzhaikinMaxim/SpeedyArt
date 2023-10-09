@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.domain
+package com.mxpj.speedyart.domain.model
 
 enum class GameResult {
     GAME_WON,

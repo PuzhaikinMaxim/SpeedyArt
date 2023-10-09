@@ -3,8 +3,8 @@ package com.mxpj.speedyart.presentation.game
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mxpj.speedyart.domain.GameResult
-import com.mxpj.speedyart.domain.Picture
+import com.mxpj.speedyart.domain.model.GameResult
+import com.mxpj.speedyart.domain.model.Picture
 import kotlinx.coroutines.*
 import kotlin.math.max
 

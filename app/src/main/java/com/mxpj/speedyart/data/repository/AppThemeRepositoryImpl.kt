@@ -1,8 +1,8 @@
-package com.mxpj.speedyart.data.repositories
+package com.mxpj.speedyart.data.repository
 
 import android.content.SharedPreferences
-import com.mxpj.speedyart.domain.AppTheme
-import com.mxpj.speedyart.domain.AppThemeRepository
+import com.mxpj.speedyart.domain.model.AppTheme
+import com.mxpj.speedyart.domain.repository.AppThemeRepository
 import javax.inject.Inject
 
 class AppThemeRepositoryImpl @Inject constructor(

@@ -1,14 +1,14 @@
-package com.mxpj.speedyart.data.database.queryresults
+package com.mxpj.speedyart.data.database.queryresult
 
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.mxpj.speedyart.data.database.model.PictureDbModel
 import com.mxpj.speedyart.data.database.model.PictureCompletionDbModel
 
-data class PictureWithDifficultyProgress(
+data class PictureWithCompletion(
     @Embedded
     val picture: PictureDbModel,
     @Relation(entity = PictureCompletionDbModel::class, parentColumn = "id", entityColumn = "picture")
-    val pictureCompletionWithDifficultyProgresses: List<PictureCompletionWithDifficulty>
+    val completionWithDifficultyList: List<CompletionWithDifficulty>
 ) {
 }

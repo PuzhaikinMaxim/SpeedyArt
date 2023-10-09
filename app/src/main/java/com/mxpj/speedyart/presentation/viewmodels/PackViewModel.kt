@@ -1,7 +1,7 @@
 package com.mxpj.speedyart.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.mxpj.speedyart.domain.PackRepository
+import com.mxpj.speedyart.domain.repository.PackRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

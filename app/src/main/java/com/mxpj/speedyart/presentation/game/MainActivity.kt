@@ -33,9 +33,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mxpj.speedyart.R
-import com.mxpj.speedyart.domain.AppTheme
-import com.mxpj.speedyart.domain.GameResult
-import com.mxpj.speedyart.domain.Picture
+import com.mxpj.speedyart.domain.model.AppTheme
+import com.mxpj.speedyart.domain.model.GameResult
+import com.mxpj.speedyart.domain.model.Picture
 import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.presentation.screens.*

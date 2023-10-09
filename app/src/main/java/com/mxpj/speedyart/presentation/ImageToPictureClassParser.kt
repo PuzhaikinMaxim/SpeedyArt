@@ -3,8 +3,8 @@ package com.mxpj.speedyart.presentation
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.core.graphics.get
-import com.mxpj.speedyart.domain.Cell
-import com.mxpj.speedyart.domain.Picture
+import com.mxpj.speedyart.domain.model.Cell
+import com.mxpj.speedyart.domain.model.Picture
 
 class ImageToPictureClassParser {
 

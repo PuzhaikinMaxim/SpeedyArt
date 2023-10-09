@@ -1,7 +1,8 @@
-package com.mxpj.speedyart.presentation
+package com.mxpj.speedyart.domain.model
 
 import androidx.compose.ui.graphics.Color
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.presentation.DifficultyStatus
 import com.mxpj.speedyart.ui.theme.DifficultyGreen
 import com.mxpj.speedyart.ui.theme.DifficultyRed
 import com.mxpj.speedyart.ui.theme.DifficultyYellow

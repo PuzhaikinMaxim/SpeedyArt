@@ -1,14 +1,14 @@
 package com.mxpj.speedyart.di
 
 import android.content.Context
-import com.mxpj.speedyart.data.repositories.AppThemeRepositoryImpl
+import com.mxpj.speedyart.data.repository.AppThemeRepositoryImpl
 import com.mxpj.speedyart.data.database.SpeedyArtDatabase
 import com.mxpj.speedyart.data.database.dao.PackDao
 import com.mxpj.speedyart.data.database.dao.PictureCompletionDao
 import com.mxpj.speedyart.data.database.dao.PictureDao
-import com.mxpj.speedyart.data.repositories.PackRepositoryImpl
-import com.mxpj.speedyart.domain.AppThemeRepository
-import com.mxpj.speedyart.domain.PackRepository
+import com.mxpj.speedyart.data.repository.PackRepositoryImpl
+import com.mxpj.speedyart.domain.repository.AppThemeRepository
+import com.mxpj.speedyart.domain.repository.PackRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

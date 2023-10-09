@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.mxpj.speedyart.domain.Pack
+import com.mxpj.speedyart.domain.model.Pack
 import com.mxpj.speedyart.presentation.Silver
 import com.mxpj.speedyart.presentation.TopBar
 import com.mxpj.speedyart.presentation.navigation.Screen

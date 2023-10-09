@@ -15,6 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.domain.model.LevelEasy
+import com.mxpj.speedyart.domain.model.LevelHard
+import com.mxpj.speedyart.domain.model.LevelMedium
 import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 

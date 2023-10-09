@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.domain
+package com.mxpj.speedyart.domain.model
 
 data class Pack(
     val name: String,

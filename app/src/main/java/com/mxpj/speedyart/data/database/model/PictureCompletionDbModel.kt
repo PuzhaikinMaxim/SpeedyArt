@@ -22,11 +22,20 @@ data class PictureCompletionDbModel(
     @PrimaryKey
     val id: Int,
     val picture: Int,
-    val isLocked: Boolean,
-    val isPassed: Boolean,
-    val isPerfect: Boolean,
+    val completionStatus: String,
     val amountOfMistakes: Int,
     val difficulty: String,
     val time: Int
 ) {
+
+    companion object {
+
+        const val STATUS_LOCKED = "locked"
+
+        const val STATUS_UNLOCKED = "unlocked"
+
+        const val STATUS_COMPLETED = "completed"
+
+        const val STATUS_PERFECT = "perfect"
+    }
 }

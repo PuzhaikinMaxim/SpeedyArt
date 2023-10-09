@@ -26,11 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mxpj.speedyart.R
-import com.mxpj.speedyart.domain.PictureCompletion
+import com.mxpj.speedyart.domain.model.*
 import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.presentation.navigation.Screen
-import com.mxpj.speedyart.ui.theme.LightGray
-import com.mxpj.speedyart.ui.theme.ProgressBarBackground
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 

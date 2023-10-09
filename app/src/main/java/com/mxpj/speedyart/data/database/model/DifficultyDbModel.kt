@@ -10,4 +10,13 @@ data class DifficultyDbModel(
     val name: String,
     val unlocking: String
 ) {
+
+    companion object {
+
+        const val DIFFICULTY_EASY = "easy"
+
+        const val DIFFICULTY_MEDIUM = "medium"
+
+        const val DIFFICULTY_HARD = "hard"
+    }
 }

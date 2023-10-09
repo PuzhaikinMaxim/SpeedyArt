@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.domain
+package com.mxpj.speedyart.domain.model
 
 data class Picture(
     val gridCells: List<List<Cell>>,

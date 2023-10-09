@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mxpj.speedyart.R
-import com.mxpj.speedyart.domain.AppTheme
+import com.mxpj.speedyart.domain.model.AppTheme
 import com.mxpj.speedyart.presentation.CustomSwitch
 import com.mxpj.speedyart.presentation.Silver
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme

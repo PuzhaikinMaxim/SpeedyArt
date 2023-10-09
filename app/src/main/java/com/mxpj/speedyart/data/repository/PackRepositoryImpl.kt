@@ -1,11 +1,11 @@
-package com.mxpj.speedyart.data.repositories
+package com.mxpj.speedyart.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.mxpj.speedyart.data.database.dao.PackDao
-import com.mxpj.speedyart.data.mappers.PackMapper
-import com.mxpj.speedyart.domain.Pack
-import com.mxpj.speedyart.domain.PackRepository
+import com.mxpj.speedyart.data.mapper.PackMapper
+import com.mxpj.speedyart.domain.model.Pack
+import com.mxpj.speedyart.domain.repository.PackRepository
 import javax.inject.Inject
 
 class PackRepositoryImpl @Inject constructor(

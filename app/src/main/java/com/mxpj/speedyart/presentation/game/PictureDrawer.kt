@@ -1,8 +1,8 @@
 package com.mxpj.speedyart.presentation.game
 
 import android.graphics.*
-import com.mxpj.speedyart.domain.Cell
-import com.mxpj.speedyart.domain.Picture
+import com.mxpj.speedyart.domain.model.Cell
+import com.mxpj.speedyart.domain.model.Picture
 
 class PictureDrawer(
     private val picture: Picture,

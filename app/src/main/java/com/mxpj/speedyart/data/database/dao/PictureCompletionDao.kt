@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Update
 import com.mxpj.speedyart.data.database.model.PictureCompletionDbModel
-import com.mxpj.speedyart.domain.PictureCompletion
 
 @Dao
 interface PictureCompletionDao {

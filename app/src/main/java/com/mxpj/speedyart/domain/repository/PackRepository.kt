@@ -1,6 +1,7 @@
-package com.mxpj.speedyart.domain
+package com.mxpj.speedyart.domain.repository
 
 import androidx.lifecycle.LiveData
+import com.mxpj.speedyart.domain.model.Pack
 
 interface PackRepository {
 

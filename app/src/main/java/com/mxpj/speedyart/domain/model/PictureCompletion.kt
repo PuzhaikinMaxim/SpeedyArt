@@ -1,6 +1,5 @@
-package com.mxpj.speedyart.domain
+package com.mxpj.speedyart.domain.model
 
-import com.mxpj.speedyart.presentation.DifficultyLevel
 import com.mxpj.speedyart.presentation.DifficultyStatus
 import com.mxpj.speedyart.presentation.toIntInPercent
 

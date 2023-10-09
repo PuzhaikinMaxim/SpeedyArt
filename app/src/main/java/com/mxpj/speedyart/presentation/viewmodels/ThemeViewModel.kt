@@ -1,11 +1,10 @@
 package com.mxpj.speedyart.presentation.viewmodels
 
-import android.content.res.Resources.Theme
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mxpj.speedyart.domain.AppTheme
-import com.mxpj.speedyart.domain.AppThemeRepository
+import com.mxpj.speedyart.domain.model.AppTheme
+import com.mxpj.speedyart.domain.repository.AppThemeRepository
 
 abstract class ThemeViewModel(private val appThemeRepository: AppThemeRepository): ViewModel() {
 
