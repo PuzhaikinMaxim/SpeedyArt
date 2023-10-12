@@ -6,5 +6,7 @@ import com.mxpj.speedyart.domain.model.PictureCompletion
 
 interface PictureRepository {
 
-    fun getPictureCompletionList(): LiveData<List<PictureCompletion>>
+    suspend fun getPictureCompletionList(pack: String): List<PictureCompletion>
+
+    suspend fun getPictureCompletion(id: Int): PictureCompletion
 }

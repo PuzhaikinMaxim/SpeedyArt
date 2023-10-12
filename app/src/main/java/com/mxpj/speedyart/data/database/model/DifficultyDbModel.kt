@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class DifficultyDbModel(
     @PrimaryKey
     val name: String,
-    val unlocking: String
+    val unlocking: String = ""
 ) {
 
     companion object {

@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class PictureCompletionDbModel(
+data class CompletionDbModel(
     @PrimaryKey
     val id: Int,
     val picture: Int,

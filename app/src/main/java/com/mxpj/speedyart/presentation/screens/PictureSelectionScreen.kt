@@ -81,7 +81,7 @@ fun PictureCard(
             Difficulties(pictureCompletion.difficulties)
         }
         Image(
-            bitmap = PixelImageProvider.getPixelImageBitmap(pictureCompletion.pictureResource),
+            bitmap = PixelImageProvider.getPixelImageBitmap(pictureCompletion.pictureAsset),
             contentDescription = "",
             filterQuality = FilterQuality.None,
             modifier = Modifier

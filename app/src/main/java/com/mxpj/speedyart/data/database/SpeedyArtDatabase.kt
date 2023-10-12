@@ -12,13 +12,13 @@ import com.mxpj.speedyart.data.database.dao.PictureCompletionDao
 import com.mxpj.speedyart.data.database.model.DifficultyDbModel
 import com.mxpj.speedyart.data.database.model.PackDbModel
 import com.mxpj.speedyart.data.database.model.PictureDbModel
-import com.mxpj.speedyart.data.database.model.PictureCompletionDbModel
+import com.mxpj.speedyart.data.database.model.CompletionDbModel
 
 @Database(entities = [
     DifficultyDbModel::class,
     PackDbModel::class,
     PictureDbModel::class,
-    PictureCompletionDbModel::class
+    CompletionDbModel::class
 ], version = 1, exportSchema = false)
 @TypeConverters(PairConverter::class)
 abstract class SpeedyArtDatabase: RoomDatabase() {

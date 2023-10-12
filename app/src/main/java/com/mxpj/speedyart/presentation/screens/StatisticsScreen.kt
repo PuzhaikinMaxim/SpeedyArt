@@ -107,12 +107,15 @@ fun ConcreteProgresses() {
             progressInPercents = 50
         )
         Spacer(modifier = Modifier.height(10.dp))
+        /*
         ConcreteProgress(
             text = stringResource(R.string.amount_stars, 5, 10),
             progress = 0.5f,
             progressInPercents = 50
         )
         Spacer(modifier = Modifier.height(10.dp))
+
+         */
         ConcreteProgress(
             text = stringResource(R.string.amount_trophies, 5, 10),
             progress = 1.0f,

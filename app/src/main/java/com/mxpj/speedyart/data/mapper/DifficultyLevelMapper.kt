@@ -1,7 +1,7 @@
 package com.mxpj.speedyart.data.mapper
 
 import com.mxpj.speedyart.data.database.model.DifficultyDbModel
-import com.mxpj.speedyart.data.database.model.PictureCompletionDbModel
+import com.mxpj.speedyart.data.database.model.CompletionDbModel
 import com.mxpj.speedyart.data.database.queryresult.CompletionWithDifficulty
 import com.mxpj.speedyart.domain.model.DifficultyLevel
 import com.mxpj.speedyart.domain.model.LevelEasy
@@ -21,7 +21,7 @@ class DifficultyLevelMapper @Inject constructor() {
     fun mapCompletionWithDifficultyToDifficultyLevel(
         completionWithDifficulty: CompletionWithDifficulty
     ): DifficultyLevel {
-        val status = getStatus(completionWithDifficulty.pictureCompletionDbModel)
+        val status = getStatus(completionWithDifficulty.completionDbModel)
         return getDifficulty(completionWithDifficulty.difficultyDbModel.name, status)
     }
 
@@ -40,18 +40,18 @@ class DifficultyLevelMapper @Inject constructor() {
         }
     }
 
-    private fun getStatus(pictureCompletionDbModel: PictureCompletionDbModel): DifficultyStatus {
+    private fun getStatus(completionDbModel: CompletionDbModel): DifficultyStatus {
         return completionStatuses[
-                pictureCompletionDbModel.completionStatus
+                completionDbModel.completionStatus
         ] ?: throw RuntimeException("Status not exist")
     }
 
     companion object {
         private val completionStatuses = mapOf(
-            PictureCompletionDbModel.STATUS_LOCKED to DifficultyStatus.LOCKED,
-            PictureCompletionDbModel.STATUS_UNLOCKED to DifficultyStatus.UNLOCKED,
-            PictureCompletionDbModel.STATUS_COMPLETED to DifficultyStatus.COMPLETED,
-            PictureCompletionDbModel.STATUS_PERFECT to DifficultyStatus.PERFECT
+            CompletionDbModel.STATUS_LOCKED to DifficultyStatus.LOCKED,
+            CompletionDbModel.STATUS_UNLOCKED to DifficultyStatus.UNLOCKED,
+            CompletionDbModel.STATUS_COMPLETED to DifficultyStatus.COMPLETED,
+            CompletionDbModel.STATUS_PERFECT to DifficultyStatus.PERFECT
         )
     }
 }
