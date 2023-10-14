@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PackViewModel @Inject constructor(
+class PackSelectionViewModel @Inject constructor(
     private val packRepository: PackRepository
 ): ViewModel() {
 
