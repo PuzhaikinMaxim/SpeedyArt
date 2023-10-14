@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.mxpj.speedyart.domain.model.Pack
 import com.mxpj.speedyart.presentation.Silver
 import com.mxpj.speedyart.presentation.TopBar
+import com.mxpj.speedyart.presentation.navigation.PictureSelectionNavParams
 import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
@@ -64,7 +65,7 @@ fun PicturePackCard(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(20.dp))
-            .clickable { navController.navigate(Screen.PICTURE_SELECTION_SCREEN.route) }
+            .clickable { navController.navigate(PictureSelectionNavParams.buildRoute("w")) }
             .background(color = SpeedyArtTheme.colors.primary)
             .padding(10.dp),
     ) {

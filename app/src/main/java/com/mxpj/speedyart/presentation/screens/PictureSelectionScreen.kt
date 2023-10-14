@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.*
 import com.mxpj.speedyart.presentation.*
+import com.mxpj.speedyart.presentation.navigation.PictureNavParams
 import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
@@ -71,7 +72,7 @@ fun PictureCard(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(10.dp))
-            .clickable { navController.navigate(Screen.PICTURE_SCREEN.route) }
+            .clickable { navController.navigate(PictureNavParams.buildRoute(1)) }
             .background(SpeedyArtTheme.colors.primary)
             .padding(10.dp)
     ) {

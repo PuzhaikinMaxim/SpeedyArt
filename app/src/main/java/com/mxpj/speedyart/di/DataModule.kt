@@ -7,8 +7,10 @@ import com.mxpj.speedyart.data.database.dao.PackDao
 import com.mxpj.speedyart.data.database.dao.PictureCompletionDao
 import com.mxpj.speedyart.data.database.dao.PictureDao
 import com.mxpj.speedyart.data.repository.PackRepositoryImpl
+import com.mxpj.speedyart.data.repository.PictureRepositoryImpl
 import com.mxpj.speedyart.domain.repository.AppThemeRepository
 import com.mxpj.speedyart.domain.repository.PackRepository
+import com.mxpj.speedyart.domain.repository.PictureRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,6 +27,9 @@ abstract class DataModule {
 
     @Binds
     abstract fun bindPackRepository(packRepository: PackRepositoryImpl): PackRepository
+
+    @Binds
+    abstract fun bindPictureRepository(pictureRepository: PictureRepositoryImpl): PictureRepository
 
     companion object {
 

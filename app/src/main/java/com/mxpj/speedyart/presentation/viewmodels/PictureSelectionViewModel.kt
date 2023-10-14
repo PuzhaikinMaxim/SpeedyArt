@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mxpj.speedyart.domain.model.PictureCompletion
 import com.mxpj.speedyart.domain.repository.PictureRepository
-import com.mxpj.speedyart.presentation.PictureSelectionNavParams
+import com.mxpj.speedyart.presentation.navigation.PictureSelectionNavParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
