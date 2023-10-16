@@ -3,6 +3,7 @@ package com.mxpj.speedyart.data.repository
 import com.mxpj.speedyart.data.database.dao.PictureCompletionDao
 import com.mxpj.speedyart.data.database.model.CompletionDbModel
 import com.mxpj.speedyart.data.database.queryresult.CompletionWithDifficulty
+import com.mxpj.speedyart.data.database.queryresult.TotalCompletion
 import com.mxpj.speedyart.domain.model.Game
 import com.mxpj.speedyart.domain.model.GameResult
 import com.mxpj.speedyart.domain.repository.PictureCompletionRepository
@@ -30,4 +31,11 @@ class PictureCompletionRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getTotalCompletion(): TotalCompletion {
+        return pictureCompletionDao.getTotalCompletion()
+    }
+
+    override suspend fun resetProgress() {
+        pictureCompletionDao.clearCompletion()
+    }
 }

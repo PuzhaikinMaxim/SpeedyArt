@@ -1,6 +1,7 @@
 package com.mxpj.speedyart.domain.repository
 
 import com.mxpj.speedyart.data.database.queryresult.CompletionWithDifficulty
+import com.mxpj.speedyart.data.database.queryresult.TotalCompletion
 import com.mxpj.speedyart.domain.model.Game
 
 interface PictureCompletionRepository {
@@ -9,4 +10,7 @@ interface PictureCompletionRepository {
         game: Game,
         gameCompletionWithDifficulty: CompletionWithDifficulty
     )
+
+    suspend fun getTotalCompletion(): TotalCompletion
+    suspend fun resetProgress()
 }
