@@ -14,10 +14,10 @@ import androidx.room.PrimaryKey
     )]
 )
 data class PictureDbModel(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val pack: Int,
+    val pack: String,
     val assetLink: String,
-    val bestTime: Int
+    val bestTime: Int? = null
 ) {
 }

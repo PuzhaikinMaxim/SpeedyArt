@@ -37,7 +37,7 @@ import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 @Composable
 fun PictureSelectionScreen(navController: NavController) {
     val pictureCompletion = listOf(
-        PictureCompletion(R.drawable.heart, listOf(
+        PictureCompletion(1,R.drawable.heart, listOf(
             LevelEasy(DifficultyStatus.PERFECT),
             LevelMedium(DifficultyStatus.COMPLETED),
             LevelHard(DifficultyStatus.UNLOCKED)

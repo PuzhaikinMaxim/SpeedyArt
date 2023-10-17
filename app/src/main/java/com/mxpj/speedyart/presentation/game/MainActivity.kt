@@ -33,6 +33,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.mxpj.speedyart.R
+import com.mxpj.speedyart.data.database.DatabaseDataInserter
 import com.mxpj.speedyart.domain.model.AppTheme
 import com.mxpj.speedyart.domain.model.GameResult
 import com.mxpj.speedyart.domain.model.Picture
@@ -43,6 +44,7 @@ import com.mxpj.speedyart.presentation.viewmodels.MainViewModel
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -52,6 +54,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var viewModel: GameViewModel
 
     private val mainActivityViewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var databaseDataInserter: DatabaseDataInserter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

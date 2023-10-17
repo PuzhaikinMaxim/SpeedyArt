@@ -19,13 +19,13 @@ import androidx.room.PrimaryKey
     )]
 )
 data class CompletionDbModel(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val picture: Int,
     val completionStatus: String,
-    val amountOfMistakes: Int,
+    val amountOfMistakes: Int?,
     val difficulty: String,
-    val time: Int
+    val time: Int?
 ) {
 
     companion object {

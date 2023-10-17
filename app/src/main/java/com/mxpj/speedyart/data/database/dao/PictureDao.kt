@@ -1,16 +1,13 @@
 package com.mxpj.speedyart.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.mxpj.speedyart.data.database.model.PictureDbModel
 import com.mxpj.speedyart.data.database.queryresult.PictureWithCompletion
 
 @Dao
 interface PictureDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPictureList(pictureDbModelList: List<PictureDbModel>)
 
     @Query("SELECT * FROM picture pic JOIN picture_completion p ON p.picture = pic.id JOIN difficulty d ON d.name = p.difficulty WHERE pic.pack = :pack")

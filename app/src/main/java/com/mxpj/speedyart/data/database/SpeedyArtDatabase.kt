@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mxpj.speedyart.data.database.converter.PairConverter
+import com.mxpj.speedyart.data.database.dao.DifficultyDao
 import com.mxpj.speedyart.data.database.dao.PackDao
 import com.mxpj.speedyart.data.database.dao.PictureDao
 import com.mxpj.speedyart.data.database.dao.PictureCompletionDao
@@ -28,6 +29,8 @@ abstract class SpeedyArtDatabase: RoomDatabase() {
     abstract fun pictureDao(): PictureDao
 
     abstract fun pictureCompletionDao(): PictureCompletionDao
+
+    abstract fun difficultyDao(): DifficultyDao
 
     companion object {
 

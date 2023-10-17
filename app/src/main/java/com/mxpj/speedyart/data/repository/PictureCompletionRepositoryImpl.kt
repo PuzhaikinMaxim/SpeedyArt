@@ -3,14 +3,17 @@ package com.mxpj.speedyart.data.repository
 import com.mxpj.speedyart.data.database.dao.PictureCompletionDao
 import com.mxpj.speedyart.data.database.model.CompletionDbModel
 import com.mxpj.speedyart.data.database.queryresult.CompletionWithDifficulty
-import com.mxpj.speedyart.data.database.queryresult.TotalCompletion
+import com.mxpj.speedyart.data.database.queryresult.TotalCompletionQueryResult
+import com.mxpj.speedyart.data.mapper.TotalCompletionMapper
 import com.mxpj.speedyart.domain.model.Game
 import com.mxpj.speedyart.domain.model.GameResult
+import com.mxpj.speedyart.domain.model.TotalCompletion
 import com.mxpj.speedyart.domain.repository.PictureCompletionRepository
 import javax.inject.Inject
 
 class PictureCompletionRepositoryImpl @Inject constructor(
-    private val pictureCompletionDao: PictureCompletionDao
+    private val pictureCompletionDao: PictureCompletionDao,
+    private val totalCompletionMapper: TotalCompletionMapper
 ): PictureCompletionRepository {
 
     override suspend fun changePictureCompletion(
@@ -32,7 +35,9 @@ class PictureCompletionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTotalCompletion(): TotalCompletion {
-        return pictureCompletionDao.getTotalCompletion()
+        return totalCompletionMapper.mapTotalCompletionQueryResultToTotalCompletion(
+            pictureCompletionDao.getTotalCompletion()
+        )
     }
 
     override suspend fun resetProgress() {

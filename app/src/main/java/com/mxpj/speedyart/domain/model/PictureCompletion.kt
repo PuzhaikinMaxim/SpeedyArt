@@ -4,6 +4,7 @@ import com.mxpj.speedyart.presentation.DifficultyStatus
 import com.mxpj.speedyart.presentation.toIntInPercent
 
 data class PictureCompletion(
+    val id: Int,
     val pictureAsset: Int,
     val difficulties: List<DifficultyLevel>
 ) {

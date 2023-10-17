@@ -18,6 +18,7 @@ class PictureMapper @Inject constructor(
         pictureWithCompletion: PictureWithCompletion
     ): PictureCompletion {
         return PictureCompletion(
+            pictureWithCompletion.picture.id,
             pictureWithCompletion.picture.assetLink.toInt(),
             difficultyLevelMapper.mapCompletionWithDifficultyListToDifficultyLevelList(
                 pictureWithCompletion.completionWithDifficultyList
