@@ -22,6 +22,7 @@ class DatabaseDataInserter @Inject constructor(
 ) {
 
     init {
+        /*
         val coroutineScope = CoroutineScope(Dispatchers.IO)
         coroutineScope.launch {
             insertDifficulties()
@@ -29,6 +30,8 @@ class DatabaseDataInserter @Inject constructor(
             insertPictures()
             insertPictureCompletions()
         }
+
+         */
     }
 
     private suspend fun insertDifficulties() {

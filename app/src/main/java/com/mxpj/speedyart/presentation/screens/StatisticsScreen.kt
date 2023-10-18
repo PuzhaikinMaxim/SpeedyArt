@@ -9,29 +9,28 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.presentation.Silver
+import com.mxpj.speedyart.presentation.toIntInPercent
+import com.mxpj.speedyart.presentation.viewmodels.StatisticsViewModel
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
-@Preview
+//@Preview
 @Composable
-fun StatisticsScreen() {
+fun StatisticsScreen(statisticsViewModel: StatisticsViewModel = hiltViewModel()) {
     Scaffold() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -48,20 +47,22 @@ fun StatisticsScreen() {
                 color = SpeedyArtTheme.colors.text
             )
             Spacer(modifier = Modifier.height(10.dp))
-            GeneralProgress()
+            GeneralProgress(statisticsViewModel)
             Spacer(modifier = Modifier.height(30.dp))
-            ConcreteProgresses()
+            ConcreteProgresses(statisticsViewModel)
         }
     }
 }
 
-@Preview
+//@Preview
 @Composable
-fun GeneralProgress() {
+fun GeneralProgress(statisticsViewModel: StatisticsViewModel) {
     val strokeWidth = 20.dp
     val stroke = with(LocalDensity.current) {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Butt)
     }
+
+    val totalProgress = statisticsViewModel.totalCompletion.value
 
     val canvasColor = SpeedyArtTheme.colors.primary
 
@@ -97,14 +98,19 @@ fun GeneralProgress() {
     }
 }
 
-@Preview
+//@Preview
 @Composable
-fun ConcreteProgresses() {
+fun ConcreteProgresses(statisticsViewModel: StatisticsViewModel) {
+    val progress = statisticsViewModel.totalCompletion.observeAsState()
     Column(modifier = Modifier.fillMaxWidth(0.8f)/*.background(Gray)*/) {
         ConcreteProgress(
-            text = stringResource(R.string.amount_pictures_completed, 5, 10),
-            progress = 0.5f,
-            progressInPercents = 50
+            text = stringResource(
+                R.string.amount_pictures_completed,
+                progress.value?.completedAmount ?: 0,
+                progress.value?.total ?: 0
+            ),
+            progress = progress.value?.completedPercent ?: 0f,
+            progressInPercents = progress.value?.completedPercent?.toIntInPercent() ?: 0
         )
         Spacer(modifier = Modifier.height(10.dp))
         /*
@@ -117,9 +123,13 @@ fun ConcreteProgresses() {
 
          */
         ConcreteProgress(
-            text = stringResource(R.string.amount_trophies, 5, 10),
-            progress = 1.0f,
-            progressInPercents = 100
+            text = stringResource(
+                R.string.amount_trophies,
+                progress.value?.perfectAmount ?: 0,
+                progress.value?.total ?: 0
+            ),
+            progress = progress.value?.completedPercent ?: 0f,
+            progressInPercents = progress.value?.perfectPercent?.toIntInPercent() ?: 0
         )
     }
 }

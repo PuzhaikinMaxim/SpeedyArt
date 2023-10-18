@@ -25,6 +25,9 @@ interface PictureCompletionDao {
     @Query("UPDATE picture_completion SET completionStatus = 'unlocked' WHERE difficulty =:unlocking AND picture =:pictureId")
     fun unlockNextDifficulty(pictureId: Int, unlocking: String)
 
-    @Query("SELECT count(*) as total, count(p.completionStatus is 'completed' OR p.completionStatus is 'perfect') as completed, count(p.completionStatus is 'perfect') as perfect FROM picture_completion p")
+    @Query("SELECT count(*) as total, " +
+            "sum(CASE WHEN p.completionStatus is 'completed' OR p.completionStatus is 'perfect' THEN 1 ELSE 0 END) as completed, " +
+            "sum(CASE WHEN p.completionStatus is 'perfect' THEN 1 ELSE 0 END) as perfect " +
+            "FROM picture_completion p")
     fun getTotalCompletion(): TotalCompletionQueryResult
 }
