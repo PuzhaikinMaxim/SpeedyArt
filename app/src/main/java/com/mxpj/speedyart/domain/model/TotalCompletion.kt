@@ -5,5 +5,6 @@ data class TotalCompletion(
     val perfectAmount: Int,
     val completedAmount: Int,
     val perfectPercent: Float,
-    val completedPercent: Float
+    val completedPercent: Float,
+    val totalCompletionPercent: Float
 )

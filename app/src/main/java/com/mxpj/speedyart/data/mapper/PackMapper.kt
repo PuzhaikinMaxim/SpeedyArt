@@ -7,7 +7,9 @@ import javax.inject.Inject
 class PackMapper @Inject constructor() {
 
     fun mapPackWithProgressListToPack(list: List<PackWithCompletion>): List<Pack> {
-        return list.map { mapPackWithProgressToPack(it) }
+        return list.map {
+            mapPackWithProgressToPack(it)
+        }
     }
 
     fun mapPackWithProgressToPack(packWithCompletion: PackWithCompletion): Pack {
@@ -23,13 +25,12 @@ class PackMapper @Inject constructor() {
         with(packWithCompletion) {
             val amountToComplete =
                 pictures * DIFFICULTIES_IN_PICTURE * DIFFICULTY_PROGRESS_MULTIPLIER
-            return (perfect.toFloat() * PERFECT_WEIGHT + completed) / amountToComplete
+            return (perfect.toFloat() + completed) / amountToComplete
         }
     }
 
     companion object {
         private const val DIFFICULTIES_IN_PICTURE = 3
         private const val DIFFICULTY_PROGRESS_MULTIPLIER = 2
-        private const val PERFECT_WEIGHT = 2
     }
 }

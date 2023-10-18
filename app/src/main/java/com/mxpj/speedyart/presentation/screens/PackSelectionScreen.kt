@@ -12,30 +12,32 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mxpj.speedyart.domain.model.Pack
 import com.mxpj.speedyart.presentation.Silver
 import com.mxpj.speedyart.presentation.TopBar
 import com.mxpj.speedyart.presentation.navigation.PictureSelectionNavParams
-import com.mxpj.speedyart.presentation.navigation.Screen
+import com.mxpj.speedyart.presentation.viewmodels.PackSelectionViewModel
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 //@Preview
 @Composable
-fun PicturePackSelectionScreen(navController: NavController) {
+fun PicturePackSelectionScreen(
+    navController: NavController,
+    packSelectionViewModel: PackSelectionViewModel = hiltViewModel()
+) {
     val lazyListState = rememberLazyListState()
-    val list = mutableListOf<Pack>().apply {
-        for(i in 0..100){
-            add(Pack("Text",Pair(1,1),10,0.5f))
-        }
-    }
+    val packList by packSelectionViewModel.packList.observeAsState()
     Scaffold(
         topBar = {
             TopBar(navController)
@@ -48,7 +50,7 @@ fun PicturePackSelectionScreen(navController: NavController) {
                 .fillMaxWidth()
                 .background(color = SpeedyArtTheme.colors.background)
         ) {
-            items(list) {
+            items(packList ?: listOf()) {
                 Spacer(modifier = Modifier.height(20.dp))
                 PicturePackCard(pack = it, navController)
             }

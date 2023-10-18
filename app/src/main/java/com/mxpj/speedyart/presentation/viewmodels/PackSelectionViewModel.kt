@@ -10,5 +10,5 @@ class PackSelectionViewModel @Inject constructor(
     private val packRepository: PackRepository
 ): ViewModel() {
 
-    private val packList = packRepository.getPackWithProgressList()
+    val packList = packRepository.getPackWithProgressList()
 }

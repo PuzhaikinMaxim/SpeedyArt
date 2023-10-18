@@ -12,7 +12,21 @@ import javax.inject.Inject
 @Dao
 interface PackDao {
 
-    @Query("SELECT p.name, p.size, COUNT(pic.id) AS pictures, COUNT(dif.completionStatus IS 'completed') AS completed, COUNT(dif.completionStatus IS 'perfect') AS perfect FROM pack p JOIN picture pic on p.name = pic.pack JOIN picture_completion dif ON dif.picture = pic.id GROUP BY p.name")
+    @Query("SELECT p.name, " +
+            "p.size, " +
+            "COUNT(pic.id) AS pictures, " +
+            "sum(pic.completed) AS completed, " +
+            "sum(pic.perfect) AS perfect " +
+            "FROM pack p " +
+            "JOIN (" +
+            "SELECT picture.id, picture.pack, " +
+            "sum(CASE WHEN dif.completionStatus IS 'completed' THEN 1 ELSE 0 END) AS completed, " +
+            "sum(CASE WHEN dif.completionStatus IS 'perfect' THEN 1 ELSE 0 END) AS perfect " +
+            "FROM picture " +
+            "JOIN picture_completion dif ON dif.picture = picture.id " +
+            "GROUP BY picture.id" +
+            ") as pic on p.name = pic.pack " +
+            "GROUP BY p.name")
     fun getPackListWithProgress(): LiveData<List<PackWithCompletion>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

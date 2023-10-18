@@ -9,6 +9,7 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,7 +63,7 @@ fun GeneralProgress(statisticsViewModel: StatisticsViewModel) {
         Stroke(width = strokeWidth.toPx(), cap = StrokeCap.Butt)
     }
 
-    val totalProgress = statisticsViewModel.totalCompletion.value
+    val totalProgress by statisticsViewModel.totalCompletion.observeAsState()
 
     val canvasColor = SpeedyArtTheme.colors.primary
 
@@ -79,14 +80,17 @@ fun GeneralProgress(statisticsViewModel: StatisticsViewModel) {
                 )
         }
         Text(
-            text = "70%",
+            text = stringResource(
+                R.string.percents,
+                totalProgress?.totalCompletionPercent?.toIntInPercent() ?: 0
+            ),
             modifier = Modifier.align(Alignment.Center),
             fontFamily = FontFamily.Silver,
             fontSize = 42.sp,
             color = SpeedyArtTheme.colors.text
         )
         CircularProgressIndicator(
-            progress = 0.8f,
+            progress = totalProgress?.totalCompletionPercent ?: 0f,
             strokeWidth = strokeWidth,
             color = ProgressYellow,
             modifier = Modifier
@@ -101,35 +105,26 @@ fun GeneralProgress(statisticsViewModel: StatisticsViewModel) {
 //@Preview
 @Composable
 fun ConcreteProgresses(statisticsViewModel: StatisticsViewModel) {
-    val progress = statisticsViewModel.totalCompletion.observeAsState()
-    Column(modifier = Modifier.fillMaxWidth(0.8f)/*.background(Gray)*/) {
+    val progress by statisticsViewModel.totalCompletion.observeAsState()
+    Column(modifier = Modifier.fillMaxWidth(0.8f)) {
         ConcreteProgress(
             text = stringResource(
                 R.string.amount_pictures_completed,
-                progress.value?.completedAmount ?: 0,
-                progress.value?.total ?: 0
+                progress?.completedAmount ?: 0,
+                progress?.total ?: 0
             ),
-            progress = progress.value?.completedPercent ?: 0f,
-            progressInPercents = progress.value?.completedPercent?.toIntInPercent() ?: 0
+            progress = progress?.completedPercent ?: 0f,
+            progressInPercents = progress?.completedPercent?.toIntInPercent() ?: 0
         )
         Spacer(modifier = Modifier.height(10.dp))
-        /*
-        ConcreteProgress(
-            text = stringResource(R.string.amount_stars, 5, 10),
-            progress = 0.5f,
-            progressInPercents = 50
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-
-         */
         ConcreteProgress(
             text = stringResource(
                 R.string.amount_trophies,
-                progress.value?.perfectAmount ?: 0,
-                progress.value?.total ?: 0
+                progress?.perfectAmount ?: 0,
+                progress?.total ?: 0
             ),
-            progress = progress.value?.completedPercent ?: 0f,
-            progressInPercents = progress.value?.perfectPercent?.toIntInPercent() ?: 0
+            progress = progress?.perfectPercent ?: 0f,
+            progressInPercents = progress?.perfectPercent?.toIntInPercent() ?: 0
         )
     }
 }
