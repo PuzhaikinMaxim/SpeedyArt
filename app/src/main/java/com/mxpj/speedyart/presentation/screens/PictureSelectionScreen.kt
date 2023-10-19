@@ -12,6 +12,8 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,25 +26,24 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.*
 import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.presentation.navigation.PictureNavParams
 import com.mxpj.speedyart.presentation.navigation.Screen
+import com.mxpj.speedyart.presentation.viewmodels.PictureSelectionViewModel
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 //@Preview
 @Composable
-fun PictureSelectionScreen(navController: NavController) {
-    val pictureCompletion = listOf(
-        PictureCompletion(1,R.drawable.heart, listOf(
-            LevelEasy(DifficultyStatus.PERFECT),
-            LevelMedium(DifficultyStatus.COMPLETED),
-            LevelHard(DifficultyStatus.UNLOCKED)
-        ))
-    )
+fun PictureSelectionScreen(
+    navController: NavController,
+    pictureSelectionViewModel: PictureSelectionViewModel = hiltViewModel()
+) {
+    val pictureCompletionList by pictureSelectionViewModel.pictureList.observeAsState()
     Scaffold(
         topBar = {
             TopBar(navController)
@@ -55,7 +56,7 @@ fun PictureSelectionScreen(navController: NavController) {
                 .fillMaxHeight()
                 .background(color = SpeedyArtTheme.colors.background)
         ) {
-            items(pictureCompletion){
+            items(pictureCompletionList ?: listOf()){
                 Spacer(modifier = Modifier.height(20.dp))
                 PictureCard(it, navController)
             }
@@ -77,7 +78,9 @@ fun PictureCard(
             .padding(10.dp)
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            PictureProgressBar()
+            with(pictureCompletion){
+                PictureProgressBar(completionPercent, completionPercent.toIntInPercent())
+            }
             Spacer(modifier = Modifier.height(15.dp))
             Difficulties(pictureCompletion.difficulties)
         }
@@ -158,6 +161,7 @@ fun PictureProgressBar(
             color = ProgressYellow,
             backgroundColor = SpeedyArtTheme.colors.progressBarBackground
         )
+        /*
         Image(
             painter = painterResource(R.drawable.ic_checkmark),
             contentDescription = "",
@@ -167,6 +171,7 @@ fun PictureProgressBar(
                 .padding(start = 5.dp)
                 .height(25.dp)
         )
+        */
         Text(
             text = stringResource(R.string.percents, progressInPercent),
             modifier = Modifier

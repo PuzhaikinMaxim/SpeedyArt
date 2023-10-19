@@ -95,9 +95,9 @@ class MainActivity : ComponentActivity() {
                             PictureScreen()
                         }
                         composable(Screen.SETTINGS_SCREEN.route){
-                            SettingsScreen(theme) {
+                            SettingsScreen(theme, {
                                 mainActivityViewModel.changeTheme(it)
-                            }
+                            })
                         }
                     }
                     /*

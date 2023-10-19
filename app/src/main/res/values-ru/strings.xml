@@ -13,6 +13,7 @@
     <string name="change_font_setting">Изменить шрифт</string>
     <string name="reset_progress_setting">Сбросить прогресс</string>
     <string name="reset_progress_question">Сбросить прогресс?</string>
+    <string name="reset_progress_toast">Прогресс был сброшен</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
 </resources>

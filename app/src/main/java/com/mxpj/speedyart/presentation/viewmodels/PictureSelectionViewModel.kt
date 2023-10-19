@@ -18,7 +18,7 @@ class PictureSelectionViewModel @Inject constructor(
     private val pictureRepository: PictureRepository
 ): ViewModel() {
 
-    private val pictureList =  MutableLiveData<List<PictureCompletion>>()
+    val pictureList =  MutableLiveData<List<PictureCompletion>>()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {

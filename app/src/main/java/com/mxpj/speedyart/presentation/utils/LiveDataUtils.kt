@@ -1,4 +1,4 @@
-package com.mxpj.speedyart.presentation
+package com.mxpj.speedyart.presentation.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect

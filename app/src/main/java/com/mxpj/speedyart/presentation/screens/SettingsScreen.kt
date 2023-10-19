@@ -1,5 +1,6 @@
 package com.mxpj.speedyart.presentation.screens
 
+import android.widget.Toast
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -13,31 +14,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.AppTheme
 import com.mxpj.speedyart.presentation.CustomSwitch
 import com.mxpj.speedyart.presentation.Silver
+import com.mxpj.speedyart.presentation.utils.observeStateChange
+import com.mxpj.speedyart.presentation.viewmodels.SettingsViewModel
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
-@Preview
+//@Preview
 @Composable
 fun SettingsScreen(
     appTheme: AppTheme = AppTheme.LIGHT,
-    onChangeThemeClick: (Boolean) -> Unit = {}
+    onChangeThemeClick: (Boolean) -> Unit = {},
+    settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
     var isOpened by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+
+    settingsViewModel.progressReset.observeStateChange {
+        Toast.makeText(context, R.string.reset_progress_toast, Toast.LENGTH_LONG).show()
+    }
 
     val onResetClick = {
         isOpened = !isOpened
     }
 
     val onNoOptionListener = {
+        isOpened = false
+    }
+
+    val onYesOptionListener = {
+        settingsViewModel.resetProgress()
         isOpened = false
     }
 
@@ -58,7 +74,7 @@ fun SettingsScreen(
                 ResetProgressSetting(onResetClick)
             }
             Box(modifier = Modifier.align(Alignment.BottomCenter)) {
-                BottomResetProgressModal(isOpened, onNoOptionListener)
+                BottomResetProgressModal(isOpened, onYesOptionListener, onNoOptionListener)
             }
         }
     }
@@ -67,6 +83,7 @@ fun SettingsScreen(
 @Composable
 fun BottomResetProgressModal(
     isOpened: Boolean,
+    onYesOptionClick: () -> Unit,
     onNoOptionClick: () -> Unit
 ) {
     val progressSlideAnimation by animateDpAsState(
@@ -90,7 +107,9 @@ fun BottomResetProgressModal(
         )
         Spacer(modifier = Modifier.height(20.dp))
         Row {
-            QuestionButton(stringResource(R.string.yes)){}
+            QuestionButton(stringResource(R.string.yes)){
+                onYesOptionClick()
+            }
             Spacer(modifier = Modifier.width(20.dp))
             QuestionButton(stringResource(R.string.no)){
                 onNoOptionClick()
