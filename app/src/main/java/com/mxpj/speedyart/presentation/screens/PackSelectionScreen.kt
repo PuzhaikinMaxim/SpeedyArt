@@ -17,9 +17,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mxpj.speedyart.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mxpj.speedyart.domain.model.Pack
@@ -81,7 +83,7 @@ fun PicturePackCard(
             LinearProgressIndicator(
                 progress = pack.completionPercent,
                 modifier = Modifier
-                    .height(25.dp)
+                    .height(30.dp)
                     .clip(CircleShape)
                     .fillMaxWidth(),
                 color = ProgressYellow,
@@ -90,23 +92,23 @@ fun PicturePackCard(
             Text(
                 text = "${((pack.completionPercent*100)).toInt()}%",
                 fontFamily = FontFamily.Silver,
-                fontSize = 28.sp,
+                fontSize = 32.sp,
                 color = SpeedyArtTheme.colors.text,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
-                    .padding(end = 10.dp)
+                    .padding(end = 5.dp)
             )
         }
         Row() {
             Text(
-                text = "Размер: ${pack.size.first} x ${pack.size.second}",
+                text = stringResource(R.string.size, pack.size.first, pack.size.second),
                 fontFamily = FontFamily.Silver,
                 fontSize = 28.sp,
                 color = SpeedyArtTheme.colors.text
             )
             Spacer(modifier = Modifier.width(20.dp))
             Text(
-                text = "${pack.amountOfImages} изображений",
+                text = stringResource(R.string.pack_pictures_amount, pack.picturesAmount),
                 fontFamily = FontFamily.Silver,
                 fontSize = 28.sp,
                 color = SpeedyArtTheme.colors.text

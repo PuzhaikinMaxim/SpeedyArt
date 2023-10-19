@@ -16,7 +16,7 @@ interface PictureCompletionDao {
     @Update
     suspend fun updatePictureCompletion(completionDbModel: CompletionDbModel)
 
-    @Query("UPDATE picture_completion SET completionStatus = 'locked'")
+    @Query("UPDATE picture_completion SET completionStatus = CASE WHEN difficulty != 'easy' THEN 'locked' ELSE 'unlocked' END")
     fun clearCompletion()
 
     @Query("SELECT * FROM picture_completion p WHERE p.id = :id")

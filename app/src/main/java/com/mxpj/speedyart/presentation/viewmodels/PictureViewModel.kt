@@ -4,9 +4,11 @@ import androidx.lifecycle.*
 import com.mxpj.speedyart.domain.model.PictureCompletion
 import com.mxpj.speedyart.domain.repository.PictureRepository
 import com.mxpj.speedyart.presentation.navigation.PictureNavParams
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class PictureViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val pictureRepository: PictureRepository
@@ -19,7 +21,7 @@ class PictureViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val picture =
-                savedStateHandle.get<Int>(PictureNavParams.packArg)
+                savedStateHandle.get<String>(PictureNavParams.packArg)?.toInt()
                     ?: throw RuntimeException("Picture nav arg is null")
             _pictureCompletion.postValue(pictureRepository.getPictureCompletion(picture))
         }

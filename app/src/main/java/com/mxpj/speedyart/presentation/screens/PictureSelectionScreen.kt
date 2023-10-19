@@ -29,10 +29,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mxpj.speedyart.R
-import com.mxpj.speedyart.domain.model.*
+import com.mxpj.speedyart.domain.model.DifficultyLevel
+import com.mxpj.speedyart.domain.model.LevelMedium
+import com.mxpj.speedyart.domain.model.PictureCompletion
 import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.presentation.navigation.PictureNavParams
-import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.presentation.viewmodels.PictureSelectionViewModel
 import com.mxpj.speedyart.ui.theme.ProgressYellow
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
