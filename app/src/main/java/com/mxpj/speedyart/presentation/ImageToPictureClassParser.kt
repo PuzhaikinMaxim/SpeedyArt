@@ -5,8 +5,9 @@ import android.graphics.BitmapFactory
 import androidx.core.graphics.get
 import com.mxpj.speedyart.domain.model.Cell
 import com.mxpj.speedyart.domain.model.Picture
+import javax.inject.Inject
 
-class ImageToPictureClassParser {
+class ImageToPictureClassParser @Inject constructor() {
 
     private val colorPalette = HashMap<Int, Int>()
 

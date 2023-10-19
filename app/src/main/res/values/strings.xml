@@ -9,8 +9,9 @@
     <string name="diffoculty_hard">Hard</string>
     <string name="percents">%d\%%</string>
     <string name="size">Size: %d x %d</string>
-    <string name="best_time">Best time: %s</string>
-    <string name="cells_to_fill">Cells to fill: %s</string>
+    <string name="best_time">Best time: %dm %ds</string>
+    <string name="best_time_default">Best time: No</string>
+    <string name="cells_to_fill">Cells to fill: %d</string>
     <string name="pack_pictures_amount">%d pictures</string>
     <string name="dark_mode_setting">Dark mode</string>
     <string name="change_font_setting">Change font</string>

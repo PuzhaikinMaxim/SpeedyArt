@@ -11,6 +11,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,10 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mxpj.speedyart.R
-import com.mxpj.speedyart.domain.model.DifficultyLevel
-import com.mxpj.speedyart.domain.model.LevelEasy
-import com.mxpj.speedyart.domain.model.LevelHard
-import com.mxpj.speedyart.domain.model.LevelMedium
+import com.mxpj.speedyart.domain.model.*
 import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.presentation.viewmodels.PictureViewModel
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
@@ -31,7 +29,7 @@ import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 fun PictureScreen(
     pictureViewModel: PictureViewModel = hiltViewModel()
 ) {
-    val pictureCompletion by pictureViewModel.pictureCompletion.observeAsState()
+    val pictureStatistics by pictureViewModel.pictureCompletion.observeAsState()
 
     Scaffold() {
         Column(
@@ -42,18 +40,20 @@ fun PictureScreen(
                 .background(color = SpeedyArtTheme.colors.background)
         ) {
             Spacer(modifier = Modifier.height(20.dp))
-            Picture()
+            Picture(pictureStatistics?.pictureCompletion?.pictureAsset ?: R.drawable.heart_test)
             Spacer(modifier = Modifier.height(15.dp))
-            PictureStats()
+            PictureStats(pictureStatistics)
             Spacer(modifier = Modifier.height(20.dp))
-            DifficultyLevels(pictureCompletion?.difficulties ?: listOf())
+            DifficultyLevels(
+                pictureStatistics?.pictureCompletion?.difficulties ?: listOf()
+            )
         }
     }
 }
 
 @Composable
-fun Picture() {
-    val bitmap = PixelImageProvider.getPixelImageBitmap(R.drawable.ic_health)
+fun Picture(resource: Int) {
+    val bitmap = PixelImageProvider.getPixelImageBitmap(resource)
     Image(
         bitmap,
         contentDescription = "",
@@ -65,11 +65,34 @@ fun Picture() {
 }
 
 @Composable
-fun PictureStats() {
+fun PictureStats(pictureStatistics: PictureStatistics?) {
+    if(pictureStatistics == null) return
     Column(Modifier.fillMaxWidth(0.8f)) {
+        if(pictureStatistics.time == null) {
+            PictureStatText(stringResource(R.string.best_time_default))
+        }
+        else{
+            PictureStatText(stringResource(
+                R.string.best_time,
+                pictureStatistics.time.first,
+                pictureStatistics.time.second
+            ))
+        }
+        PictureStatText(stringResource(
+            R.string.size,
+            pictureStatistics.size.first,
+            pictureStatistics.size.second
+        ))
+        PictureStatText(stringResource(
+            R.string.cells_to_fill,
+            pictureStatistics.amountOfCells
+        ))
+        /*
         PictureStatText("Лучшее время: 5 мин 6 сек")
         PictureStatText("Размер: 64 x 64")
         PictureStatText("Клетки для закраски: 180")
+
+         */
     }
 }
 

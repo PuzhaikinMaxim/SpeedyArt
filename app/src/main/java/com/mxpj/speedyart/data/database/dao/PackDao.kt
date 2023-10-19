@@ -20,7 +20,7 @@ interface PackDao {
             "FROM pack p " +
             "JOIN (" +
             "SELECT picture.id, picture.pack, " +
-            "sum(CASE WHEN dif.completionStatus IS 'completed' THEN 1 ELSE 0 END) AS completed, " +
+            "sum(CASE WHEN dif.completionStatus IS 'completed' OR dif.completionStatus is 'perfect' THEN 1 ELSE 0 END) AS completed, " +
             "sum(CASE WHEN dif.completionStatus IS 'perfect' THEN 1 ELSE 0 END) AS perfect " +
             "FROM picture " +
             "JOIN picture_completion dif ON dif.picture = picture.id " +

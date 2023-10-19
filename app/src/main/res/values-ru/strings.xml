@@ -10,8 +10,9 @@
     <string name="diffoculty_hard">Сложный</string>
     <string name="percents">%d\%%</string>
     <string name="size">Размер: %d x %d</string>
-    <string name="best_time">Лучшее время: %s</string>
-    <string name="cells_to_fill">Клеток для закраски: %s</string>
+    <string name="best_time">Лучшее время: %dм %dс</string>
+    <string name="best_time_default">Лучшее время: Нет</string>
+    <string name="cells_to_fill">Клеток для закраски: %d</string>
     <string name="pack_pictures_amount">%d изображений</string>
     <string name="dark_mode_setting">Темный режим</string>
     <string name="change_font_setting">Изменить шрифт</string>
