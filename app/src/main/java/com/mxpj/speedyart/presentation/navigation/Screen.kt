@@ -5,5 +5,6 @@ enum class Screen(val route: String) {
     PICTURE_SELECTION_SCREEN(PictureSelectionNavParams.route),
     STATISTICS_SCREEN("statistics_screen"),
     PICTURE_SCREEN(PictureNavParams.route),
-    SETTINGS_SCREEN("settings_screen")
+    SETTINGS_SCREEN("settings_screen"),
+    GAME_SCREEN("game_screen")
 }

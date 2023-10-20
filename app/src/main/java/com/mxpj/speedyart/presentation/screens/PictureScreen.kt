@@ -2,6 +2,7 @@ package com.mxpj.speedyart.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -18,15 +19,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.*
 import com.mxpj.speedyart.presentation.*
+import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.presentation.viewmodels.PictureViewModel
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 @Composable
 //@Preview
 fun PictureScreen(
+    navController: NavController,
     pictureViewModel: PictureViewModel = hiltViewModel()
 ) {
     val pictureStatistics by pictureViewModel.pictureCompletion.observeAsState()
@@ -45,7 +49,8 @@ fun PictureScreen(
             PictureStats(pictureStatistics)
             Spacer(modifier = Modifier.height(20.dp))
             DifficultyLevels(
-                pictureStatistics?.pictureCompletion?.difficulties ?: listOf()
+                pictureStatistics?.pictureCompletion?.difficulties ?: listOf(),
+                navController
             )
         }
     }
@@ -87,30 +92,16 @@ fun PictureStats(pictureStatistics: PictureStatistics?) {
             R.string.cells_to_fill,
             pictureStatistics.amountOfCells
         ))
-        /*
-        PictureStatText("Лучшее время: 5 мин 6 сек")
-        PictureStatText("Размер: 64 x 64")
-        PictureStatText("Клетки для закраски: 180")
-
-         */
     }
 }
 
 @Composable
-fun DifficultyLevels(difficultyLevels: List<DifficultyLevel>) {
+fun DifficultyLevels(difficultyLevels: List<DifficultyLevel>, navController: NavController) {
     Column() {
         for(difficultyLevel in difficultyLevels.reversed()){
-            DifficultyLevelButton(difficultyLevel)
+            DifficultyLevelButton(difficultyLevel, navController = navController)
             Spacer(modifier = Modifier.height(10.dp))
         }
-        /*
-        DifficultyLevelButton(LevelHard(DifficultyStatus.LOCKED))
-        Spacer(modifier = Modifier.height(10.dp))
-        DifficultyLevelButton(LevelMedium(DifficultyStatus.UNLOCKED))
-        Spacer(modifier = Modifier.height(10.dp))
-        DifficultyLevelButton(LevelEasy(DifficultyStatus.PERFECT))
-
-         */
     }
 }
 

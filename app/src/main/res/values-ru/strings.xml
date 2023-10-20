@@ -7,7 +7,9 @@
     <string name="completion">Статистика по выполнению</string>
     <string name="difficulty_easy">Легкий</string>
     <string name="difficulty_medium">Средний</string>
-    <string name="diffoculty_hard">Сложный</string>
+    <string name="difficulty_hard">Сложный</string>
+    <string name="game_lost_message">Вы проиграли</string>
+    <string name="game_won_message">Вы победили</string>
     <string name="percents">%d\%%</string>
     <string name="size">Размер: %d x %d</string>
     <string name="best_time">Лучшее время: %dм %dс</string>

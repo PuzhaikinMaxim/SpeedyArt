@@ -1,7 +1,9 @@
 package com.mxpj.speedyart.domain.model
 
-enum class GameResult {
-    GAME_WON,
-    GAME_LOST,
-    GAME_CONTINUING
+import com.mxpj.speedyart.R
+
+enum class GameResult(val msg: Int? = null) {
+    GAME_WON(R.string.game_won_message),
+    GAME_LOST(R.string.game_lost_message),
+    GAME_CONTINUING()
 }

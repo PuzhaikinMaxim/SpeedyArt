@@ -22,5 +22,5 @@ class LevelMedium(status: DifficultyStatus): DifficultyLevel(
 )
 
 class LevelHard(status: DifficultyStatus): DifficultyLevel(
-    DifficultyRed, R.string.diffoculty_hard,status
+    DifficultyRed, R.string.difficulty_hard,status
 )

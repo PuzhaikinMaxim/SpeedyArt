@@ -6,7 +6,9 @@
     <string name="completion">Completion statistics</string>
     <string name="difficulty_easy">Easy</string>
     <string name="difficulty_medium">Medium</string>
-    <string name="diffoculty_hard">Hard</string>
+    <string name="difficulty_hard">Hard</string>
+    <string name="game_lost_message">You lose</string>
+    <string name="game_won_message">You won</string>
     <string name="percents">%d\%%</string>
     <string name="size">Size: %d x %d</string>
     <string name="best_time">Best time: %dm %ds</string>

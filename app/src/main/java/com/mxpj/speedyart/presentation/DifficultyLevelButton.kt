@@ -16,16 +16,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.DifficultyLevel
+import com.mxpj.speedyart.presentation.navigation.Screen
 
 @Composable
-fun DifficultyLevelButton(difficultyLevel: DifficultyLevel) {
+fun DifficultyLevelButton(
+    difficultyLevel: DifficultyLevel,
+    navController: NavController
+) {
     when(difficultyLevel.status){
-        DifficultyStatus.LOCKED -> DifficultyLockedButton(difficultyLevel)
-        DifficultyStatus.UNLOCKED -> DifficultyUnlockedButton(difficultyLevel)
-        DifficultyStatus.COMPLETED -> DifficultyCompletedButton(difficultyLevel)
-        DifficultyStatus.PERFECT -> DifficultyPerfectButton(difficultyLevel)
+        DifficultyStatus.LOCKED -> DifficultyLockedButton(difficultyLevel, navController)
+        DifficultyStatus.UNLOCKED -> DifficultyUnlockedButton(difficultyLevel, navController)
+        DifficultyStatus.COMPLETED -> DifficultyCompletedButton(difficultyLevel, navController)
+        DifficultyStatus.PERFECT -> DifficultyPerfectButton(difficultyLevel, navController)
     }
 }
 
@@ -33,11 +38,12 @@ fun DifficultyLevelButton(difficultyLevel: DifficultyLevel) {
 fun BaseDifficultyButton(
     backgroundColor: Color,
     difficultyNameResourceId: Int,
+    onClickListener: () -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
     Button(
         shape = RoundedCornerShape(5.dp),
-        onClick = { /*TODO*/ },
+        onClick = { onClickListener() },
         modifier = Modifier
             .height(45.dp)
             .fillMaxWidth(0.8f)
@@ -56,10 +62,11 @@ fun BaseDifficultyButton(
 }
 
 @Composable
-fun DifficultyLockedButton(difficultyLevel: DifficultyLevel) {
+fun DifficultyLockedButton(difficultyLevel: DifficultyLevel, navController: NavController) {
     BaseDifficultyButton(
         backgroundColor = Color.Gray,
-        difficultyNameResourceId = difficultyLevel.textResource
+        difficultyNameResourceId = difficultyLevel.textResource,
+        { navController.navigate(Screen.GAME_SCREEN.route) }
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
@@ -74,20 +81,22 @@ fun DifficultyLockedButton(difficultyLevel: DifficultyLevel) {
 }
 
 @Composable
-fun DifficultyUnlockedButton(difficultyLevel: DifficultyLevel) {
+fun DifficultyUnlockedButton(difficultyLevel: DifficultyLevel, navController: NavController) {
     BaseDifficultyButton(
         backgroundColor = difficultyLevel.color,
-        difficultyNameResourceId = difficultyLevel.textResource
+        difficultyNameResourceId = difficultyLevel.textResource,
+        { navController.navigate(Screen.GAME_SCREEN.route) }
     ) {
         Spacer(modifier = Modifier.weight(1f))
     }
 }
 
 @Composable
-fun DifficultyCompletedButton(difficultyLevel: DifficultyLevel) {
+fun DifficultyCompletedButton(difficultyLevel: DifficultyLevel, navController: NavController) {
     BaseDifficultyButton(
         backgroundColor = difficultyLevel.color,
-        difficultyNameResourceId = difficultyLevel.textResource
+        difficultyNameResourceId = difficultyLevel.textResource,
+        { navController.navigate(Screen.GAME_SCREEN.route) }
     ) {
         Spacer(modifier = Modifier.width(10.dp))
         Image(
@@ -100,10 +109,11 @@ fun DifficultyCompletedButton(difficultyLevel: DifficultyLevel) {
 }
 
 @Composable
-fun DifficultyPerfectButton(difficultyLevel: DifficultyLevel) {
+fun DifficultyPerfectButton(difficultyLevel: DifficultyLevel, navController: NavController) {
     BaseDifficultyButton(
         backgroundColor = difficultyLevel.color,
-        difficultyNameResourceId = difficultyLevel.textResource
+        difficultyNameResourceId = difficultyLevel.textResource,
+        { navController.navigate(Screen.GAME_SCREEN.route) }
     ) {
         Spacer(modifier = Modifier.width(10.dp))
         Image(
