@@ -78,7 +78,7 @@ private suspend fun startProgressBarAnimation(animatable: Animatable<Float, Anim
     animatable.snapTo(0f)
     animatable.animateTo(
         targetValue = 1f,
-        animationSpec = tween(GameViewModel.EIGHT_SECONDS.toInt(), easing = LinearEasing)
+        animationSpec = tween(8000, easing = LinearEasing)
     )
 }
 

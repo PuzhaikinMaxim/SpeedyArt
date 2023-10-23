@@ -5,5 +5,4 @@ data class Pack(
     val size: Pair<Int,Int>,
     val picturesAmount: Int,
     val completionPercent: Float
-) {
-}
+)

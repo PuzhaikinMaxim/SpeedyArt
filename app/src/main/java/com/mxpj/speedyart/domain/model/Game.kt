@@ -6,5 +6,4 @@ data class Game(
     val time: Int,
     val amountOfMistakes: Int,
     val result: GameResult
-) {
-}
+)
