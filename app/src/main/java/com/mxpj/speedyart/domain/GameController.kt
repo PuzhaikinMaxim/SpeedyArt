@@ -59,6 +59,9 @@ class GameController(
             )
             picture!!.colorsAmount[color] = amountOfCellsWithColor
             picture = picture
+            gameColorsData = gameColorsData.copy(
+                coloredCellsAmount = getColoredCellsAmount()
+            )
             gameTimer.reset()
             setGameWonIfNoUnfilledCells()
         }
