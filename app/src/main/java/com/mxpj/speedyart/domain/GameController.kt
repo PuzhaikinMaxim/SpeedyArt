@@ -1,11 +1,9 @@
 package com.mxpj.speedyart.domain
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.mxpj.speedyart.domain.model.Cell
 import com.mxpj.speedyart.domain.model.GameColorsData
 import com.mxpj.speedyart.domain.model.GameResult
 import com.mxpj.speedyart.domain.model.Picture
-import javax.inject.Inject
 import kotlin.math.max
 import kotlin.properties.Delegates
 
@@ -35,18 +33,30 @@ class GameController(
         gameResult = GameResult.GAME_LOST
     }
 
+    private lateinit var neighborCellOffset: List<Pair<Int, Int>>
+
     fun startGame(newPicture: Picture) {
         picture = newPicture
+        neighborCellOffset = offsetFor16x16
         gameTimer.start()
     }
 
     fun paintCell(cellPosition: Pair<Int, Int>) {
+        if(gameResult != GameResult.GAME_CONTINUING) return
         val color = gameColorsData.selectedColor
         val cell = picture!!.getCell(cellPosition.first, cellPosition.second)
         if(color != null && color == cell.rightColor && cell.rightColor != cell.currentColor){
             cell.currentColor = color
             picture!!.unfilledCells.remove(cellPosition)
-            val amountOfCellsWithColor = max(picture!!.colorsAmount[color]!! - 1,0)
+            val neighborCellsWithSelectedColor = getAvailableForRecolorNeighborCells(cellPosition)
+            setRightColorForNeighborCells(neighborCellsWithSelectedColor)
+            for(neighborCell in neighborCellsWithSelectedColor){
+                picture!!.unfilledCells.remove(Pair(neighborCell.xPosition, neighborCell.yPosition))
+            }
+            val amountOfCellsWithColor = max(
+                picture!!.colorsAmount[color]!! - 1 - neighborCellsWithSelectedColor.size,
+                0
+            )
             picture!!.colorsAmount[color] = amountOfCellsWithColor
             picture = picture
             gameTimer.reset()
@@ -73,6 +83,25 @@ class GameController(
             coloredCellsMap[color] = colorCellAmount
         }
         return coloredCellsMap
+    }
+
+    private fun getAvailableForRecolorNeighborCells(cell: Pair<Int, Int>): List<Cell> {
+        val existingCells = neighborCellOffset.mapNotNull {
+            val x = cell.first + it.first
+            val y = cell.second + it.second
+            picture!!.gridCells.getOrNull(y)?.getOrNull(x)
+        }
+        val cellsWithSelectedColor = existingCells.filter {
+            val selectedColor = gameColorsData.selectedColor
+            selectedColor == it.rightColor && it.rightColor != it.currentColor
+        }
+        return cellsWithSelectedColor
+    }
+
+    private fun setRightColorForNeighborCells(neighborCells: List<Cell>) {
+        for(cell in neighborCells){
+            cell.currentColor = cell.rightColor
+        }
     }
 
     private fun setGameWonIfNoUnfilledCells() {
