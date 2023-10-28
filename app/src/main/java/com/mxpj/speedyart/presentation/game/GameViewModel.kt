@@ -21,7 +21,8 @@ import kotlin.math.max
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    val gameCountdown: GameCountdown
 ): ViewModel(), GameControllerObserver {
 
     private val _picture = MutableLiveData<Picture>()
@@ -44,6 +45,10 @@ class GameViewModel @Inject constructor(
     val shouldStopTimer: LiveData<Boolean>
         get() = _shouldStopTimer
 
+    private val _shouldShowStartGameModal = MutableLiveData(true)
+    val shouldShowStartGameModal: LiveData<Boolean>
+        get() = _shouldShowStartGameModal
+
     private val _gameResult = MutableLiveData(GameResult.GAME_CONTINUING)
     val gameResult: LiveData<GameResult>
         get() = _gameResult
@@ -59,7 +64,10 @@ class GameViewModel @Inject constructor(
             PixelImageProvider.getPixelBitmap(R.drawable.heart)
         )
         _pictureBitmap.value = getPictureBitmap()
-        gameController.startGame(_picture.value!!)
+        gameCountdown.startCountdown {
+            gameController.startGame(_picture.value!!)
+            _shouldShowStartGameModal.postValue(false)
+        }
     }
 
     override fun onPictureChange(picture: Picture) {

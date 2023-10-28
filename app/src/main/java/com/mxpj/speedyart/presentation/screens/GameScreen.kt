@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mxpj.speedyart.domain.model.GameResult
 import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.presentation.GameStartModal
 import com.mxpj.speedyart.presentation.game.ColorPalette
 import com.mxpj.speedyart.presentation.game.GameViewModel
 import com.mxpj.speedyart.presentation.game.PlayerHealth
@@ -42,16 +43,19 @@ fun GameScreen(
     gameViewModel: GameViewModel = hiltViewModel()
 ) {
     val picture by gameViewModel.picture.observeAsState()
-
-    Column {
-        ZoomImage(gameViewModel, picture!!)
-        //Greeting("Android")
-        //MistakesAmount()
-        ColorPalette(colors = picture!!.availablePalette, gameViewModel = gameViewModel)
-        Timer(gameViewModel)
-        PlayerHealth(gameViewModel = gameViewModel)
+    val shouldShowStartGameModal by gameViewModel.shouldShowStartGameModal.observeAsState()
+    Box() {
+        Column {
+            ZoomImage(gameViewModel, picture!!)
+            ColorPalette(colors = picture!!.availablePalette, gameViewModel = gameViewModel)
+            Timer(gameViewModel)
+            PlayerHealth(gameViewModel = gameViewModel)
+        }
+        if(shouldShowStartGameModal == true){
+            GameStartModal(gameViewModel = gameViewModel)
+        }
+        GameEndMessage(gameViewModel)
     }
-    GameEndMessage(gameViewModel)
 }
 
 @Composable

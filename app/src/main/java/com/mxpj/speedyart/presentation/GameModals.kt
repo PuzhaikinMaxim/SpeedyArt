@@ -4,43 +4,47 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mxpj.speedyart.R
+import com.mxpj.speedyart.presentation.game.GameViewModel
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
-@Preview
 @Composable
-fun GameStartModal() {
+fun GameStartModal(gameViewModel: GameViewModel) {
+    val timer by gameViewModel.gameCountdown.timer.observeAsState()
     Column(modifier = Modifier
-        .fillMaxWidth(0.7f)
+        .fillMaxWidth(0.9f)
         .widthIn(max = 500.dp)
         .heightIn(min = 150.dp)
         .background(SpeedyArtTheme.colors.primary, shape = RoundedCornerShape(15.dp))
         .padding(10.dp)) {
         TextBig(
-            text = "Игра начнется через",
+            text = stringResource(R.string.game_start_modal_text),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )
         Timer(
-            text = "1",
+            text = timer.toString(),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )
     }
 }
 
-@Preview
 @Composable
-fun GameEndModal() {
+fun GameEndModal(gameViewModel: GameViewModel) {
     Column(modifier = Modifier
-        .fillMaxWidth(0.7f)
+        .fillMaxWidth(0.9f)
         .widthIn(max = 500.dp)
         .heightIn(min = 150.dp)
         .background(SpeedyArtTheme.colors.primary, shape = RoundedCornerShape(15.dp))
@@ -60,16 +64,30 @@ fun GameEndModal() {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         )
-        Button(
-            onClick = {  },
-            modifier = Modifier
-                .background(
-                    color = SpeedyArtTheme.colors.onPrimary,
-                    shape = RoundedCornerShape(10.dp)
-                )
-        ) {
+        Spacer(modifier = Modifier.height(20.dp))
+        GameModalButton(text = "Заново", modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .width(135.dp)) {
 
         }
+        Spacer(modifier = Modifier.height(10.dp))
+        GameModalButton(text = "Закончить", modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .width(135.dp)) {
+
+        }
+    }
+}
+
+@Composable
+fun GameModalButton(text: String, modifier: Modifier, onClick: () -> Unit) {
+    Button(
+        onClick = { onClick() },
+        shape = RoundedCornerShape(5.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = SpeedyArtTheme.colors.onPrimary),
+        modifier = modifier
+    ) {
+        TextNormal(text = text, modifier = Modifier)
     }
 }
 

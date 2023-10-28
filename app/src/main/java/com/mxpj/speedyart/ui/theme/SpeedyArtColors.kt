@@ -35,5 +35,5 @@ val SpeedyArtColorsDark = SpeedyArtColors(
     progressBarBackground = DarkThemeProgressBarBackground
 )
 
-val LocalSpeedyArtColors = staticCompositionLocalOf { SpeedyArtColorsDark }
+val LocalSpeedyArtColors = staticCompositionLocalOf { SpeedyArtColorsLight }
 
