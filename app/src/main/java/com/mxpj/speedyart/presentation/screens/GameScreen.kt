@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mxpj.speedyart.domain.model.GameResult
 import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.presentation.GameEndModal
 import com.mxpj.speedyart.presentation.GameStartModal
 import com.mxpj.speedyart.presentation.game.ColorPalette
 import com.mxpj.speedyart.presentation.game.GameViewModel
@@ -44,6 +45,7 @@ fun GameScreen(
 ) {
     val picture by gameViewModel.picture.observeAsState()
     val shouldShowStartGameModal by gameViewModel.shouldShowStartGameModal.observeAsState()
+    val shouldShowEndGameModal by gameViewModel.shouldShowEndGameModal.observeAsState()
     Box() {
         Column {
             ZoomImage(gameViewModel, picture!!)
@@ -53,6 +55,9 @@ fun GameScreen(
         }
         if(shouldShowStartGameModal == true){
             GameStartModal(gameViewModel = gameViewModel)
+        }
+        if(shouldShowEndGameModal == true){
+            GameEndModal(gameViewModel = gameViewModel)
         }
         GameEndMessage(gameViewModel)
     }

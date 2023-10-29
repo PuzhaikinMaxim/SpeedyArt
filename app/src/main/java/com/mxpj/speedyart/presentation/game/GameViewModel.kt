@@ -22,7 +22,8 @@ import kotlin.math.max
 @HiltViewModel
 class GameViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    val gameCountdown: GameCountdown
+    val gameCountdown: GameCountdown,
+    private val simpleTimer: SimpleTimer
 ): ViewModel(), GameControllerObserver {
 
     private val _picture = MutableLiveData<Picture>()
@@ -49,6 +50,10 @@ class GameViewModel @Inject constructor(
     val shouldShowStartGameModal: LiveData<Boolean>
         get() = _shouldShowStartGameModal
 
+    private val _shouldShowEndGameModal = MutableLiveData(true)
+    val shouldShowEndGameModal: LiveData<Boolean>
+        get() = _shouldShowEndGameModal
+
     private val _gameResult = MutableLiveData(GameResult.GAME_CONTINUING)
     val gameResult: LiveData<GameResult>
         get() = _gameResult
@@ -68,6 +73,7 @@ class GameViewModel @Inject constructor(
             gameController.startGame(_picture.value!!)
             _shouldShowStartGameModal.postValue(false)
             _shouldResetTimer.postValue(Unit)
+            simpleTimer.startTimer()
         }
     }
 
@@ -86,6 +92,7 @@ class GameViewModel @Inject constructor(
 
     override fun onGameResultChange(gameResult: GameResult) {
         _gameResult.postValue(gameResult)
+        _shouldShowEndGameModal.postValue(true)
     }
 
     override fun onTimerReset() {

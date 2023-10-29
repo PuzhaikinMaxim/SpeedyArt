@@ -15,6 +15,12 @@
     <string name="best_time">Лучшее время: %dм %dс</string>
     <string name="best_time_default">Лучшее время: Нет</string>
     <string name="game_start_modal_text">Игра начнется через:</string>
+    <string name="game_end_modal_text_won">Вы выиграли</string>
+    <string name="game_end_modal_text_lost">Вы проиграли</string>
+    <string name="game_end_modal_time">Время: %s</string>
+    <string name="game_end_modal_amount_of_mistakes">Количество ошибок: %d</string>
+    <string name="game_end_modal_reset">Заново</string>
+    <string name="game_end_modal_finish">Закончить</string>
     <string name="cells_to_fill">Клеток для закраски: %d</string>
     <string name="pack_pictures_amount">%d изображений</string>
     <string name="dark_mode_setting">Темный режим</string>

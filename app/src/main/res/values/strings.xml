@@ -14,6 +14,12 @@
     <string name="best_time">Best time: %dm %ds</string>
     <string name="best_time_default">Best time: No</string>
     <string name="game_start_modal_text">Game will start in:</string>
+    <string name="game_end_modal_text_won">You won</string>
+    <string name="game_end_modal_text_lost">You lost</string>
+    <string name="game_end_modal_time">Time: %s</string>
+    <string name="game_end_modal_amount_of_mistakes">Amount of mistakes: %d</string>
+    <string name="game_end_modal_reset">Reset</string>
+    <string name="game_end_modal_finish">Finish</string>
     <string name="cells_to_fill">Cells to fill: %d</string>
     <string name="pack_pictures_amount">%d pictures</string>
     <string name="dark_mode_setting">Dark mode</string>
