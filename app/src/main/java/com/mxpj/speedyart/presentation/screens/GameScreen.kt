@@ -68,6 +68,11 @@ fun Timer(gameViewModel: GameViewModel) {
             startProgressBarAnimation(progress)
         }
     }
+    gameViewModel.shouldStopTimer.observeStateChange {
+        scope.launch {
+            progress.stop()
+        }
+    }
     Spacer(modifier = Modifier.height(10.dp))
     LinearProgressIndicator(
         progress = progress.value,
@@ -85,6 +90,7 @@ private suspend fun startProgressBarAnimation(animatable: Animatable<Float, Anim
         animationSpec = tween(8000, easing = LinearEasing)
     )
 }
+
 
 @Composable
 fun GameEndMessage(gameViewModel: GameViewModel) {

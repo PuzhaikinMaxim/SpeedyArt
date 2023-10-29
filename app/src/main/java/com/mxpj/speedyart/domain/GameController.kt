@@ -21,6 +21,7 @@ class GameController(
 
     private var gameResult: GameResult by Delegates.observable(GameResult.GAME_CONTINUING, onChange = {
         _, _, newValue -> gameControllerObserver.onGameResultChange(newValue)
+        gameControllerObserver.onTimerStop()
     })
 
     private var gameColorsData: GameColorsData by Delegates.observable(GameColorsData(

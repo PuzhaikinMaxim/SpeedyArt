@@ -1,6 +1,8 @@
 package com.mxpj.speedyart.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -9,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,22 +25,24 @@ import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 @Composable
 fun GameStartModal(gameViewModel: GameViewModel) {
     val timer by gameViewModel.gameCountdown.timer.observeAsState()
-    Column(modifier = Modifier
-        .fillMaxWidth(0.9f)
-        .widthIn(max = 500.dp)
-        .heightIn(min = 150.dp)
-        .background(SpeedyArtTheme.colors.primary, shape = RoundedCornerShape(15.dp))
-        .padding(10.dp)) {
-        TextBig(
-            text = stringResource(R.string.game_start_modal_text),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-        )
-        Timer(
-            text = timer.toString(),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-        )
+    NonInteractiveBackground {
+        Column(modifier = Modifier
+            .fillMaxWidth(0.9f)
+            .widthIn(max = 500.dp)
+            .heightIn(min = 150.dp)
+            .background(SpeedyArtTheme.colors.primary, shape = RoundedCornerShape(15.dp))
+            .padding(10.dp)) {
+            TextBig(
+                text = stringResource(R.string.game_start_modal_text),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
+            Timer(
+                text = timer.toString(),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            )
+        }
     }
 }
 
@@ -76,6 +81,24 @@ fun GameEndModal(gameViewModel: GameViewModel) {
             .width(135.dp)) {
 
         }
+    }
+}
+
+@Composable
+fun NonInteractiveBackground( content: @Composable BoxScope.() -> Unit) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Box(
+        modifier = Modifier
+            .clickable(
+                onClick = {},
+                interactionSource = interactionSource,
+                indication = null
+            )
+            .fillMaxWidth()
+            .fillMaxHeight(),
+        contentAlignment = Alignment.Center
+    ) {
+        content()
     }
 }
 

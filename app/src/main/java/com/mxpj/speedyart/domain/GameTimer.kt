@@ -1,7 +1,5 @@
 package com.mxpj.speedyart.domain
 
-import androidx.lifecycle.MutableLiveData
-import com.mxpj.speedyart.domain.model.GameResult
 import kotlinx.coroutines.*
 
 class GameTimer(
@@ -27,6 +25,6 @@ class GameTimer(
 
     fun stop() {
         coroutine.cancel()
-        gameControllerObserver.onTimerStop()
+        //gameControllerObserver.onTimerStop()
     }
 }

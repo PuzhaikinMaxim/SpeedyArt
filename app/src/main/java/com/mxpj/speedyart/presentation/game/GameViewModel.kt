@@ -37,7 +37,7 @@ class GameViewModel @Inject constructor(
     val healthAmount: LiveData<Int>
         get() = _healthAmount
 
-    private val _shouldResetTimer = MutableLiveData(Unit)
+    private val _shouldResetTimer = MutableLiveData<Unit>()
     val shouldResetTimer: LiveData<Unit>
         get() = _shouldResetTimer
 
@@ -67,6 +67,7 @@ class GameViewModel @Inject constructor(
         gameCountdown.startCountdown {
             gameController.startGame(_picture.value!!)
             _shouldShowStartGameModal.postValue(false)
+            _shouldResetTimer.postValue(Unit)
         }
     }
 
