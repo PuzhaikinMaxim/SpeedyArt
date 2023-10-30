@@ -24,9 +24,7 @@ class GameController(
         gameControllerObserver.onTimerStop()
     })
 
-    private var gameColorsData: GameColorsData by Delegates.observable(GameColorsData(
-        null, hashMapOf()
-    ), onChange = {
+    private var gameColorsData: GameColorsData by Delegates.observable(GameColorsData(), onChange = {
             _, _, newValue -> gameControllerObserver.onGameColorsDataChange(newValue)
     })
 
@@ -39,6 +37,15 @@ class GameController(
     fun startGame(newPicture: Picture) {
         picture = newPicture
         neighborCellOffset = offsetFor16x16
+        gameTimer.start()
+    }
+
+    fun resetGame(newPicture: Picture) {
+        picture = newPicture
+        neighborCellOffset = offsetFor16x16
+        gameResult = GameResult.GAME_CONTINUING
+        gameColorsData = GameColorsData()
+        healthAmount = 4
         gameTimer.start()
     }
 

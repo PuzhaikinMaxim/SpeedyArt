@@ -38,6 +38,10 @@ class GameViewModel @Inject constructor(
     val healthAmount: LiveData<Int>
         get() = _healthAmount
 
+    private val _mistakesAmount = MutableLiveData(0)
+    val mistakesAmount: LiveData<Int>
+        get() = _mistakesAmount
+
     private val _shouldResetTimer = MutableLiveData<Unit>()
     val shouldResetTimer: LiveData<Unit>
         get() = _shouldResetTimer
@@ -46,11 +50,15 @@ class GameViewModel @Inject constructor(
     val shouldStopTimer: LiveData<Boolean>
         get() = _shouldStopTimer
 
+    private val _time = MutableLiveData(0)
+    val time: LiveData<Int>
+        get() = _time
+
     private val _shouldShowStartGameModal = MutableLiveData(true)
     val shouldShowStartGameModal: LiveData<Boolean>
         get() = _shouldShowStartGameModal
 
-    private val _shouldShowEndGameModal = MutableLiveData(true)
+    private val _shouldShowEndGameModal = MutableLiveData(false)
     val shouldShowEndGameModal: LiveData<Boolean>
         get() = _shouldShowEndGameModal
 
@@ -66,7 +74,7 @@ class GameViewModel @Inject constructor(
 
     init {
         _picture.value = ImageToPictureClassParser().parseToPicture(
-            PixelImageProvider.getPixelBitmap(R.drawable.heart)
+            PixelImageProvider.getPixelBitmap(R.drawable.heart_test)
         )
         _pictureBitmap.value = getPictureBitmap()
         gameCountdown.startCountdown {
@@ -84,6 +92,7 @@ class GameViewModel @Inject constructor(
 
     override fun onHealthAmountChange(healthAmount: Int) {
         _healthAmount.value = healthAmount
+        _mistakesAmount.value = 4 - healthAmount
     }
 
     override fun onGameColorsDataChange(gameColorsData: GameColorsData) {
@@ -93,6 +102,7 @@ class GameViewModel @Inject constructor(
     override fun onGameResultChange(gameResult: GameResult) {
         _gameResult.postValue(gameResult)
         _shouldShowEndGameModal.postValue(true)
+        _time.postValue(simpleTimer.amountOfSecondsPassed)
     }
 
     override fun onTimerReset() {
@@ -110,6 +120,17 @@ class GameViewModel @Inject constructor(
     fun selectColor(colorCode: Int) {
         gameController.selectColor(colorCode)
         _pictureBitmap.value = getPictureBitmap()
+    }
+
+    fun resetGame() {
+        _picture.value = ImageToPictureClassParser().parseToPicture(
+            PixelImageProvider.getPixelBitmap(R.drawable.heart_test)
+        )
+        _pictureBitmap.value = getPictureBitmap()
+        gameController.resetGame(_picture.value!!)
+        _shouldShowEndGameModal.postValue(false)
+        _shouldResetTimer.postValue(Unit)
+        simpleTimer.startTimer()
     }
 
     private fun getPictureBitmap(): ImageBitmap {

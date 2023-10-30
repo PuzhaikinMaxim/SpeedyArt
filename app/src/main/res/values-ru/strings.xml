@@ -28,6 +28,8 @@
     <string name="reset_progress_setting">Сбросить прогресс</string>
     <string name="reset_progress_question">Сбросить прогресс?</string>
     <string name="reset_progress_toast">Прогресс был сброшен</string>
+    <string name="time_seconds">сек: %d</string>
+    <string name="time_minutes_and_seconds">мин: %d сек: %d</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
 </resources>

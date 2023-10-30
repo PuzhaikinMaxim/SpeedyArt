@@ -21,6 +21,7 @@ import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.GameResult
 import com.mxpj.speedyart.presentation.game.GameViewModel
 import com.mxpj.speedyart.presentation.utils.observeStateChange
+import com.mxpj.speedyart.presentation.utils.toStringTime
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
 @Composable
@@ -50,7 +51,10 @@ fun GameStartModal(gameViewModel: GameViewModel) {
 @Composable
 fun GameEndModal(gameViewModel: GameViewModel) {
     var gameEndText by remember { mutableStateOf("") }
+    val mistakesAmount by gameViewModel.mistakesAmount.observeAsState()
+    val time by gameViewModel.time.observeAsState()
     val context = LocalContext.current
+
     gameViewModel.gameResult.observeStateChange {
         if(it == GameResult.GAME_LOST){
             gameEndText = context.getString(R.string.game_end_modal_text_lost)
@@ -72,25 +76,27 @@ fun GameEndModal(gameViewModel: GameViewModel) {
                     .align(Alignment.CenterHorizontally)
             )
             TextNormal(
-                text = "Время: ",
+                text = stringResource(R.string.game_end_modal_time, time!!.toStringTime()),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
             )
             TextNormal(
-                text = "Количество ошибок: ",
+                text = stringResource(R.string.game_end_modal_amount_of_mistakes, mistakesAmount!!),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            GameModalButton(text = "Заново", modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .width(135.dp)) {
-
+            GameModalButton(text = stringResource(R.string.game_end_modal_reset),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(135.dp)) {
+                gameViewModel.resetGame()
             }
             Spacer(modifier = Modifier.height(10.dp))
-            GameModalButton(text = "Закончить", modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .width(135.dp)) {
+            GameModalButton(text = stringResource(R.string.game_end_modal_finish),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(135.dp)) {
 
             }
         }
