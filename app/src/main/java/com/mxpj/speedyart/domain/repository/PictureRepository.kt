@@ -8,4 +8,6 @@ interface PictureRepository {
     suspend fun getPictureCompletionList(pack: String): List<Picture>
 
     suspend fun getPictureStatistics(id: Int): PictureWithStatistics
+
+    suspend fun setNewBestTime(id: Int, newTime: Int)
 }

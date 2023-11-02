@@ -6,5 +6,5 @@ enum class Screen(val route: String) {
     STATISTICS_SCREEN("statistics_screen"),
     PICTURE_SCREEN(PictureNavParams.route),
     SETTINGS_SCREEN("settings_screen"),
-    GAME_SCREEN("game_screen")
+    GAME_SCREEN(GameNavParams.route)
 }

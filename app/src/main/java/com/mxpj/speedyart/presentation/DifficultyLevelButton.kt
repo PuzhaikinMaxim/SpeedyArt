@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.DifficultyLevel
-import com.mxpj.speedyart.presentation.navigation.Screen
+import com.mxpj.speedyart.presentation.navigation.GameNavParams
 
 @Composable
 fun DifficultyLevelButton(
@@ -27,7 +27,7 @@ fun DifficultyLevelButton(
     navController: NavController
 ) {
     when(difficultyLevel.status){
-        DifficultyStatus.LOCKED -> DifficultyLockedButton(difficultyLevel, navController)
+        DifficultyStatus.LOCKED -> DifficultyLockedButton(difficultyLevel)
         DifficultyStatus.UNLOCKED -> DifficultyUnlockedButton(difficultyLevel, navController)
         DifficultyStatus.COMPLETED -> DifficultyCompletedButton(difficultyLevel, navController)
         DifficultyStatus.PERFECT -> DifficultyPerfectButton(difficultyLevel, navController)
@@ -62,11 +62,11 @@ fun BaseDifficultyButton(
 }
 
 @Composable
-fun DifficultyLockedButton(difficultyLevel: DifficultyLevel, navController: NavController) {
+fun DifficultyLockedButton(difficultyLevel: DifficultyLevel) {
     BaseDifficultyButton(
         backgroundColor = Color.Gray,
         difficultyNameResourceId = difficultyLevel.textResource,
-        { navController.navigate(Screen.GAME_SCREEN.route) }
+        {  }
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Image(
@@ -85,7 +85,7 @@ fun DifficultyUnlockedButton(difficultyLevel: DifficultyLevel, navController: Na
     BaseDifficultyButton(
         backgroundColor = difficultyLevel.color,
         difficultyNameResourceId = difficultyLevel.textResource,
-        { navController.navigate(Screen.GAME_SCREEN.route) }
+        { println(difficultyLevel.completionId); navController.navigate(GameNavParams.buildRoute(difficultyLevel.completionId)) }
     ) {
         Spacer(modifier = Modifier.weight(1f))
     }
@@ -96,7 +96,7 @@ fun DifficultyCompletedButton(difficultyLevel: DifficultyLevel, navController: N
     BaseDifficultyButton(
         backgroundColor = difficultyLevel.color,
         difficultyNameResourceId = difficultyLevel.textResource,
-        { navController.navigate(Screen.GAME_SCREEN.route) }
+        { navController.navigate(GameNavParams.buildRoute(difficultyLevel.completionId)) }
     ) {
         Spacer(modifier = Modifier.width(10.dp))
         Image(
@@ -113,7 +113,7 @@ fun DifficultyPerfectButton(difficultyLevel: DifficultyLevel, navController: Nav
     BaseDifficultyButton(
         backgroundColor = difficultyLevel.color,
         difficultyNameResourceId = difficultyLevel.textResource,
-        { navController.navigate(Screen.GAME_SCREEN.route) }
+        { navController.navigate(GameNavParams.buildRoute(difficultyLevel.completionId)) }
     ) {
         Spacer(modifier = Modifier.width(10.dp))
         Image(

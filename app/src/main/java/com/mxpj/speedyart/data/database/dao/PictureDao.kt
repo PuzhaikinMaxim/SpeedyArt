@@ -16,6 +16,9 @@ interface PictureDao {
     @Query("SELECT * FROM picture pic JOIN picture_completion p ON p.picture = pic.id JOIN difficulty d ON d.name = p.difficulty WHERE pic.id = :id GROUP BY picture")
     suspend fun getPictureWithDifficultyProgress(id: Int): PictureWithDifficulties
 
+    @Query("SELECT * FROM picture pic WHERE pic.id = :pictureId")
+    suspend fun getPictureById(pictureId: Int): PictureDbModel
+
     @Update
     suspend fun updatePicture(pictureDbModel: PictureDbModel)
 }

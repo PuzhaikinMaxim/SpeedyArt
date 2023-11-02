@@ -23,4 +23,12 @@ class PictureRepositoryImpl @Inject constructor(
             pictureDao.getPictureWithDifficultyProgress(id)
         )
     }
+
+    override suspend fun setNewBestTime(id: Int, newTime: Int) {
+        var picture = pictureDao.getPictureById(id)
+        if(newTime < (picture.bestTime ?: Int.MAX_VALUE)){
+            picture = picture.copy(bestTime = newTime)
+            pictureDao.updatePicture(picture)
+        }
+    }
 }

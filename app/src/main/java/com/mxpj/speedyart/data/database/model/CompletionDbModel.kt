@@ -37,5 +37,16 @@ data class CompletionDbModel(
         const val STATUS_COMPLETED = "completed"
 
         const val STATUS_PERFECT = "perfect"
+
+        private val statusesWeight = hashMapOf(
+            STATUS_UNLOCKED to 0,
+            STATUS_COMPLETED to 1,
+            STATUS_PERFECT to 2
+        )
+
+        fun getStatus(newStatus: String, oldStatus: String): String {
+            val shouldChangeStatus = statusesWeight[newStatus]!! > statusesWeight[oldStatus]!!
+            return if(shouldChangeStatus) newStatus else oldStatus
+        }
     }
 }

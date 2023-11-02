@@ -44,15 +44,18 @@ fun GameScreen(
     gameViewModel: GameViewModel = hiltViewModel(),
     onFinishButtonClick: () -> Unit
 ) {
+    val isPictureDataLoaded by gameViewModel.isPictureDataLoaded.observeAsState()
     val picture by gameViewModel.gamePicture.observeAsState()
     val shouldShowStartGameModal by gameViewModel.shouldShowStartGameModal.observeAsState()
     val shouldShowEndGameModal by gameViewModel.shouldShowEndGameModal.observeAsState()
     Box() {
-        Column {
-            ZoomImage(gameViewModel, picture!!)
-            ColorPalette(colors = picture!!.availablePalette, gameViewModel = gameViewModel)
-            Timer(gameViewModel)
-            PlayerHealth(gameViewModel = gameViewModel)
+        if(isPictureDataLoaded == true) {
+            Column {
+                ZoomImage(gameViewModel, picture!!)
+                ColorPalette(colors = picture!!.availablePalette, gameViewModel = gameViewModel)
+                Timer(gameViewModel)
+                PlayerHealth(gameViewModel = gameViewModel)
+            }
         }
         if(shouldShowStartGameModal == true){
             GameStartModal(gameViewModel = gameViewModel)

@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val parser = ImageToPictureClassParser()
+        println(R.drawable.heart_test)
         gamePicture = parser.parseToPicture(BitmapFactory.decodeResource(
             resources,
             R.drawable.heart,

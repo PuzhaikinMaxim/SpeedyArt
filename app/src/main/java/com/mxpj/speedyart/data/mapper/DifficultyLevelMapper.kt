@@ -22,19 +22,38 @@ class DifficultyLevelMapper @Inject constructor() {
         completionWithDifficulty: CompletionWithDifficulty
     ): DifficultyLevel {
         val status = getStatus(completionWithDifficulty.completionDbModel)
-        return getDifficulty(completionWithDifficulty.difficultyDbModel.name, status)
+        return getDifficulty(
+            completionWithDifficulty.difficultyDbModel.name,
+            status,
+            completionWithDifficulty.completionDbModel.id
+        )
     }
 
-    private fun getDifficulty(name: String, status: DifficultyStatus): DifficultyLevel {
+    fun mapCompletionToDifficultyLevel(
+        completionDbModel: CompletionDbModel
+    ): DifficultyLevel {
+        val status = getStatus(completionDbModel)
+        return getDifficulty(
+            completionDbModel.difficulty,
+            status,
+            completionDbModel.id
+        )
+    }
+
+    private fun getDifficulty(
+        name: String,
+        status: DifficultyStatus,
+        completionId: Int
+    ): DifficultyLevel {
         return when(name) {
             DifficultyDbModel.DIFFICULTY_EASY -> {
-                LevelEasy(status)
+                LevelEasy(status, completionId)
             }
             DifficultyDbModel.DIFFICULTY_MEDIUM -> {
-                LevelMedium(status)
+                LevelMedium(status, completionId)
             }
             DifficultyDbModel.DIFFICULTY_HARD -> {
-                LevelHard(status)
+                LevelHard(status, completionId)
             }
             else -> throw RuntimeException("Difficulty name does not exist")
         }

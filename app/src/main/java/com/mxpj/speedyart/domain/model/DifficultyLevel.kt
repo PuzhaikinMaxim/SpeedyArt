@@ -10,17 +10,18 @@ import com.mxpj.speedyart.ui.theme.DifficultyYellow
 sealed class DifficultyLevel(
     val color: Color,
     val textResource: Int,
-    val status: DifficultyStatus
+    val status: DifficultyStatus,
+    val completionId: Int
     )
 
-class LevelEasy(status: DifficultyStatus): DifficultyLevel(
-    DifficultyGreen, R.string.difficulty_easy,status
+class LevelEasy(status: DifficultyStatus, completionId: Int): DifficultyLevel(
+    DifficultyGreen, R.string.difficulty_easy,status, completionId
 )
 
-class LevelMedium(status: DifficultyStatus): DifficultyLevel(
-    DifficultyYellow, R.string.difficulty_medium,status
+class LevelMedium(status: DifficultyStatus, completionId: Int): DifficultyLevel(
+    DifficultyYellow, R.string.difficulty_medium,status, completionId
 )
 
-class LevelHard(status: DifficultyStatus): DifficultyLevel(
-    DifficultyRed, R.string.difficulty_hard,status
+class LevelHard(status: DifficultyStatus, completionId: Int): DifficultyLevel(
+    DifficultyRed, R.string.difficulty_hard,status, completionId
 )

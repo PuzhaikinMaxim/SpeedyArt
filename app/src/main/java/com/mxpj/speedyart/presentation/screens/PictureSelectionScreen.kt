@@ -108,7 +108,7 @@ fun Difficulties(list: List<DifficultyLevel>) {
 
 @Preview
 @Composable
-fun Difficulty(difficultyLevel: DifficultyLevel = LevelMedium(DifficultyStatus.UNLOCKED)) {
+fun Difficulty(difficultyLevel: DifficultyLevel = LevelMedium(DifficultyStatus.UNLOCKED, 1)) {
     if(
         difficultyLevel.status == DifficultyStatus.LOCKED ||
         difficultyLevel.status == DifficultyStatus.UNLOCKED

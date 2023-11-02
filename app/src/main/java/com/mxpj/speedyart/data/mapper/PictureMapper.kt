@@ -1,7 +1,9 @@
 package com.mxpj.speedyart.data.mapper
 
+import com.mxpj.speedyart.data.database.queryresult.CompletionWithPicture
 import com.mxpj.speedyart.data.database.queryresult.PictureWithDifficulties
 import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.PictureDifficulty
 import com.mxpj.speedyart.domain.model.PictureWithStatistics
 import javax.inject.Inject
 
@@ -33,6 +35,17 @@ class PictureMapper @Inject constructor(
             difficultyLevelMapper.mapCompletionWithDifficultyListToDifficultyLevelList(
                 pictureWithDifficulties.completionWithDifficultyList
             )
+        )
+    }
+
+    fun mapCompletionWithPictureToPictureDifficulty(
+        completionWithPicture: CompletionWithPicture
+    ): PictureDifficulty {
+        println("cid " + completionWithPicture.completion.id)
+        return PictureDifficulty(
+            completionWithPicture.picture.id,
+            completionWithPicture.picture.assetLink,
+            difficultyLevelMapper.mapCompletionToDifficultyLevel(completionWithPicture.completion)
         )
     }
 
