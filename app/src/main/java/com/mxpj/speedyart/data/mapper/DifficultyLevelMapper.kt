@@ -43,7 +43,7 @@ class DifficultyLevelMapper @Inject constructor() {
     private fun getStatus(completionDbModel: CompletionDbModel): DifficultyStatus {
         return completionStatuses[
                 completionDbModel.completionStatus
-        ] ?: throw RuntimeException("Status not exist")
+        ] ?: throw RuntimeException("Status not exists")
     }
 
     companion object {

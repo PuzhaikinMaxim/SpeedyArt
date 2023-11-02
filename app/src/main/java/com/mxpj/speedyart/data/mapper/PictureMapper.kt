@@ -1,38 +1,37 @@
 package com.mxpj.speedyart.data.mapper
 
-import com.mxpj.speedyart.data.database.queryresult.PictureWithCompletion
-import com.mxpj.speedyart.domain.model.PictureCompletion
-import com.mxpj.speedyart.domain.model.PictureStatistics
-import com.mxpj.speedyart.presentation.ImageToPictureClassParser
+import com.mxpj.speedyart.data.database.queryresult.PictureWithDifficulties
+import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.PictureWithStatistics
 import javax.inject.Inject
 
 class PictureMapper @Inject constructor(
     private val difficultyLevelMapper: DifficultyLevelMapper
 ) {
 
-    fun mapPictureWithCompletionListToPictureCompletionList(
-        pictureWithCompletionList: List<PictureWithCompletion>
-    ): List<PictureCompletion> {
-        return pictureWithCompletionList.map { mapPictureWithCompletionToPictureCompletion(it) }
+    fun mapPictureWithDifficultiesListToPictureList(
+        pictureWithDifficultiesList: List<PictureWithDifficulties>
+    ): List<Picture> {
+        return pictureWithDifficultiesList.map { mapPictureWithDifficultiesToPicture(it) }
     }
 
-    fun mapPictureWithCompletionToPictureStatistics(
-        pictureWithCompletion: PictureWithCompletion
-    ): PictureStatistics {
-        return PictureStatistics(
-            mapPictureWithCompletionToPictureCompletion(pictureWithCompletion),
-            getTimePairRepresentation(pictureWithCompletion.picture.bestTime),
+    fun mapPictureWithDifficultiesToPictureWithStatistics(
+        pictureWithDifficulties: PictureWithDifficulties
+    ): PictureWithStatistics {
+        return PictureWithStatistics(
+            mapPictureWithDifficultiesToPicture(pictureWithDifficulties),
+            getTimePairRepresentation(pictureWithDifficulties.picture.bestTime),
         )
     }
 
-    fun mapPictureWithCompletionToPictureCompletion(
-        pictureWithCompletion: PictureWithCompletion
-    ): PictureCompletion {
-        return PictureCompletion(
-            pictureWithCompletion.picture.id,
-            pictureWithCompletion.picture.assetLink.toInt(),
+    fun mapPictureWithDifficultiesToPicture(
+        pictureWithDifficulties: PictureWithDifficulties
+    ): Picture {
+        return Picture(
+            pictureWithDifficulties.picture.id,
+            pictureWithDifficulties.picture.assetLink.toInt(),
             difficultyLevelMapper.mapCompletionWithDifficultyListToDifficultyLevelList(
-                pictureWithCompletion.completionWithDifficultyList
+                pictureWithDifficulties.completionWithDifficultyList
             )
         )
     }

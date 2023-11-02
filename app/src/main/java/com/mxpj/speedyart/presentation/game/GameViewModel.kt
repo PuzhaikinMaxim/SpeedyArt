@@ -11,13 +11,11 @@ import com.mxpj.speedyart.domain.GameController
 import com.mxpj.speedyart.domain.GameControllerObserver
 import com.mxpj.speedyart.domain.model.GameColorsData
 import com.mxpj.speedyart.domain.model.GameResult
-import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.GamePicture
 import com.mxpj.speedyart.presentation.ImageToPictureClassParser
 import com.mxpj.speedyart.presentation.PixelImageProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
 import javax.inject.Inject
-import kotlin.math.max
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
@@ -26,9 +24,9 @@ class GameViewModel @Inject constructor(
     private val simpleTimer: SimpleTimer
 ): ViewModel(), GameControllerObserver {
 
-    private val _picture = MutableLiveData<Picture>()
-    val picture: LiveData<Picture>
-        get() = _picture
+    private val _Game_picture = MutableLiveData<GamePicture>()
+    val gamePicture: LiveData<GamePicture>
+        get() = _Game_picture
 
     private val _pictureBitmap = MutableLiveData<ImageBitmap>()
     val pictureBitmap: LiveData<ImageBitmap>
@@ -73,20 +71,20 @@ class GameViewModel @Inject constructor(
     private val gameController = GameController(this)
 
     init {
-        _picture.value = ImageToPictureClassParser().parseToPicture(
+        _Game_picture.value = ImageToPictureClassParser().parseToPicture(
             PixelImageProvider.getPixelBitmap(R.drawable.heart_test)
         )
         _pictureBitmap.value = getPictureBitmap()
         gameCountdown.startCountdown {
-            gameController.startGame(_picture.value!!)
+            gameController.startGame(_Game_picture.value!!)
             _shouldShowStartGameModal.postValue(false)
             _shouldResetTimer.postValue(Unit)
             simpleTimer.startTimer()
         }
     }
 
-    override fun onPictureChange(picture: Picture) {
-        _picture.value = picture
+    override fun onPictureChange(gamePicture: GamePicture) {
+        _Game_picture.value = gamePicture
         _pictureBitmap.value = getPictureBitmap()
     }
 
@@ -123,11 +121,11 @@ class GameViewModel @Inject constructor(
     }
 
     fun resetGame() {
-        _picture.value = ImageToPictureClassParser().parseToPicture(
+        _Game_picture.value = ImageToPictureClassParser().parseToPicture(
             PixelImageProvider.getPixelBitmap(R.drawable.heart_test)
         )
         _pictureBitmap.value = getPictureBitmap()
-        gameController.resetGame(_picture.value!!)
+        gameController.resetGame(_Game_picture.value!!)
         _shouldShowEndGameModal.postValue(false)
         _shouldResetTimer.postValue(Unit)
         simpleTimer.startTimer()
@@ -135,9 +133,15 @@ class GameViewModel @Inject constructor(
 
     private fun getPictureBitmap(): ImageBitmap {
         return PictureDrawer(
-            _picture.value!!,
+            _Game_picture.value!!,
             _gameColorsData.value!!.selectedColor,
             600
         ).getPictureBitmap().asImageBitmap()
+    }
+
+    override fun onCleared() {
+        gameCountdown.stopCountdown()
+        gameController.stopGame()
+        super.onCleared()
     }
 }

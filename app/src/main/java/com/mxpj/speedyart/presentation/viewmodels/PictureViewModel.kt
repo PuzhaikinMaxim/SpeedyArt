@@ -1,8 +1,7 @@
 package com.mxpj.speedyart.presentation.viewmodels
 
 import androidx.lifecycle.*
-import com.mxpj.speedyart.domain.model.PictureCompletion
-import com.mxpj.speedyart.domain.model.PictureStatistics
+import com.mxpj.speedyart.domain.model.PictureWithStatistics
 import com.mxpj.speedyart.domain.repository.PictureRepository
 import com.mxpj.speedyart.presentation.ImageToPictureClassParser
 import com.mxpj.speedyart.presentation.PixelImageProvider
@@ -18,8 +17,8 @@ class PictureViewModel @Inject constructor(
     private val imageToPictureClassParser: ImageToPictureClassParser
 ): ViewModel() {
 
-    private val _pictureCompletion = MutableLiveData<PictureStatistics>()
-    val pictureCompletion: LiveData<PictureStatistics>
+    private val _pictureCompletion = MutableLiveData<PictureWithStatistics>()
+    val pictureCompletion: LiveData<PictureWithStatistics>
         get() = _pictureCompletion
 
     init {
@@ -29,7 +28,7 @@ class PictureViewModel @Inject constructor(
                     ?: throw RuntimeException("Picture nav arg is null")
             val pictureStatisticsTemp = pictureRepository.getPictureStatistics(picture)
             val parcedPicture = imageToPictureClassParser.parseToPicture(
-                PixelImageProvider.getPixelBitmap(pictureStatisticsTemp.pictureCompletion.pictureAsset)
+                PixelImageProvider.getPixelBitmap(pictureStatisticsTemp.picture.pictureAsset)
             )
             val pictureStatistics = pictureStatisticsTemp.copy(
                 amountOfCells = parcedPicture.unfilledCells.size,

@@ -3,7 +3,7 @@ package com.mxpj.speedyart.domain
 import com.mxpj.speedyart.domain.model.Cell
 import com.mxpj.speedyart.domain.model.GameColorsData
 import com.mxpj.speedyart.domain.model.GameResult
-import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.GamePicture
 import kotlin.math.max
 import kotlin.properties.Delegates
 
@@ -11,7 +11,7 @@ class GameController(
     private val gameControllerObserver: GameControllerObserver
 ) {
 
-    private var picture: Picture? by Delegates.observable(null, onChange = {
+    private var gamePicture: GamePicture? by Delegates.observable(null, onChange = {
             _, _, newValue -> gameControllerObserver.onPictureChange(newValue!!)
     })
 
@@ -34,14 +34,14 @@ class GameController(
 
     private lateinit var neighborCellOffset: List<Pair<Int, Int>>
 
-    fun startGame(newPicture: Picture) {
-        picture = newPicture
+    fun startGame(newGamePicture: GamePicture) {
+        gamePicture = newGamePicture
         neighborCellOffset = offsetFor16x16
         gameTimer.start()
     }
 
-    fun resetGame(newPicture: Picture) {
-        picture = newPicture
+    fun resetGame(newGamePicture: GamePicture) {
+        gamePicture = newGamePicture
         neighborCellOffset = offsetFor16x16
         gameResult = GameResult.GAME_CONTINUING
         gameColorsData = GameColorsData()
@@ -49,24 +49,28 @@ class GameController(
         gameTimer.start()
     }
 
+    fun stopGame() {
+        gameTimer.stop()
+    }
+
     fun paintCell(cellPosition: Pair<Int, Int>) {
         if(gameResult != GameResult.GAME_CONTINUING) return
         val color = gameColorsData.selectedColor
-        val cell = picture!!.getCell(cellPosition.first, cellPosition.second)
+        val cell = gamePicture!!.getCell(cellPosition.first, cellPosition.second)
         if(color != null && color == cell.rightColor && cell.rightColor != cell.currentColor){
             cell.currentColor = color
-            picture!!.unfilledCells.remove(cellPosition)
+            gamePicture!!.unfilledCells.remove(cellPosition)
             val neighborCellsWithSelectedColor = getAvailableForRecolorNeighborCells(cellPosition)
             setRightColorForNeighborCells(neighborCellsWithSelectedColor)
             for(neighborCell in neighborCellsWithSelectedColor){
-                picture!!.unfilledCells.remove(Pair(neighborCell.xPosition, neighborCell.yPosition))
+                gamePicture!!.unfilledCells.remove(Pair(neighborCell.xPosition, neighborCell.yPosition))
             }
             val amountOfCellsWithColor = max(
-                picture!!.colorsAmount[color]!! - 1 - neighborCellsWithSelectedColor.size,
+                gamePicture!!.colorsAmount[color]!! - 1 - neighborCellsWithSelectedColor.size,
                 0
             )
-            picture!!.colorsAmount[color] = amountOfCellsWithColor
-            picture = picture
+            gamePicture!!.colorsAmount[color] = amountOfCellsWithColor
+            gamePicture = gamePicture
             gameColorsData = gameColorsData.copy(
                 coloredCellsAmount = getColoredCellsAmount()
             )
@@ -90,7 +94,7 @@ class GameController(
 
     private fun getColoredCellsAmount(): Map<Int, Int> {
         val coloredCellsMap = HashMap<Int, Int>()
-        for((color, colorCellAmount) in picture!!.colorsAmount) {
+        for((color, colorCellAmount) in gamePicture!!.colorsAmount) {
             coloredCellsMap[color] = colorCellAmount
         }
         return coloredCellsMap
@@ -100,7 +104,7 @@ class GameController(
         val existingCells = neighborCellOffset.mapNotNull {
             val x = cell.first + it.first
             val y = cell.second + it.second
-            picture!!.gridCells.getOrNull(y)?.getOrNull(x)
+            gamePicture!!.gridCells.getOrNull(y)?.getOrNull(x)
         }
         val cellsWithSelectedColor = existingCells.filter {
             val selectedColor = gameColorsData.selectedColor
@@ -116,7 +120,7 @@ class GameController(
     }
 
     private fun setGameWonIfNoUnfilledCells() {
-        if(picture!!.unfilledCells.size > 0){
+        if(gamePicture!!.unfilledCells.size > 0){
             return
         }
         gameTimer.stop()

@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.core.graphics.get
 import com.mxpj.speedyart.domain.model.Cell
-import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.GamePicture
 import javax.inject.Inject
 
 class ImageToPictureClassParser @Inject constructor() {
@@ -17,9 +17,9 @@ class ImageToPictureClassParser @Inject constructor() {
 
     private val colorsAmount = HashMap<Int, Int>()
 
-    fun parseToPicture(bitmap: Bitmap): Picture {
+    fun parseToPicture(bitmap: Bitmap): GamePicture {
         setPictureParams(bitmap)
-        return Picture(
+        return GamePicture(
             gridCells,
             getColorPaletteList(),
             unfilledCells,

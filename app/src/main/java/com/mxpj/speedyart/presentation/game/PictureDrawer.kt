@@ -2,10 +2,10 @@ package com.mxpj.speedyart.presentation.game
 
 import android.graphics.*
 import com.mxpj.speedyart.domain.model.Cell
-import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.GamePicture
 
 class PictureDrawer(
-    private val picture: Picture,
+    private val gamePicture: GamePicture,
     private val selectedColor: Int? = null,
     private val fitSize: Int
 ) {
@@ -22,7 +22,7 @@ class PictureDrawer(
 
     private fun draw(bitmap: Bitmap) {
         val canvas = Canvas(bitmap)
-        val grid = picture.gridCells
+        val grid = gamePicture.gridCells
         for(row in grid){
             drawRow(canvas, row)
         }

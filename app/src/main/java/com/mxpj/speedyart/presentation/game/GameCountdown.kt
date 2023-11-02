@@ -26,6 +26,10 @@ class GameCountdown @Inject constructor() {
         }
     }
 
+    fun stopCountdown() {
+        scope.cancel()
+    }
+
     companion object {
         private const val COUNTDOWN_INITIAL_VALUE = 3
     }

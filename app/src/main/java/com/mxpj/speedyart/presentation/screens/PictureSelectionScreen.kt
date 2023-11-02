@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.DifficultyLevel
 import com.mxpj.speedyart.domain.model.LevelMedium
-import com.mxpj.speedyart.domain.model.PictureCompletion
+import com.mxpj.speedyart.domain.model.Picture
 import com.mxpj.speedyart.presentation.*
 import com.mxpj.speedyart.presentation.navigation.PictureNavParams
 import com.mxpj.speedyart.presentation.viewmodels.PictureSelectionViewModel
@@ -67,7 +67,7 @@ fun PictureSelectionScreen(
 
 @Composable
 fun PictureCard(
-    pictureCompletion: PictureCompletion,
+    picture: Picture,
     navController: NavController
 ) {
     Row(
@@ -79,14 +79,14 @@ fun PictureCard(
             .padding(10.dp)
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            with(pictureCompletion){
+            with(picture){
                 PictureProgressBar(completionPercent, completionPercent.toIntInPercent())
             }
             Spacer(modifier = Modifier.height(15.dp))
-            Difficulties(pictureCompletion.difficulties)
+            Difficulties(picture.difficulties)
         }
         Image(
-            bitmap = PixelImageProvider.getPixelImageBitmap(pictureCompletion.pictureAsset),
+            bitmap = PixelImageProvider.getPixelImageBitmap(picture.pictureAsset),
             contentDescription = "",
             filterQuality = FilterQuality.None,
             modifier = Modifier

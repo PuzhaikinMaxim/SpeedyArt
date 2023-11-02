@@ -27,6 +27,7 @@
     <string name="reset_progress_setting">Reset progress</string>
     <string name="reset_progress_question">Do you want to reset progress?</string>
     <string name="reset_progress_toast">Progress has been reset</string>
+    <string name="on_back_pressed_toast">One more press</string>
     <string name="time_seconds">sec: %d</string>
     <string name="time_minutes_and_seconds">min: %d sec: %d</string>
     <string name="yes">Yes</string>

@@ -49,7 +49,7 @@ fun GameStartModal(gameViewModel: GameViewModel) {
 }
 
 @Composable
-fun GameEndModal(gameViewModel: GameViewModel) {
+fun GameEndModal(gameViewModel: GameViewModel, onFinishButtonClick: () -> Unit) {
     var gameEndText by remember { mutableStateOf("") }
     val mistakesAmount by gameViewModel.mistakesAmount.observeAsState()
     val time by gameViewModel.time.observeAsState()
@@ -97,7 +97,7 @@ fun GameEndModal(gameViewModel: GameViewModel) {
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .width(135.dp)) {
-
+                onFinishButtonClick()
             }
         }
     }

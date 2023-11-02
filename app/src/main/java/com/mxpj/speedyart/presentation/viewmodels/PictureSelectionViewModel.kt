@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mxpj.speedyart.domain.model.PictureCompletion
+import com.mxpj.speedyart.domain.model.Picture
 import com.mxpj.speedyart.domain.repository.PictureRepository
 import com.mxpj.speedyart.presentation.navigation.PictureSelectionNavParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +18,7 @@ class PictureSelectionViewModel @Inject constructor(
     private val pictureRepository: PictureRepository
 ): ViewModel() {
 
-    val pictureList =  MutableLiveData<List<PictureCompletion>>()
+    val pictureList =  MutableLiveData<List<Picture>>()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {

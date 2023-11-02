@@ -2,11 +2,11 @@ package com.mxpj.speedyart.domain
 
 import com.mxpj.speedyart.domain.model.GameColorsData
 import com.mxpj.speedyart.domain.model.GameResult
-import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.GamePicture
 
 interface GameControllerObserver {
 
-    fun onPictureChange(picture: Picture)
+    fun onPictureChange(gamePicture: GamePicture)
 
     fun onHealthAmountChange(healthAmount: Int)
 

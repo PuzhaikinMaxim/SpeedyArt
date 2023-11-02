@@ -2,7 +2,7 @@ package com.mxpj.speedyart.data.database.dao
 
 import androidx.room.*
 import com.mxpj.speedyart.data.database.model.PictureDbModel
-import com.mxpj.speedyart.data.database.queryresult.PictureWithCompletion
+import com.mxpj.speedyart.data.database.queryresult.PictureWithDifficulties
 
 @Dao
 interface PictureDao {
@@ -11,10 +11,10 @@ interface PictureDao {
     suspend fun insertPictureList(pictureDbModelList: List<PictureDbModel>)
 
     @Query("SELECT * FROM picture pic JOIN picture_completion p ON p.picture = pic.id JOIN difficulty d ON d.name = p.difficulty WHERE pic.pack = :pack GROUP BY picture")
-    suspend fun getPictureListWithDifficultyProgress(pack: String): List<PictureWithCompletion>
+    suspend fun getPictureListWithDifficultyProgress(pack: String): List<PictureWithDifficulties>
 
     @Query("SELECT * FROM picture pic JOIN picture_completion p ON p.picture = pic.id JOIN difficulty d ON d.name = p.difficulty WHERE pic.id = :id GROUP BY picture")
-    suspend fun getPictureWithDifficultyProgress(id: Int): PictureWithCompletion
+    suspend fun getPictureWithDifficultyProgress(id: Int): PictureWithDifficulties
 
     @Update
     suspend fun updatePicture(pictureDbModel: PictureDbModel)

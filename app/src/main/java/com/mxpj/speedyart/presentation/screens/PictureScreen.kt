@@ -2,7 +2,6 @@ package com.mxpj.speedyart.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,7 +21,6 @@ import androidx.navigation.NavController
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.*
 import com.mxpj.speedyart.presentation.*
-import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.presentation.viewmodels.PictureViewModel
 import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 
@@ -44,12 +41,12 @@ fun PictureScreen(
                 .background(color = SpeedyArtTheme.colors.background)
         ) {
             Spacer(modifier = Modifier.height(20.dp))
-            Picture(pictureStatistics?.pictureCompletion?.pictureAsset ?: R.drawable.heart_test)
+            Picture(pictureStatistics?.picture?.pictureAsset ?: R.drawable.heart_test)
             Spacer(modifier = Modifier.height(15.dp))
             PictureStats(pictureStatistics)
             Spacer(modifier = Modifier.height(20.dp))
             DifficultyLevels(
-                pictureStatistics?.pictureCompletion?.difficulties ?: listOf(),
+                pictureStatistics?.picture?.difficulties ?: listOf(),
                 navController
             )
         }
@@ -70,27 +67,27 @@ fun Picture(resource: Int) {
 }
 
 @Composable
-fun PictureStats(pictureStatistics: PictureStatistics?) {
-    if(pictureStatistics == null) return
+fun PictureStats(pictureWithStatistics: PictureWithStatistics?) {
+    if(pictureWithStatistics == null) return
     Column(Modifier.fillMaxWidth(0.8f)) {
-        if(pictureStatistics.time == null) {
+        if(pictureWithStatistics.time == null) {
             PictureStatText(stringResource(R.string.best_time_default))
         }
         else{
             PictureStatText(stringResource(
                 R.string.best_time,
-                pictureStatistics.time.first,
-                pictureStatistics.time.second
+                pictureWithStatistics.time.first,
+                pictureWithStatistics.time.second
             ))
         }
         PictureStatText(stringResource(
             R.string.size,
-            pictureStatistics.size.first,
-            pictureStatistics.size.second
+            pictureWithStatistics.size.first,
+            pictureWithStatistics.size.second
         ))
         PictureStatText(stringResource(
             R.string.cells_to_fill,
-            pictureStatistics.amountOfCells
+            pictureWithStatistics.amountOfCells
         ))
     }
 }

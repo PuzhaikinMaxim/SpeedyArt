@@ -2,8 +2,8 @@ package com.mxpj.speedyart.data.repository
 
 import com.mxpj.speedyart.data.database.dao.PictureDao
 import com.mxpj.speedyart.data.mapper.PictureMapper
-import com.mxpj.speedyart.domain.model.PictureCompletion
-import com.mxpj.speedyart.domain.model.PictureStatistics
+import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.PictureWithStatistics
 import com.mxpj.speedyart.domain.repository.PictureRepository
 import javax.inject.Inject
 
@@ -12,14 +12,14 @@ class PictureRepositoryImpl @Inject constructor(
     private val pictureMapper: PictureMapper
 ): PictureRepository {
 
-    override suspend fun getPictureCompletionList(pack: String): List<PictureCompletion> {
-        return pictureMapper.mapPictureWithCompletionListToPictureCompletionList(
+    override suspend fun getPictureCompletionList(pack: String): List<Picture> {
+        return pictureMapper.mapPictureWithDifficultiesListToPictureList(
             pictureDao.getPictureListWithDifficultyProgress(pack)
         )
     }
 
-    override suspend fun getPictureStatistics(id: Int): PictureStatistics {
-        return pictureMapper.mapPictureWithCompletionToPictureStatistics(
+    override suspend fun getPictureStatistics(id: Int): PictureWithStatistics {
+        return pictureMapper.mapPictureWithDifficultiesToPictureWithStatistics(
             pictureDao.getPictureWithDifficultyProgress(id)
         )
     }

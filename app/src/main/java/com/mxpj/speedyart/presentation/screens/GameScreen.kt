@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mxpj.speedyart.domain.model.GameResult
-import com.mxpj.speedyart.domain.model.Picture
+import com.mxpj.speedyart.domain.model.GamePicture
 import com.mxpj.speedyart.presentation.GameEndModal
 import com.mxpj.speedyart.presentation.GameStartModal
 import com.mxpj.speedyart.presentation.game.ColorPalette
@@ -41,9 +41,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun GameScreen(
     navController: NavController,
-    gameViewModel: GameViewModel = hiltViewModel()
+    gameViewModel: GameViewModel = hiltViewModel(),
+    onFinishButtonClick: () -> Unit
 ) {
-    val picture by gameViewModel.picture.observeAsState()
+    val picture by gameViewModel.gamePicture.observeAsState()
     val shouldShowStartGameModal by gameViewModel.shouldShowStartGameModal.observeAsState()
     val shouldShowEndGameModal by gameViewModel.shouldShowEndGameModal.observeAsState()
     Box() {
@@ -57,9 +58,8 @@ fun GameScreen(
             GameStartModal(gameViewModel = gameViewModel)
         }
         if(shouldShowEndGameModal == true){
-            GameEndModal(gameViewModel = gameViewModel)
+            GameEndModal(gameViewModel = gameViewModel, onFinishButtonClick)
         }
-        GameEndMessage(gameViewModel)
     }
 }
 
@@ -96,24 +96,8 @@ private suspend fun startProgressBarAnimation(animatable: Animatable<Float, Anim
     )
 }
 
-
 @Composable
-fun GameEndMessage(gameViewModel: GameViewModel) {
-    val gameResult by gameViewModel.gameResult.observeAsState()
-    if(gameResult != GameResult.GAME_CONTINUING){
-        Text(
-            text = stringResource(gameResult!!.msg!!),
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            fontSize = 40.sp,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-
-@Composable
-fun ZoomImage(gameViewModel: GameViewModel, picture: Picture) {
+fun ZoomImage(gameViewModel: GameViewModel, gamePicture: GamePicture) {
     var scale by remember { mutableStateOf(1f) }
     var offsetX by remember { mutableStateOf(0f) }
     var offsetY by remember { mutableStateOf(0f) }
@@ -138,14 +122,14 @@ fun ZoomImage(gameViewModel: GameViewModel, picture: Picture) {
                             position = event.changes[0].position
                         } while (event.changes.any { it.pressed })
                         val clickTime = System.currentTimeMillis() - firstDownTime
-                        val isClickTimePassed = clickTime > 250
+                        val isClickTimePassed = clickTime > 650
                         if (!isClickTimePassed) {
                             val clickPosition = getClickedPixelPosition(
                                 Pair(offsetX, offsetY),
                                 Pair(position.x, position.y),
-                                calculateCellSize(widthInPx * 2, picture.gridCells.size),
+                                calculateCellSize(widthInPx * 2, gamePicture.gridCells.size),
                                 scale,
-                                Pair(picture.gridCells[0].size, picture.gridCells.size)
+                                Pair(gamePicture.gridCells[0].size, gamePicture.gridCells.size)
                             )
                             gameViewModel.onClick(clickPosition)
                         }
