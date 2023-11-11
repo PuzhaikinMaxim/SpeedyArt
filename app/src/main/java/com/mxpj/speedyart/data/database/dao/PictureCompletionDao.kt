@@ -21,10 +21,10 @@ interface PictureCompletionDao {
     @Query("UPDATE picture_completion SET completionStatus = CASE WHEN difficulty != 'easy' THEN 'locked' ELSE 'unlocked' END")
     suspend fun clearCompletion()
 
-    @Query("SELECT * FROM picture_completion p WHERE p.id = :id")
+    @Query("SELECT * FROM picture_completion p WHERE p.completionId = :id")
     suspend fun getPictureCompletionById(id: Int): CompletionDbModel
 
-    @Query("SELECT * FROM picture_completion p JOIN difficulty d ON p.difficulty = d.name WHERE p.id = :id")
+    @Query("SELECT * FROM picture_completion p JOIN difficulty d ON p.difficulty = d.name WHERE p.completionId = :id")
     suspend fun getPictureCompletionWithDifficulty(id: Int): CompletionWithDifficulty
 
     @Query("UPDATE picture_completion SET completionStatus = 'unlocked' WHERE difficulty =:unlocking AND picture =:pictureId AND completionStatus = 'locked'")
@@ -37,8 +37,8 @@ interface PictureCompletionDao {
     suspend fun getTotalCompletion(): TotalCompletionQueryResult
 
     @Query("SELECT * " +
-            "FROM picture pic " +
-            "JOIN picture_completion p ON pic.id = p.picture " +
-            "WHERE p.id = :completionId")
+            "FROM picture_completion p " +
+            "JOIN picture pic ON pic.pictureId = p.picture " +
+            "WHERE p.completionId = :completionId")
     suspend fun getCompletionWithPicture(completionId: Int): CompletionWithPicture
 }

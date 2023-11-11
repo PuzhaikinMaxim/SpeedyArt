@@ -1,5 +1,6 @@
 package com.mxpj.speedyart.data.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -8,7 +9,7 @@ import androidx.room.PrimaryKey
     tableName = "picture_completion",
     foreignKeys = [ForeignKey(
         entity = PictureDbModel::class,
-        parentColumns = arrayOf("id"),
+        parentColumns = arrayOf("pictureId"),
         childColumns = arrayOf("picture"),
         onDelete = ForeignKey.CASCADE
     ), ForeignKey(
@@ -20,6 +21,7 @@ import androidx.room.PrimaryKey
 )
 data class CompletionDbModel(
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "completionId")
     val id: Int,
     val picture: Int,
     val completionStatus: String,

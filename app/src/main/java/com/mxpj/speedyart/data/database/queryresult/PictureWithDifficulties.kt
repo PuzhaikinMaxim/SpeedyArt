@@ -8,7 +8,7 @@ import com.mxpj.speedyart.data.database.model.CompletionDbModel
 data class PictureWithDifficulties(
     @Embedded
     val picture: PictureDbModel,
-    @Relation(entity = CompletionDbModel::class, parentColumn = "id", entityColumn = "picture")
+    @Relation(entity = CompletionDbModel::class, parentColumn = "pictureId", entityColumn = "picture")
     val completionWithDifficultyList: List<CompletionWithDifficulty>
 ) {
 }

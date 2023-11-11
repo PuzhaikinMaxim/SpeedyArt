@@ -7,7 +7,7 @@ import com.mxpj.speedyart.data.database.model.PictureDbModel
 
 data class CompletionWithPicture(
     @Embedded
-    val picture: PictureDbModel,
-    @Relation(entity = CompletionDbModel::class, parentColumn = "id", entityColumn = "picture")
-    val completion: CompletionDbModel
+    val completion: CompletionDbModel,
+    @Relation(entity = PictureDbModel::class, parentColumn = "picture", entityColumn = "pictureId")
+    val picture: PictureDbModel
 )

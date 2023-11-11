@@ -14,17 +14,17 @@ interface PackDao {
 
     @Query("SELECT p.name, " +
             "p.size, " +
-            "COUNT(pic.id) AS pictures, " +
+            "COUNT(pic.pictureId) AS pictures, " +
             "sum(pic.completed) AS completed, " +
             "sum(pic.perfect) AS perfect " +
             "FROM pack p " +
             "JOIN (" +
-            "SELECT picture.id, picture.pack, " +
+            "SELECT picture.pictureId, picture.pack, " +
             "sum(CASE WHEN dif.completionStatus IS 'completed' OR dif.completionStatus is 'perfect' THEN 1 ELSE 0 END) AS completed, " +
             "sum(CASE WHEN dif.completionStatus IS 'perfect' THEN 1 ELSE 0 END) AS perfect " +
             "FROM picture " +
-            "JOIN picture_completion dif ON dif.picture = picture.id " +
-            "GROUP BY picture.id" +
+            "JOIN picture_completion dif ON dif.picture = picture.pictureId " +
+            "GROUP BY picture.pictureId" +
             ") as pic on p.name = pic.pack " +
             "GROUP BY p.name")
     fun getPackListWithProgress(): LiveData<List<PackWithCompletion>>

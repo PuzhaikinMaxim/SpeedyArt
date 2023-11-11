@@ -10,13 +10,13 @@ interface PictureDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPictureList(pictureDbModelList: List<PictureDbModel>)
 
-    @Query("SELECT * FROM picture pic JOIN picture_completion p ON p.picture = pic.id JOIN difficulty d ON d.name = p.difficulty WHERE pic.pack = :pack GROUP BY picture")
+    @Query("SELECT * FROM picture pic JOIN picture_completion p ON p.picture = pic.pictureId JOIN difficulty d ON d.name = p.difficulty WHERE pic.pack = :pack GROUP BY picture")
     suspend fun getPictureListWithDifficultyProgress(pack: String): List<PictureWithDifficulties>
 
-    @Query("SELECT * FROM picture pic JOIN picture_completion p ON p.picture = pic.id JOIN difficulty d ON d.name = p.difficulty WHERE pic.id = :id GROUP BY picture")
+    @Query("SELECT * FROM picture pic JOIN picture_completion p ON p.picture = pic.pictureId JOIN difficulty d ON d.name = p.difficulty WHERE pic.pictureId = :id GROUP BY picture")
     suspend fun getPictureWithDifficultyProgress(id: Int): PictureWithDifficulties
 
-    @Query("SELECT * FROM picture pic WHERE pic.id = :pictureId")
+    @Query("SELECT * FROM picture pic WHERE pic.pictureId = :pictureId")
     suspend fun getPictureById(pictureId: Int): PictureDbModel
 
     @Update
