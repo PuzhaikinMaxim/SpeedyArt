@@ -1,10 +1,13 @@
 package com.mxpj.speedyart.data.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.RenameColumn
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.AutoMigrationSpec
 import com.mxpj.speedyart.data.database.converter.PairConverter
 import com.mxpj.speedyart.data.database.dao.DifficultyDao
 import com.mxpj.speedyart.data.database.dao.PackDao
@@ -20,7 +23,18 @@ import com.mxpj.speedyart.data.database.model.CompletionDbModel
     PackDbModel::class,
     PictureDbModel::class,
     CompletionDbModel::class
-], version = 1, exportSchema = false)
+],
+    version = 2,
+    /*
+    autoMigrations = [
+        AutoMigration(
+            from = 1,
+            to = 2,
+            spec = SpeedyArtDatabase.SpeedyArtAutoMigration::class
+        )
+    ],*/
+    exportSchema = false
+)
 @TypeConverters(PairConverter::class)
 abstract class SpeedyArtDatabase: RoomDatabase() {
 
@@ -53,4 +67,8 @@ abstract class SpeedyArtDatabase: RoomDatabase() {
             }
         }
     }
+
+    @RenameColumn(tableName = "picture", fromColumnName = "id", toColumnName = "pictureId")
+    @RenameColumn(tableName = "picture_completion", fromColumnName = "id", toColumnName = "completionId")
+    class SpeedyArtAutoMigration: AutoMigrationSpec
 }

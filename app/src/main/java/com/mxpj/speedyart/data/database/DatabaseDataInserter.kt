@@ -53,7 +53,7 @@ class DatabaseDataInserter @Inject constructor(
 
     private suspend fun insertPictures() {
         val pictures = listOf(
-            PictureDbModel(DEFAULT_ID,"Простые изображения", R.drawable.heart.toString())
+            PictureDbModel(DEFAULT_ID,"Простые изображения", R.drawable.heart_test.toString())
         )
         pictureDao.insertPictureList(pictures)
     }
