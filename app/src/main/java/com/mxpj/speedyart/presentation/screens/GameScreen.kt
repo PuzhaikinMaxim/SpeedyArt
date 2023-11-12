@@ -1,33 +1,37 @@
 package com.mxpj.speedyart.presentation.screens
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.model.GameResult
 import com.mxpj.speedyart.domain.model.GamePicture
 import com.mxpj.speedyart.presentation.GameEndModal
@@ -36,6 +40,7 @@ import com.mxpj.speedyart.presentation.game.ColorPalette
 import com.mxpj.speedyart.presentation.game.GameViewModel
 import com.mxpj.speedyart.presentation.game.PlayerHealth
 import com.mxpj.speedyart.presentation.utils.observeStateChange
+import com.mxpj.speedyart.ui.theme.SpeedyArtTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,12 +53,19 @@ fun GameScreen(
     val picture by gameViewModel.gamePicture.observeAsState()
     val shouldShowStartGameModal by gameViewModel.shouldShowStartGameModal.observeAsState()
     val shouldShowEndGameModal by gameViewModel.shouldShowEndGameModal.observeAsState()
-    Box() {
+    Box(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .background(
+                color = SpeedyArtTheme.colors.background
+            )
+    ) {
         if(isPictureDataLoaded == true) {
             Column {
+                Timer(gameViewModel)
                 ZoomImage(gameViewModel, picture!!)
                 ColorPalette(colors = picture!!.availablePalette, gameViewModel = gameViewModel)
-                Timer(gameViewModel)
                 PlayerHealth(gameViewModel = gameViewModel)
             }
         }
@@ -69,32 +81,59 @@ fun GameScreen(
 @Composable
 fun Timer(gameViewModel: GameViewModel) {
     var timer by remember { mutableStateOf(0.0f) }
-    var progress = remember { Animatable(0f) }
+    val progress = remember { Animatable(1f) }
+    val color = remember { Animatable(Color.Green) }
     val scope = rememberCoroutineScope()
     gameViewModel.shouldResetTimer.observeStateChange {
         scope.launch {
             startProgressBarAnimation(progress)
         }
+        scope.launch {
+            startProgressBarColorChange(color)
+        }
     }
     gameViewModel.shouldStopTimer.observeStateChange {
         scope.launch {
             progress.stop()
+            color.stop()
         }
     }
     Spacer(modifier = Modifier.height(10.dp))
-    LinearProgressIndicator(
-        progress = progress.value,
-        modifier = Modifier
-            .height(20.dp)
-            .fillMaxWidth()
-    )
+    Row(modifier = Modifier.fillMaxWidth()) {
+        Image(
+            painter = painterResource(R.drawable.ic_timer),
+            contentDescription = "",
+            modifier = Modifier.height(30.dp),
+            colorFilter = ColorFilter.tint(SpeedyArtTheme.colors.text)
+        )
+        Box(modifier = Modifier.fillMaxWidth()) {
+            LinearProgressIndicator(
+                progress = progress.value,
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .height(30.dp)
+                    .clip(CircleShape)
+                    .fillMaxWidth(),
+                backgroundColor = SpeedyArtTheme.colors.progressBarBackground,
+                color = color.value
+            )
+        }
+    }
     Spacer(modifier = Modifier.height(10.dp))
 }
 
 private suspend fun startProgressBarAnimation(animatable: Animatable<Float, AnimationVector1D>) {
-    animatable.snapTo(0f)
+    animatable.snapTo(1f)
     animatable.animateTo(
-        targetValue = 1f,
+        targetValue = 0f,
+        animationSpec = tween(8000, easing = LinearEasing)
+    )
+}
+
+private suspend fun startProgressBarColorChange(animatable: Animatable<Color, AnimationVector4D>) {
+    animatable.snapTo(Color.Green)
+    animatable.animateTo(
+        targetValue = Color.Red,
         animationSpec = tween(8000, easing = LinearEasing)
     )
 }
@@ -125,7 +164,7 @@ fun ZoomImage(gameViewModel: GameViewModel, gamePicture: GamePicture) {
                             position = event.changes[0].position
                         } while (event.changes.any { it.pressed })
                         val clickTime = System.currentTimeMillis() - firstDownTime
-                        val isClickTimePassed = clickTime > 650
+                        val isClickTimePassed = clickTime > 550
                         if (!isClickTimePassed) {
                             val clickPosition = getClickedPixelPosition(
                                 Pair(offsetX, offsetY),

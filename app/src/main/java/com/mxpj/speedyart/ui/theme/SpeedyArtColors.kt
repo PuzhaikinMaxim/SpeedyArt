@@ -27,7 +27,7 @@ val SpeedyArtColorsLight = SpeedyArtColors(
 
 val SpeedyArtColorsDark = SpeedyArtColors(
     background = DarkThemeBackground,
-    progressBar = ProgressYellow,
+    progressBar = ProgressDarkOrange,
     text = White,
     topBar = DarkThemePrimary,
     primary = DarkThemePrimary,

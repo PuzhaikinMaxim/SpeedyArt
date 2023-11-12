@@ -3,7 +3,7 @@ package com.mxpj.speedyart.presentation.viewmodels
 import androidx.lifecycle.*
 import com.mxpj.speedyart.domain.model.PictureWithStatistics
 import com.mxpj.speedyart.domain.repository.PictureRepository
-import com.mxpj.speedyart.presentation.ImageToPictureClassParser
+import com.mxpj.speedyart.presentation.BitmapToPictureClassParser
 import com.mxpj.speedyart.presentation.PixelImageProvider
 import com.mxpj.speedyart.presentation.navigation.PictureNavParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class PictureViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val pictureRepository: PictureRepository,
-    private val imageToPictureClassParser: ImageToPictureClassParser
+    private val bitmapToPictureClassParser: BitmapToPictureClassParser
 ): ViewModel() {
 
     private val _pictureCompletion = MutableLiveData<PictureWithStatistics>()
@@ -27,7 +27,7 @@ class PictureViewModel @Inject constructor(
                 savedStateHandle.get<String>(PictureNavParams.packArg)?.toInt()
                     ?: throw RuntimeException("Picture nav arg is null")
             val pictureStatisticsTemp = pictureRepository.getPictureStatistics(picture)
-            val parcedPicture = imageToPictureClassParser.parseToPicture(
+            val parcedPicture = bitmapToPictureClassParser.parseToPicture(
                 PixelImageProvider.getPixelBitmap(pictureStatisticsTemp.picture.pictureAsset)
             )
             val pictureStatistics = pictureStatisticsTemp.copy(

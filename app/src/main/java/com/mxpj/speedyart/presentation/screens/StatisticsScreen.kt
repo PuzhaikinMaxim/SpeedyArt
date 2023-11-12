@@ -92,7 +92,7 @@ fun GeneralProgress(statisticsViewModel: StatisticsViewModel) {
         CircularProgressIndicator(
             progress = totalProgress?.totalCompletionPercent ?: 0f,
             strokeWidth = strokeWidth,
-            color = ProgressYellow,
+            color = SpeedyArtTheme.colors.progressBar,
             modifier = Modifier
                 .widthIn(max = 400.dp)
                 .heightIn(max = 400.dp)
@@ -149,7 +149,7 @@ fun ConcreteProgress(
                     .fillMaxWidth()
                     .height(30.dp)
                     .clip(CircleShape),
-                color = ProgressYellow,
+                color = SpeedyArtTheme.colors.progressBar,
                 backgroundColor = SpeedyArtTheme.colors.primary
             )
             Text(

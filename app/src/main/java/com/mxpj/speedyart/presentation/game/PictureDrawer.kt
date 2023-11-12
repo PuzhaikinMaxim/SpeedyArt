@@ -23,11 +23,20 @@ class PictureDrawer(
     private fun draw(bitmap: Bitmap) {
         val canvas = Canvas(bitmap)
         val grid = gamePicture.gridCells
+        drawBackground(canvas)
         for(row in grid){
             drawRow(canvas, row)
         }
         drawGrid(canvas, fitSize / grid[0].size)
     }
+
+    private fun drawBackground(canvas: Canvas) {
+        canvas.drawRect(getRectForBackground(canvas),getPaint(Color.WHITE))
+    }
+
+    private fun getRectForBackground(canvas: Canvas) = Rect(
+        0,0,canvas.width,canvas.height
+    )
 
     private fun drawRow(canvas: Canvas, rowCells: List<Cell>) {
         for(cell in rowCells){

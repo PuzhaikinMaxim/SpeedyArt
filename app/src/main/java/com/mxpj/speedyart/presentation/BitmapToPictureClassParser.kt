@@ -7,7 +7,7 @@ import com.mxpj.speedyart.domain.model.Cell
 import com.mxpj.speedyart.domain.model.GamePicture
 import javax.inject.Inject
 
-class ImageToPictureClassParser @Inject constructor() {
+class BitmapToPictureClassParser @Inject constructor() {
 
     private val colorPalette = HashMap<Int, Int>()
 

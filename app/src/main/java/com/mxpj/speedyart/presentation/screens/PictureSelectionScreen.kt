@@ -159,7 +159,7 @@ fun PictureProgressBar(
                 .height(30.dp)
                 .clip(CircleShape)
                 .fillMaxWidth(0.9f),
-            color = ProgressYellow,
+            color = SpeedyArtTheme.colors.progressBar,
             backgroundColor = SpeedyArtTheme.colors.progressBarBackground
         )
         /*

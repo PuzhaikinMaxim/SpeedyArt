@@ -20,7 +20,7 @@ import com.mxpj.speedyart.R
 import com.mxpj.speedyart.data.database.DatabaseDataInserter
 import com.mxpj.speedyart.domain.model.AppTheme
 import com.mxpj.speedyart.domain.model.GamePicture
-import com.mxpj.speedyart.presentation.ImageToPictureClassParser
+import com.mxpj.speedyart.presentation.BitmapToPictureClassParser
 import com.mxpj.speedyart.presentation.navigation.Screen
 import com.mxpj.speedyart.presentation.screens.*
 import com.mxpj.speedyart.presentation.viewmodels.MainViewModel
@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val parser = ImageToPictureClassParser()
+        val parser = BitmapToPictureClassParser()
         println(R.drawable.heart_test)
         gamePicture = parser.parseToPicture(BitmapFactory.decodeResource(
             resources,

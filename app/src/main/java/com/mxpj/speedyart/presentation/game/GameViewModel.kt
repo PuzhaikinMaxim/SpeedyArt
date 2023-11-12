@@ -8,7 +8,7 @@ import com.mxpj.speedyart.domain.GameController
 import com.mxpj.speedyart.domain.GameControllerObserver
 import com.mxpj.speedyart.domain.model.*
 import com.mxpj.speedyart.domain.repository.PictureCompletionRepository
-import com.mxpj.speedyart.presentation.ImageToPictureClassParser
+import com.mxpj.speedyart.presentation.BitmapToPictureClassParser
 import com.mxpj.speedyart.presentation.PixelImageProvider
 import com.mxpj.speedyart.presentation.navigation.GameNavParams
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -89,7 +89,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun setupGameViewModel() {
-        _gamePicture.value = ImageToPictureClassParser().parseToPicture(
+        _gamePicture.value = BitmapToPictureClassParser().parseToPicture(
             PixelImageProvider.getPixelBitmap(pictureDifficulty.pictureAsset.toInt())
         )
         _pictureBitmap.value = getPictureBitmap()
@@ -149,7 +149,7 @@ class GameViewModel @Inject constructor(
     }
 
     fun resetGame() {
-        _gamePicture.value = ImageToPictureClassParser().parseToPicture(
+        _gamePicture.value = BitmapToPictureClassParser().parseToPicture(
             PixelImageProvider.getPixelBitmap(R.drawable.heart_test)
         )
         _pictureBitmap.value = getPictureBitmap()

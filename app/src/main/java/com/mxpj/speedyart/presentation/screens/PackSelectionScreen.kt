@@ -50,6 +50,7 @@ fun PicturePackSelectionScreen(
             state = lazyListState,
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight()
                 .background(color = SpeedyArtTheme.colors.background)
         ) {
             items(packList ?: listOf()) {
@@ -86,7 +87,7 @@ fun PicturePackCard(
                     .height(30.dp)
                     .clip(CircleShape)
                     .fillMaxWidth(),
-                color = ProgressYellow,
+                color = SpeedyArtTheme.colors.progressBar,
                 backgroundColor = SpeedyArtTheme.colors.progressBarBackground
             )
             Text(
