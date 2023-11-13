@@ -5,13 +5,15 @@ import kotlinx.coroutines.*
 class GameTimer(
     private val delayTime: Long,
     private val gameControllerObserver: GameControllerObserver,
-    private val onTimerStop: () -> Unit
+    private val onTimerStop: () -> Unit,
 ) {
 
     private val coroutine = CoroutineScope(Dispatchers.IO)
 
+    private lateinit var timerJob: Job
+
     fun start() {
-        coroutine.launch {
+        timerJob = coroutine.launch {
             delay(delayTime)
             onTimerStop()
         }
@@ -24,7 +26,7 @@ class GameTimer(
     }
 
     fun stop() {
-        coroutine.cancel()
+        timerJob.cancel()
         //gameControllerObserver.onTimerStop()
     }
 }

@@ -64,9 +64,12 @@ fun GameScreen(
         if(isPictureDataLoaded == true) {
             Column {
                 Timer(gameViewModel)
-                ZoomImage(gameViewModel, picture!!)
-                ColorPalette(colors = picture!!.availablePalette, gameViewModel = gameViewModel)
+                //Spacer(modifier = Modifier.height(5.dp))
                 PlayerHealth(gameViewModel = gameViewModel)
+                Spacer(modifier = Modifier.height(5.dp))
+                ZoomImage(gameViewModel, picture!!)
+                Spacer(modifier = Modifier.height(10.dp))
+                ColorPalette(colors = picture!!.availablePalette, gameViewModel = gameViewModel)
             }
         }
         if(shouldShowStartGameModal == true){
@@ -80,7 +83,6 @@ fun GameScreen(
 
 @Composable
 fun Timer(gameViewModel: GameViewModel) {
-    var timer by remember { mutableStateOf(0.0f) }
     val progress = remember { Animatable(1f) }
     val color = remember { Animatable(Color.Green) }
     val scope = rememberCoroutineScope()
@@ -106,18 +108,16 @@ fun Timer(gameViewModel: GameViewModel) {
             modifier = Modifier.height(30.dp),
             colorFilter = ColorFilter.tint(SpeedyArtTheme.colors.text)
         )
-        Box(modifier = Modifier.fillMaxWidth()) {
-            LinearProgressIndicator(
-                progress = progress.value,
-                modifier = Modifier
-                    .padding(end = 10.dp)
-                    .height(30.dp)
-                    .clip(CircleShape)
-                    .fillMaxWidth(),
-                backgroundColor = SpeedyArtTheme.colors.progressBarBackground,
-                color = color.value
-            )
-        }
+        LinearProgressIndicator(
+            progress = progress.value,
+            modifier = Modifier
+                .padding(end = 10.dp)
+                .height(30.dp)
+                .clip(CircleShape)
+                .fillMaxWidth(),
+            backgroundColor = SpeedyArtTheme.colors.progressBarBackground,
+            color = color.value
+        )
     }
     Spacer(modifier = Modifier.height(10.dp))
 }
@@ -209,7 +209,7 @@ fun ZoomImage(gameViewModel: GameViewModel, gamePicture: GamePicture) {
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
-                .border(1.dp, Color.Black)
+                .border(1.dp, SpeedyArtTheme.colors.text)
                 .graphicsLayer {
                     scaleX = scale
                     scaleY = scale

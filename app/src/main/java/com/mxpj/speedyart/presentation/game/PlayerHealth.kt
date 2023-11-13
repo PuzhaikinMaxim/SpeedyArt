@@ -25,10 +25,9 @@ fun PlayerHealth(
         horizontalArrangement = Arrangement.Start
     ) {
         for(i in 1..healthAmount!!){
+            Spacer(modifier = Modifier.width(5.dp))
             HealthImage()
-            Spacer(modifier = Modifier
-                .fillMaxHeight()
-                .width(10.dp))
+            Spacer(modifier = Modifier.width(5.dp))
         }
     }
 }
@@ -40,7 +39,7 @@ fun HealthImage() {
         bitmap,
         "Здоровье",
         modifier = Modifier
-            .height(50.dp),
+            .height(30.dp),
         contentScale = ContentScale.FillHeight,
         filterQuality = FilterQuality.None
     )

@@ -7,6 +7,7 @@ import com.mxpj.speedyart.R
 import com.mxpj.speedyart.domain.GameController
 import com.mxpj.speedyart.domain.GameControllerObserver
 import com.mxpj.speedyart.domain.model.*
+import com.mxpj.speedyart.domain.repository.AppThemeRepository
 import com.mxpj.speedyart.domain.repository.PictureCompletionRepository
 import com.mxpj.speedyart.presentation.BitmapToPictureClassParser
 import com.mxpj.speedyart.presentation.PixelImageProvider
@@ -22,6 +23,7 @@ class GameViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val gameCountdown: GameCountdown,
     private val pictureCompletionRepository: PictureCompletionRepository,
+    val themeRepository: AppThemeRepository,
     private val simpleTimer: SimpleTimer
 ): ViewModel(), GameControllerObserver {
 
@@ -74,6 +76,8 @@ class GameViewModel @Inject constructor(
         get() = _isPictureDataLoaded
 
     private val gameController = GameController(this)
+
+    private val theme = themeRepository.getAppTheme()
 
     private lateinit var pictureDifficulty: PictureDifficulty
 
@@ -163,7 +167,8 @@ class GameViewModel @Inject constructor(
         return PictureDrawer(
             _gamePicture.value!!,
             _gameColorsData.value!!.selectedColor,
-            600
+            600,
+            theme
         ).getPictureBitmap().asImageBitmap()
     }
 

@@ -1,13 +1,17 @@
 package com.mxpj.speedyart.presentation.game
 
 import android.graphics.*
+import androidx.compose.ui.graphics.toArgb
+import com.mxpj.speedyart.domain.model.AppTheme
 import com.mxpj.speedyart.domain.model.Cell
 import com.mxpj.speedyart.domain.model.GamePicture
+import com.mxpj.speedyart.ui.theme.DarkThemeBackground
 
 class PictureDrawer(
     private val gamePicture: GamePicture,
     private val selectedColor: Int? = null,
-    private val fitSize: Int
+    private val fitSize: Int,
+    private val theme: AppTheme = AppTheme.LIGHT
 ) {
 
     fun getPictureBitmap(): Bitmap {
@@ -31,7 +35,8 @@ class PictureDrawer(
     }
 
     private fun drawBackground(canvas: Canvas) {
-        canvas.drawRect(getRectForBackground(canvas),getPaint(Color.WHITE))
+        val backgroundColor = getBackgroundColorCode()
+        canvas.drawRect(getRectForBackground(canvas),getPaint(backgroundColor))
     }
 
     private fun getRectForBackground(canvas: Canvas) = Rect(
@@ -53,19 +58,20 @@ class PictureDrawer(
     private fun drawGrid(canvas: Canvas, cellSize: Int) {
         val gridLinesAmount = fitSize / cellSize
         for(i in 0..gridLinesAmount){
+            val gridColor = getGridColorCode()
             canvas.drawLine(
                 0f,
                 i * cellSize.toFloat(),
                 fitSize.toFloat(),
                 i * cellSize.toFloat(),
-                getPaint(Color.BLACK)
+                getPaint(gridColor)
             )
             canvas.drawLine(
                 i * cellSize.toFloat(),
                 0f,
                 i * cellSize.toFloat(),
                 fitSize.toFloat(),
-                getPaint(Color.BLACK)
+                getPaint(gridColor)
             )
         }
     }
@@ -95,5 +101,13 @@ class PictureDrawer(
         val xEnd = xStart + cellSize
         val yEnd = yStart + cellSize
         return Rect(xStart, yEnd, xEnd, yStart)
+    }
+
+    private fun getGridColorCode(): Int {
+        return if(theme == AppTheme.LIGHT) Color.BLACK else Color.WHITE
+    }
+
+    private fun getBackgroundColorCode(): Int {
+        return if(theme == AppTheme.LIGHT) Color.WHITE else DarkThemeBackground.toArgb()
     }
 }
