@@ -91,6 +91,8 @@ class GameViewModel @Inject constructor(
 
     private lateinit var pictureDifficulty: PictureDifficulty
 
+    private var isClickLocked = false
+
     init {
         val completionId = savedStateHandle.get<String>(GameNavParams.completionIdArg)!!.toInt()
         viewModelScope.launch(Dispatchers.IO) {

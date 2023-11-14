@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.consumeDownChange
 import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -152,6 +153,7 @@ fun ZoomImage(gameViewModel: GameViewModel, gamePicture: GamePicture) {
     var offsetY by remember { mutableStateOf(0f) }
     var widthInPx by remember { mutableStateOf(0f) }
     val image by gameViewModel.pictureBitmap.observeAsState()
+    var clickEnabled by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -169,6 +171,9 @@ fun ZoomImage(gameViewModel: GameViewModel, gamePicture: GamePicture) {
                             val event = awaitPointerEvent()
                             event.changes.forEach { it.consumePositionChange() }
                             position = event.changes[0].position
+                            if(!clickEnabled) {
+                                return@awaitPointerEventScope
+                            }
                         } while (event.changes.any { it.pressed })
                         val clickTime = System.currentTimeMillis() - firstDownTime
                         val isClickTimePassed = clickTime > 550
@@ -195,11 +200,13 @@ fun ZoomImage(gameViewModel: GameViewModel, gamePicture: GamePicture) {
                             scale = calculateScale(scale, zoom)
                             val offset = event.calculatePan()
                             event.calculateCentroid()
+                            if(zoom != 1f) clickEnabled = false
                             offsetX += offset.x
                             offsetX = fitOffset(offsetX, widthInPx.toInt(), scale)
                             offsetY += offset.y
                             offsetY = fitOffset(offsetY, widthInPx.toInt(), scale)
                         } while (event.changes.any { it.pressed })
+                        clickEnabled = true
                     }
                 }
             }
