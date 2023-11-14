@@ -54,8 +54,10 @@ fun GameEndModal(gameViewModel: GameViewModel, onFinishButtonClick: () -> Unit) 
     val mistakesAmount by gameViewModel.mistakesAmount.observeAsState()
     val time by gameViewModel.time.observeAsState()
     val context = LocalContext.current
+    var isGameLost by remember { mutableStateOf(false) }
 
     gameViewModel.gameResult.observeStateChange {
+        isGameLost = it == GameResult.GAME_LOST
         if(it == GameResult.GAME_LOST){
             gameEndText = context.getString(R.string.game_end_modal_text_lost)
         }
@@ -75,16 +77,21 @@ fun GameEndModal(gameViewModel: GameViewModel, onFinishButtonClick: () -> Unit) 
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
             )
-            TextNormal(
-                text = stringResource(R.string.game_end_modal_time, time!!.toStringTime()),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            )
-            TextNormal(
-                text = stringResource(R.string.game_end_modal_amount_of_mistakes, mistakesAmount!!),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            )
+            if(!isGameLost) {
+                TextNormal(
+                    text = stringResource(R.string.game_end_modal_time, time!!.toStringTime()),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                )
+                TextNormal(
+                    text = stringResource(
+                        R.string.game_end_modal_amount_of_mistakes,
+                        mistakesAmount!!
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
             Spacer(modifier = Modifier.height(20.dp))
             GameModalButton(text = stringResource(R.string.game_end_modal_reset),
                 modifier = Modifier

@@ -86,12 +86,13 @@ fun Timer(gameViewModel: GameViewModel) {
     val progress = remember { Animatable(1f) }
     val color = remember { Animatable(Color.Green) }
     val scope = rememberCoroutineScope()
+    val delayTime = gameViewModel.animationTimer.observeAsState()
     gameViewModel.shouldResetTimer.observeStateChange {
         scope.launch {
-            startProgressBarAnimation(progress)
+            startProgressBarAnimation(progress, delayTime.value!!.toInt())
         }
         scope.launch {
-            startProgressBarColorChange(color)
+            startProgressBarColorChange(color, delayTime.value!!.toInt())
         }
     }
     gameViewModel.shouldStopTimer.observeStateChange {
@@ -122,19 +123,25 @@ fun Timer(gameViewModel: GameViewModel) {
     Spacer(modifier = Modifier.height(10.dp))
 }
 
-private suspend fun startProgressBarAnimation(animatable: Animatable<Float, AnimationVector1D>) {
+private suspend fun startProgressBarAnimation(
+    animatable: Animatable<Float, AnimationVector1D>,
+    delayTime: Int
+) {
     animatable.snapTo(1f)
     animatable.animateTo(
         targetValue = 0f,
-        animationSpec = tween(8000, easing = LinearEasing)
+        animationSpec = tween(delayTime, easing = LinearEasing)
     )
 }
 
-private suspend fun startProgressBarColorChange(animatable: Animatable<Color, AnimationVector4D>) {
+private suspend fun startProgressBarColorChange(
+    animatable: Animatable<Color, AnimationVector4D>,
+    delayTime: Int
+) {
     animatable.snapTo(Color.Green)
     animatable.animateTo(
         targetValue = Color.Red,
-        animationSpec = tween(8000, easing = LinearEasing)
+        animationSpec = tween(delayTime, easing = LinearEasing)
     )
 }
 

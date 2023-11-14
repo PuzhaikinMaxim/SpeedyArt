@@ -1,51 +1,54 @@
 package com.mxpj.speedyart.domain
 
-import com.mxpj.speedyart.domain.model.Cell
-import com.mxpj.speedyart.domain.model.GameColorsData
-import com.mxpj.speedyart.domain.model.GameResult
-import com.mxpj.speedyart.domain.model.GamePicture
+import com.mxpj.speedyart.domain.model.*
 import kotlin.math.max
-import kotlin.properties.Delegates
 
 class GameController(
     private val gameControllerObserver: GameControllerObserver
 ) {
 
-    private var gamePicture: GamePicture? by Delegates.observable(null, onChange = {
-            _, _, newValue -> gameControllerObserver.onPictureChange(newValue!!)
-    })
+    private var gamePicture: GamePicture? by observe(null) {
+        gameControllerObserver.onPictureChange(it!!)
+    }
 
-    private var healthAmount: Int by Delegates.observable(4, onChange = {
-            _, _, newValue -> gameControllerObserver.onHealthAmountChange(newValue)
-    })
+    private var healthAmount: Int by observe(4) {
+        gameControllerObserver.onHealthAmountChange(it)
+    }
 
-    private var gameResult: GameResult by Delegates.observable(GameResult.GAME_CONTINUING, onChange = {
-        _, _, newValue -> gameControllerObserver.onGameResultChange(newValue)
+    private var gameResult: GameResult by observe(GameResult.GAME_CONTINUING) {
+        gameControllerObserver.onGameResultChange(it)
         gameControllerObserver.onTimerStop()
-    })
+    }
 
-    private var gameColorsData: GameColorsData by Delegates.observable(GameColorsData(), onChange = {
-            _, _, newValue -> gameControllerObserver.onGameColorsDataChange(newValue)
-    })
+    private var gameColorsData: GameColorsData by observe(GameColorsData()) {
+        gameControllerObserver.onGameColorsDataChange(it)
+    }
 
-    private val gameTimer = GameTimer(DEFAULT_DELAY_TIME, gameControllerObserver) {
+    private val gameTimer = GameTimer(gameControllerObserver) {
         gameResult = GameResult.GAME_LOST
     }
 
+    private lateinit var difficultySettings: DifficultySettings
+
     private lateinit var neighborCellOffset: List<Pair<Int, Int>>
+
+    fun setDifficultySettings(settings: DifficultySettings) {
+        difficultySettings = settings
+        healthAmount = settings.maxHealth
+        gameTimer.setDelayTime(settings.delay)
+        neighborCellOffset = settings.offset
+    }
 
     fun startGame(newGamePicture: GamePicture) {
         gamePicture = newGamePicture
-        neighborCellOffset = offsetFor16x16
         gameTimer.start()
     }
 
     fun resetGame(newGamePicture: GamePicture) {
         gamePicture = newGamePicture
-        neighborCellOffset = offsetFor16x16
         gameResult = GameResult.GAME_CONTINUING
         gameColorsData = GameColorsData()
-        healthAmount = 4
+        healthAmount = difficultySettings.maxHealth
         gameTimer.start()
     }
 
@@ -125,9 +128,5 @@ class GameController(
         }
         gameTimer.stop()
         gameResult = GameResult.GAME_WON
-    }
-
-    companion object {
-        private const val DEFAULT_DELAY_TIME = 8000L
     }
 }

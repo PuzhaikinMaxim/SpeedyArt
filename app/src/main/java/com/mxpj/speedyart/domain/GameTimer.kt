@@ -3,12 +3,12 @@ package com.mxpj.speedyart.domain
 import kotlinx.coroutines.*
 
 class GameTimer(
-    private val delayTime: Long,
     private val gameControllerObserver: GameControllerObserver,
     private val onTimerStop: () -> Unit,
 ) {
-
     private val coroutine = CoroutineScope(Dispatchers.IO)
+
+    private var delayTime: Long = DEFAULT_DELAY_TIME
 
     private lateinit var timerJob: Job
 
@@ -17,6 +17,10 @@ class GameTimer(
             delay(delayTime)
             onTimerStop()
         }
+    }
+
+    fun setDelayTime(newDelayTime: Long) {
+        delayTime = newDelayTime
     }
 
     fun reset() {
@@ -28,5 +32,9 @@ class GameTimer(
     fun stop() {
         timerJob.cancel()
         //gameControllerObserver.onTimerStop()
+    }
+
+    companion object {
+        private const val DEFAULT_DELAY_TIME = 8000L
     }
 }

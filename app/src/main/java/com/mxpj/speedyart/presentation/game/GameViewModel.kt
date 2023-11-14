@@ -8,12 +8,15 @@ import com.mxpj.speedyart.domain.GameController
 import com.mxpj.speedyart.domain.GameControllerObserver
 import com.mxpj.speedyart.domain.model.*
 import com.mxpj.speedyart.domain.repository.AppThemeRepository
+import com.mxpj.speedyart.domain.repository.DifficultySettingsRepository
 import com.mxpj.speedyart.domain.repository.PictureCompletionRepository
 import com.mxpj.speedyart.presentation.BitmapToPictureClassParser
 import com.mxpj.speedyart.presentation.PixelImageProvider
 import com.mxpj.speedyart.presentation.navigation.GameNavParams
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -23,6 +26,7 @@ class GameViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     val gameCountdown: GameCountdown,
     private val pictureCompletionRepository: PictureCompletionRepository,
+    private val difficultySettingsRepository: DifficultySettingsRepository,
     val themeRepository: AppThemeRepository,
     private val simpleTimer: SimpleTimer
 ): ViewModel(), GameControllerObserver {
@@ -75,7 +79,13 @@ class GameViewModel @Inject constructor(
     val isPictureDataLoaded: LiveData<Boolean>
         get() = _isPictureDataLoaded
 
-    private val gameController = GameController(this)
+    private val _animationTimer = MutableLiveData(8000L)
+    val animationTimer: LiveData<Long>
+        get() = _animationTimer
+
+    private val gameController = GameController(
+        this
+    )
 
     private val theme = themeRepository.getAppTheme()
 
@@ -96,6 +106,13 @@ class GameViewModel @Inject constructor(
         _gamePicture.value = BitmapToPictureClassParser().parseToPicture(
             PixelImageProvider.getPixelBitmap(pictureDifficulty.pictureAsset.toInt())
         )
+        val pictureCells = _gamePicture.value!!.gridCells
+        val difficultySettings = difficultySettingsRepository.getDifficultySettings(
+            pictureDifficulty.difficultyLevel,
+            Pair(pictureCells[0].size, pictureCells.size)
+        )
+        _animationTimer.value = difficultySettings.delay
+        gameController.setDifficultySettings(difficultySettings)
         _pictureBitmap.value = getPictureBitmap()
         gameCountdown.startCountdown {
             gameController.startGame(_gamePicture.value!!)

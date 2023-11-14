@@ -1,5 +1,7 @@
 package com.mxpj.speedyart.domain
 
+val offsetFor8x8 = listOf<Pair<Int, Int>>()
+
 val offsetFor16x16 = listOf(
     Pair(0,-1), Pair(-1,0), Pair(1,0), Pair(0,1)
 )
