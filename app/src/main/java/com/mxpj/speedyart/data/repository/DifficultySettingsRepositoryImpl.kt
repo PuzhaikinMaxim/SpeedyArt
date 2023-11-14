@@ -18,21 +18,21 @@ class DifficultySettingsRepositoryImpl @Inject constructor(): DifficultySettings
         return when(difficultyLevel){
             is LevelEasy -> {
                 DifficultySettings(
-                    6000L,
+                    20000L,
                     4,
                     getOffset(size)
                 ).getSettingsWithModifier(modifier)
             }
             is LevelMedium -> {
                 DifficultySettings(
-                    4000L,
+                    3000L,
                     4,
                     getOffset(size)
                 ).getSettingsWithModifier(modifier)
             }
             is LevelHard -> {
                 DifficultySettings(
-                    3000L,
+                    2000L,
                     3,
                     getOffset(size)
                 ).getSettingsWithModifier(modifier)

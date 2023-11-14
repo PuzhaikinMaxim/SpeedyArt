@@ -15,6 +15,7 @@ class GameTimer(
     fun start() {
         timerJob = coroutine.launch {
             delay(delayTime)
+            if(timerJob == this)
             onTimerStop()
         }
     }

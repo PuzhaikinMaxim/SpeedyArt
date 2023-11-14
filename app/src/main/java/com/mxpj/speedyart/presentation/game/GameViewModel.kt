@@ -173,8 +173,8 @@ class GameViewModel @Inject constructor(
         _gamePicture.value = BitmapToPictureClassParser().parseToPicture(
             PixelImageProvider.getPixelBitmap(R.drawable.heart_test)
         )
-        _pictureBitmap.value = getPictureBitmap()
         gameController.resetGame(_gamePicture.value!!)
+        _pictureBitmap.value = getPictureBitmap()
         _shouldShowEndGameModal.postValue(false)
         _shouldResetTimer.postValue(Unit)
         simpleTimer.startTimer()

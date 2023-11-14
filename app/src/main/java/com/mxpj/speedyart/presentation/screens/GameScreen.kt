@@ -191,7 +191,8 @@ fun ZoomImage(gameViewModel: GameViewModel, gamePicture: GamePicture) {
                         awaitFirstDown()
                         do {
                             val event = awaitPointerEvent()
-                            scale = calculateScale(scale, event.calculateZoom())
+                            val zoom = event.calculateZoom()
+                            scale = calculateScale(scale, zoom)
                             val offset = event.calculatePan()
                             event.calculateCentroid()
                             offsetX += offset.x
