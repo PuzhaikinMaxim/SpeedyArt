@@ -1,5 +1,6 @@
 package com.mxpj.speedyart.data.database
 
+import android.app.Application
 import com.mxpj.speedyart.R
 import com.mxpj.speedyart.data.database.dao.DifficultyDao
 import com.mxpj.speedyart.data.database.dao.PackDao
@@ -18,7 +19,8 @@ class DatabaseDataInserter @Inject constructor(
     private val difficultyDao: DifficultyDao,
     private val packDao: PackDao,
     private val pictureCompletionDao: PictureCompletionDao,
-    private val pictureDao: PictureDao
+    private val pictureDao: PictureDao,
+    private val application: Application
 ) {
 
     init {
@@ -71,5 +73,11 @@ class DatabaseDataInserter @Inject constructor(
 
     companion object {
         private const val DEFAULT_ID = 0
+
+        private const val DEFAULT_ASSETS_LOCATION = "/images"
+
+        private val locations = listOf(
+            "dungeon", "fantasy", "fishing", "food", "fruit", "gun"
+        )
     }
 }
