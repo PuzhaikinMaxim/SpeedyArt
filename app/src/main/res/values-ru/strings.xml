@@ -33,4 +33,10 @@
     <string name="time_minutes_and_seconds">мин: %d сек: %d</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="pack_dungeon">Подземелье</string>
+    <string name="pack_fantasy">Фэнтези</string>
+    <string name="pack_fishing">Рыбалка</string>
+    <string name="pack_food">Еда</string>
+    <string name="pack_fruit">Фрукты</string>
+    <string name="pack_gun">Оружия</string>
 </resources>

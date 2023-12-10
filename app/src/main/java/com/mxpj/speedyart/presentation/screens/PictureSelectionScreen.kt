@@ -74,7 +74,7 @@ fun PictureCard(
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .clip(shape = RoundedCornerShape(10.dp))
-            .clickable { navController.navigate(PictureNavParams.buildRoute(1)) }
+            .clickable { navController.navigate(PictureNavParams.buildRoute(picture.id)) }
             .background(SpeedyArtTheme.colors.primary)
             .padding(10.dp)
     ) {

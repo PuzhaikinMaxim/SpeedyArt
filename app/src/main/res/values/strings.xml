@@ -32,4 +32,10 @@
     <string name="time_minutes_and_seconds">min: %d sec: %d</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="pack_dungeon">Dungeon</string>
+    <string name="pack_fantasy">Fantasy</string>
+    <string name="pack_fishing">Fishing</string>
+    <string name="pack_food">Food</string>
+    <string name="pack_fruit">Fruits</string>
+    <string name="pack_gun">Guns</string>
 </resources>

@@ -32,7 +32,6 @@ class DatabaseDataInserter @Inject constructor(
             insertPictures()
             insertPictureCompletions()
         }
-
          */
     }
 
@@ -48,25 +47,41 @@ class DatabaseDataInserter @Inject constructor(
 
     private suspend fun insertPacks() {
         val packs = listOf(
-            PackDbModel("Простые изображения",Pair(8,8))
+            //PackDbModel("Простые изображения",Pair(8,8)),
+            PackDbModel(packs[0], Pair(16, 16)),
+            PackDbModel(packs[1], Pair(16, 16)),
+            PackDbModel(packs[2], Pair(16, 16)),
+            PackDbModel(packs[3], Pair(32, 32)),
+            PackDbModel(packs[4], Pair(16, 16)),
+            PackDbModel(packs[5], Pair(16, 16)),
         )
         packDao.insertPackList(packs)
     }
 
     private suspend fun insertPictures() {
-        val pictures = listOf(
-            PictureDbModel(DEFAULT_ID,"Простые изображения", R.drawable.heart_test.toString())
+        val pictures = mutableListOf<PictureDbModel>(
+            //PictureDbModel(DEFAULT_ID,"Простые изображения", R.drawable.heart_test.toString())
         )
+        val assetManager = application.assets
+        for((index, imageFolder) in locations.withIndex()){
+            assetManager.list("$DEFAULT_ASSETS_LOCATION/$imageFolder")?.forEach {
+                val picture = PictureDbModel(DEFAULT_ID, packs[index], "$DEFAULT_ASSETS_LOCATION/$imageFolder/$it")
+                pictures.add(picture)
+            }
+        }
         pictureDao.insertPictureList(pictures)
     }
 
     private suspend fun insertPictureCompletions() {
+        val pictures = pictureDao.getPictureList()
         val pictureCompletions = mutableListOf<CompletionDbModel>()
-        for(difficulty in getDifficulties()){
-            val status = if(difficulty.name == DifficultyDbModel.DIFFICULTY_EASY) CompletionDbModel.STATUS_UNLOCKED else CompletionDbModel.STATUS_LOCKED
-            pictureCompletions.add(
-                CompletionDbModel(DEFAULT_ID,1, status, null, difficulty.name, null)
-            )
+        for(picture in pictures) {
+            for(difficulty in getDifficulties()){
+                val status = if(difficulty.name == DifficultyDbModel.DIFFICULTY_EASY) CompletionDbModel.STATUS_UNLOCKED else CompletionDbModel.STATUS_LOCKED
+                pictureCompletions.add(
+                    CompletionDbModel(DEFAULT_ID,picture.id, status, null, difficulty.name, null)
+                )
+            }
         }
         pictureCompletionDao.insertPictureCompletion(pictureCompletions)
     }
@@ -74,7 +89,11 @@ class DatabaseDataInserter @Inject constructor(
     companion object {
         private const val DEFAULT_ID = 0
 
-        private const val DEFAULT_ASSETS_LOCATION = "/images"
+        private const val DEFAULT_ASSETS_LOCATION = "images"
+
+        private val packs = listOf(
+            "Dungeon", "Fantasy", "Fishing", "Food", "Fruit", "Gun"
+        )
 
         private val locations = listOf(
             "dungeon", "fantasy", "fishing", "food", "fruit", "gun"

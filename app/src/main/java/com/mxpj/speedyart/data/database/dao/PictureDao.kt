@@ -19,6 +19,9 @@ interface PictureDao {
     @Query("SELECT * FROM picture pic WHERE pic.pictureId = :pictureId")
     suspend fun getPictureById(pictureId: Int): PictureDbModel
 
+    @Query("SELECT * FROM picture")
+    suspend fun getPictureList(): List<PictureDbModel>
+
     @Update
     suspend fun updatePicture(pictureDbModel: PictureDbModel)
 }

@@ -33,6 +33,7 @@ fun PictureScreen(
     val pictureStatistics by pictureViewModel.pictureCompletion.observeAsState()
 
     Scaffold() {
+        if(pictureStatistics == null) return@Scaffold
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -41,7 +42,7 @@ fun PictureScreen(
                 .background(color = SpeedyArtTheme.colors.background)
         ) {
             Spacer(modifier = Modifier.height(20.dp))
-            Picture(pictureStatistics?.picture?.pictureAsset ?: R.drawable.heart_test)
+            Picture(pictureStatistics?.picture?.pictureAsset ?: "")
             Spacer(modifier = Modifier.height(15.dp))
             PictureStats(pictureStatistics)
             Spacer(modifier = Modifier.height(20.dp))
@@ -54,7 +55,8 @@ fun PictureScreen(
 }
 
 @Composable
-fun Picture(resource: Int) {
+fun Picture(resource: String) {
+    println(resource)
     val bitmap = PixelImageProvider.getPixelImageBitmap(resource)
     Image(
         bitmap,

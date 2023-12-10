@@ -27,12 +27,12 @@ class PictureViewModel @Inject constructor(
                 savedStateHandle.get<String>(PictureNavParams.packArg)?.toInt()
                     ?: throw RuntimeException("Picture nav arg is null")
             val pictureStatisticsTemp = pictureRepository.getPictureStatistics(picture)
-            val parcedPicture = bitmapToPictureClassParser.parseToPicture(
+            val parsedPicture = bitmapToPictureClassParser.parseToPicture(
                 PixelImageProvider.getPixelBitmap(pictureStatisticsTemp.picture.pictureAsset)
             )
             val pictureStatistics = pictureStatisticsTemp.copy(
-                amountOfCells = parcedPicture.unfilledCells.size,
-                size = Pair(parcedPicture.gridCells[0].size, parcedPicture.gridCells.size)
+                amountOfCells = parsedPicture.unfilledCells.size,
+                size = Pair(parsedPicture.gridCells[0].size, parsedPicture.gridCells.size)
             )
             _pictureCompletion.postValue(pictureStatistics)
         }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import com.mxpj.speedyart.R
 
 class PixelImageProvider {
 
@@ -29,6 +30,16 @@ class PixelImageProvider {
             return picture.asImageBitmap()
         }
 
+        fun getPixelImageBitmap(asset: String): ImageBitmap {
+            if(context == null) throw RuntimeException("Application is null")
+            val picture = BitmapFactory.decodeStream(
+                context!!.assets.open(asset),
+                null,
+                getBitmapFactoryOptions()
+            )
+            return picture?.asImageBitmap() ?: getPixelImageBitmap(R.drawable.heart_test)
+        }
+
         fun getPixelBitmap(resource: Int): Bitmap {
             if (context == null) throw RuntimeException("Application is null")
             return BitmapFactory.decodeResource(
@@ -36,6 +47,15 @@ class PixelImageProvider {
                 resource,
                 getBitmapFactoryOptions()
             )
+        }
+
+        fun getPixelBitmap(asset: String): Bitmap {
+            if (context == null) throw RuntimeException("Application is null")
+            return BitmapFactory.decodeStream(
+                context!!.assets.open(asset),
+                null,
+                getBitmapFactoryOptions()
+            ) ?: getPixelBitmap(R.drawable.heart_test)
         }
 
         private fun getBitmapFactoryOptions(): BitmapFactory.Options {

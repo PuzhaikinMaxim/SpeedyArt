@@ -104,7 +104,7 @@ class GameViewModel @Inject constructor(
 
     private fun setupGameViewModel() {
         _gamePicture.value = BitmapToPictureClassParser().parseToPicture(
-            PixelImageProvider.getPixelBitmap(pictureDifficulty.pictureAsset.toInt())
+            PixelImageProvider.getPixelBitmap(pictureDifficulty.pictureAsset)
         )
         val pictureCells = _gamePicture.value!!.gridCells
         val difficultySettings = difficultySettingsRepository.getDifficultySettings(
@@ -171,7 +171,7 @@ class GameViewModel @Inject constructor(
 
     fun resetGame() {
         _gamePicture.value = BitmapToPictureClassParser().parseToPicture(
-            PixelImageProvider.getPixelBitmap(R.drawable.heart_test)
+            PixelImageProvider.getPixelBitmap(pictureDifficulty.pictureAsset)
         )
         gameController.resetGame(_gamePicture.value!!)
         _pictureBitmap.value = getPictureBitmap()

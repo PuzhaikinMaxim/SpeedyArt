@@ -31,7 +31,7 @@ class PictureMapper @Inject constructor(
     ): Picture {
         return Picture(
             pictureWithDifficulties.picture.id,
-            pictureWithDifficulties.picture.assetLink.toInt(),
+            pictureWithDifficulties.picture.assetLink,
             difficultyLevelMapper.mapCompletionWithDifficultyListToDifficultyLevelList(
                 pictureWithDifficulties.completionWithDifficultyList
             )
