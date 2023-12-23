@@ -20,9 +20,17 @@ class PictureSelectionViewModel @Inject constructor(
 
     val pictureList =  MutableLiveData<List<Picture>>()
 
+    val pack = savedStateHandle.get<String>(PictureSelectionNavParams.packArg).orEmpty()
+
+    /*
     init {
+        setPictureList()
+    }
+
+     */
+
+    fun setPictureList() {
         viewModelScope.launch(Dispatchers.IO) {
-            val pack = savedStateHandle.get<String>(PictureSelectionNavParams.packArg).orEmpty()
             pictureList.postValue(pictureRepository.getPictureCompletionList(pack))
         }
     }

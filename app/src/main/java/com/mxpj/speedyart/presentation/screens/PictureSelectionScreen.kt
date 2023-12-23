@@ -12,6 +12,8 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -45,6 +47,9 @@ fun PictureSelectionScreen(
     pictureSelectionViewModel: PictureSelectionViewModel = hiltViewModel()
 ) {
     val pictureCompletionList by pictureSelectionViewModel.pictureList.observeAsState()
+    LaunchedEffect(key1 = Unit){
+        pictureSelectionViewModel.setPictureList()
+    }
     Scaffold(
         topBar = {
             TopBar(navController)

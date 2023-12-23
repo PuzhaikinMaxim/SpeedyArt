@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -31,7 +32,9 @@ fun PictureScreen(
     pictureViewModel: PictureViewModel = hiltViewModel()
 ) {
     val pictureStatistics by pictureViewModel.pictureCompletion.observeAsState()
-
+    LaunchedEffect(key1 = Unit) {
+        pictureViewModel.setPictureCompletion()
+    }
     Scaffold() {
         if(pictureStatistics == null) return@Scaffold
         Column(

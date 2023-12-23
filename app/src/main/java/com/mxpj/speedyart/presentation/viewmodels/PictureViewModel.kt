@@ -18,14 +18,31 @@ class PictureViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _pictureCompletion = MutableLiveData<PictureWithStatistics>()
+
+    private val picture = savedStateHandle.get<String>(PictureNavParams.packArg)?.toInt()
+        ?: throw RuntimeException("Picture nav arg is null")
     val pictureCompletion: LiveData<PictureWithStatistics>
         get() = _pictureCompletion
 
+    /*
     init {
         viewModelScope.launch {
-            val picture =
-                savedStateHandle.get<String>(PictureNavParams.packArg)?.toInt()
-                    ?: throw RuntimeException("Picture nav arg is null")
+            val pictureStatisticsTemp = pictureRepository.getPictureStatistics(picture)
+            val parsedPicture = bitmapToPictureClassParser.parseToPicture(
+                PixelImageProvider.getPixelBitmap(pictureStatisticsTemp.picture.pictureAsset)
+            )
+            val pictureStatistics = pictureStatisticsTemp.copy(
+                amountOfCells = parsedPicture.unfilledCells.size,
+                size = Pair(parsedPicture.gridCells[0].size, parsedPicture.gridCells.size)
+            )
+            _pictureCompletion.postValue(pictureStatistics)
+        }
+    }
+
+     */
+
+    fun setPictureCompletion() {
+        viewModelScope.launch {
             val pictureStatisticsTemp = pictureRepository.getPictureStatistics(picture)
             val parsedPicture = bitmapToPictureClassParser.parseToPicture(
                 PixelImageProvider.getPixelBitmap(pictureStatisticsTemp.picture.pictureAsset)
